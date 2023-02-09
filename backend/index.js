@@ -1,4 +1,4 @@
-import db from "./config/dbconf.js";
+import db from "./config/database.js";
 import express from "express";
 // import userRoutes from "./routes/index.js";
 import cors from "cors";
@@ -12,9 +12,9 @@ app.use(cookieParser);
 
 try {
     await db.authenticate();
-    console.log('Successfully Connected Database');
+    console.log('Connection has been established successfully.');
 } catch (error) {
-    console.error('Error: ', error);
+    console.error('Unable to connect to the database: ', error);
 }
 
 app.listen(5172, () => console.log('Server running at port 5172'));
