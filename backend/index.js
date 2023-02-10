@@ -1,13 +1,11 @@
 import db from "./config/database.js";
 import express from "express";
-// import userRoutes from "./routes/index.js";
+// import routes from "./config/routes.js";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(cookieParser);
 // app.use('/', routes);
 
 try {
