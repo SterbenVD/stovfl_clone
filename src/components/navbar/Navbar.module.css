@@ -2,11 +2,10 @@
     display: flex;
     top: 0;
     background-color: white;
-    height: 75px;
+    height: 8%;
     position: sticky;
     align-items: center;
     justify-content: space-evenly;
-    /* z-index: 2; */
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;}
 
 .text{
@@ -15,32 +14,68 @@
 
 .search{
     margin: auto;
-    height: 1.8rem;
-    width: 34rem;
+    height: 2.5rem;
+    width: 65%;
     position: absolute;
-    padding-left: 2.4rem;
+    padding-left: 4%;
+    margin-right: 16%;
     right: 0;
     font-size: 17px;
     background-color: #e4e7ed;
+    border: #e4e7ed 0;
+    border-radius: 5px;
 }
 
 .searchwrapper{
     display: flex;
     position: relative;
     height: 1.8rem;
-    width: 36.4rem;
+    width: 60%;
+    justify-content: start;
+    padding-left: 10%;
 }
 
 .name{
     color: black;
+    display: flex;
+    height: 6rem;
+    align-items: center;
+    width: 20%;
+    justify-content: space-around;
+
 }
 .signin{
     color: black;
+    width: 20%;
 }
 
 .searchicon{
     margin:0;
-    padding: 0;
+    height: 100%;
+    padding-left: 2vw;
+    padding-top: 0.29rem;
     z-index: 2;
-    padding-top: 0.3rem;
 }
+
+.icon{
+    max-width: 20%;
+    margin-left: 20%;
+}
+
+.queue{
+color: black;
+font-size: 2vw;
+font-family: 'Playfair Display', serif;
+}
+
+.underflow{
+color: blue;
+font-size: 2vw;
+font-family: 'Playfair Display', serif;
+}
+
+.loginbtn{
+    margin-left: 15%;
+    padding: 1vw 1vw;
+}
+
