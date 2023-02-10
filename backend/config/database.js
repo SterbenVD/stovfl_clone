@@ -1,13 +1,13 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize('cqadb', 'project', 'hvam', {
+const db = new Sequelize('cqadb', 'postgres', 'hvam', {
     host: "localhost",
-    dialect: "mysql",
+    dialect: "postgres",
     logging: console.log,
-    // define: {
-    //     freezeTableName: true,
-    //     timestamps: false
-    // }
 });
+
+// Syncing all models
+// await sequelize.sync();
+// console.log("All models were synchronized successfully.");
 
 export default db;
