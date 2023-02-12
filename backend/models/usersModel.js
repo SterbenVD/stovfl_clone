@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import db from "./database.js";
+import db from "../config/database.js";
 
 export const User = db.define('users', {
     id: {
@@ -8,19 +8,19 @@ export const User = db.define('users', {
         allowNull: false,
         primaryKey: true
     },
-    account_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    reputation: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    views: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0
-    },
+    // account_id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true
+    // },
+    // reputation: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false
+    // },
+    // views: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true,
+    //     defaultValue: 0
+    // },
     down_votes: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -55,12 +55,11 @@ export const User = db.define('users', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    last_access_date: {
-        type: DataTypes.DATE,
-        allowNull: false
-    }
+    // last_access_date: {
+    //     type: DataTypes.DATE,
+    //     allowNull: false
+    // }
 }, {
-    sequelize,
     tableName: 'users',
     schema: 'public',
     timestamps: false,
