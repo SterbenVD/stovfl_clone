@@ -1,6 +1,6 @@
 .ask{
 /* height: 20%; */
-margin: 40% 0 15% 0;
+margin: 35% 0 15% 0;
 width: 75%;
 }
 
@@ -24,6 +24,6 @@ color:black
     align-items: center;
     justify-content: space-between;
     position: fixed;
-    padding-top: 5vh;
+    /* padding-top: 0vh; */
 
 }
