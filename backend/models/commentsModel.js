@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import db from "./database.js";
+import db from "../config/database.js";
 
 export const Comment = db.define('comments', {
     id: {
@@ -16,14 +16,14 @@ export const Comment = db.define('comments', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    score: {
+    score: { // Not sure
         type: DataTypes.SMALLINT,
         allowNull: false
     },
-    content_license: {
-        type: DataTypes.STRING(64),
-        allowNull: false
-    },
+    // content_license: {
+    //     type: DataTypes.STRING(64),
+    //     allowNull: false
+    // },
     user_display_name: {
         type: DataTypes.STRING(64),
         allowNull: true
@@ -37,7 +37,6 @@ export const Comment = db.define('comments', {
         allowNull: false
     }
 }, {
-    sequelize,
     tableName: 'comments',
     schema: 'public',
     timestamps: false,

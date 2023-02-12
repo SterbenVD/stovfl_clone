@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import db from "./database.js";
+import db from "../config/database.js";
 
 export const Vote = db.define('votes', {
     id: {
@@ -20,16 +20,15 @@ export const Vote = db.define('votes', {
         type: DataTypes.SMALLINT,
         allowNull: false
     },
-    bounty_amount: {
-        type: DataTypes.SMALLINT,
-        allowNull: true
-    },
+    // bounty_amount: {
+    //     type: DataTypes.SMALLINT,
+    //     allowNull: true
+    // },
     creation_date: {
         type: DataTypes.DATE,
         allowNull: false
     }
 }, {
-    sequelize,
     tableName: 'votes',
     schema: 'public',
     timestamps: false,

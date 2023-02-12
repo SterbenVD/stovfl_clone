@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import db from "./database.js";
+import db from "../config/database.js";
 
 export const Tag = db.define('tags', {
     id: {
@@ -8,14 +8,14 @@ export const Tag = db.define('tags', {
         allowNull: false,
         primaryKey: true
     },
-    excerpt_post_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    wiki_post_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
+    // excerpt_post_id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true
+    // },
+    // wiki_post_id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true
+    // },
     tag_name: {
         type: DataTypes.STRING(255),
         allowNull: false
@@ -26,7 +26,6 @@ export const Tag = db.define('tags', {
         defaultValue: 0
     }
 }, {
-    sequelize,
     tableName: 'tags',
     schema: 'public',
     timestamps: false,

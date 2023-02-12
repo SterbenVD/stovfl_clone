@@ -2,6 +2,7 @@ import db from "./config/database.js";
 import express from "express";
 // import routes from "./config/routes.js";
 import cors from "cors";
+import syncdb from "./config/sync.js";
 
 const port = 5172;
 const app = express();
@@ -15,5 +16,7 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database: ', error);
 }
+
+syncdb();
 
 app.listen(port, () => console.log(`Server running at port ${port}`));
