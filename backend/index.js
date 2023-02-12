@@ -17,6 +17,6 @@ try {
     console.error('Unable to connect to the database: ', error);
 }
 
-syncdb();
+// syncdb();
 
 app.listen(port, () => console.log(`Server running at port ${port}`));
