@@ -3,6 +3,7 @@ import express from "express";
 // import routes from "./config/routes.js";
 import cors from "cors";
 
+const port = 5172;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -15,4 +16,4 @@ try {
     console.error('Unable to connect to the database: ', error);
 }
 
-app.listen(5172, () => console.log('Server running at port 5172'));
+app.listen(port, () => console.log(`Server running at port ${port}`));
