@@ -1,17 +1,16 @@
-import './App.css'
-import './components/navbar/Navbar'
-import './components/sidebar/Sidebar'
-
-// import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Navbar from './components/navbar/Navbar'
-import { Sidebar } from 'phosphor-react'
+import styles from './App.module.css'
+import Home from './pages/Home/Home'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
 function App() {
 
   return (
     <div className="App">
-      <Navbar/>
-      <Sidebar/>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+      </Routes>
+      </BrowserRouter>
     </div>
   )
 }

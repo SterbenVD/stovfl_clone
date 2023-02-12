@@ -24,10 +24,6 @@ function Navbar() {
     <button type="button" className={"btn btn-primary "+styles.loginbtn}>SignUp</button>
     <button type="button" className={"btn btn-primary "+styles.loginbtn}>Login</button>
     </div>
-    
-      </div>
-      <div className={styles.text}>
-
       </div>
     </div>
 

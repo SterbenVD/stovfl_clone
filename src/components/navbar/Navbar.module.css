@@ -3,7 +3,7 @@
     top: 0;
     background-color: white;
     height: 8%;
-    position: sticky;
+    /* position: sticky; */
     align-items: center;
     justify-content: space-evenly;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;}
@@ -77,5 +77,6 @@ font-family: 'Playfair Display', serif;
 .loginbtn{
     margin-left: 15%;
     padding: 1vw 1vw;
+    font-size: 20px;
 }
 
