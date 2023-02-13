@@ -1,0 +1,93 @@
+.Navbar{
+    display: flex;
+    top: 0;
+    background-color: white;
+    height: 8%;
+    /* position: sticky; */
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;}
+
+.text{
+    height: 2000px;
+}
+
+.search{
+    margin: auto;
+    height: 2.5rem;
+    width: 65%;
+    position: absolute;
+    padding-left: 4%;
+    margin-right: 16%;
+    right: 0;
+    font-size: 17px;
+    background-color: #e4e7ed;
+    border: #e4e7ed 0;
+    border-radius: 5px;
+}
+
+.searchwrapper{
+    display: flex;
+    position: relative;
+    height: 1.8rem;
+    width: 60%;
+    justify-content: start;
+    padding-left: 10%;
+}
+
+.name{
+    color: black;
+    display: flex;
+    height: 6rem;
+    align-items: center;
+    width: 20%;
+    justify-content: space-around;
+
+}
+.signin{
+    width: 20%;
+    position: relative;
+}
+
+.searchicon{
+    margin:0;
+    height: 100%;
+    padding-left: 2vw;
+    padding-top: 0.29rem;
+    z-index: 2;
+}
+
+.icon{
+    max-width: 20%;
+    margin-left: 20%;
+}
+
+.queue{
+color: black;
+font-size: 2vw;
+font-family: 'Playfair Display', serif;
+}
+
+.underflow{
+color: blue;
+font-size: 2vw;
+font-family: 'Playfair Display', serif;
+}
+
+.picwrapper{
+    width: 7vh;
+    min-height: 7vh;
+    position: relative;
+    /* top: 50%; */
+    left: 40%;
+    border-radius: 50%;
+    /* background-color: black; */
+}
+
+.itemimage{
+    width: 100%;
+    object-fit: cover;
+}
+
+
+

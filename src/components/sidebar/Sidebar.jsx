@@ -9,7 +9,7 @@ function Sidebar() {
         <button className={'btn btn-primary '+styles.askbtn}>Ask A Question</button>
       </div>
       <div className={styles.trending}>
-       <Trending/>
+       <Trending title="Trending"/>
       </div>
     </div>
   )
