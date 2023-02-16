@@ -1,4 +1,4 @@
-import { Comment } from "../models/commentsModel";
+import { Comment } from "../models/commentsModel.js";
 
 export const createComment = async (req, res) => {
     try {
@@ -8,15 +8,124 @@ export const createComment = async (req, res) => {
     }
 }
 
-export const getCommentsByUser = async (req, res) => {
+export const getCommentById = async (req, res) => {
     try {
-
+        const comment = await Comment.findAll({
+            where: {
+                id: req.params.commentid,
+            }
+        });
+        res.json(comment[0]);
     } catch (error) {
         res.json({ message: error.message });
     }
 }
 
-export const getCommentsByParent = async (req, res) => {
+export const UserCommentsByTime = async (req, res) => {
+    try {
+        const commentlist = await Comment.findAll({
+            where: {
+                owner_user_id: req.params.username,
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const UserCommentsByScore = async (req, res) => {
+    try {
+        const commentlist = await Comment.findAll({
+            where: {
+                owner_user_id: req.params.username,
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const TagCommentsByTime = async (req, res) => {
+    try {
+        const taglist = req.body.tags;
+
+        const commentlist = await Comment.findAll({
+            where: {
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const TagCommentsByScore = async (req, res) => {
+    try {
+        const taglist = req.body.tags;
+
+        const commentlist = await Comment.findAll({
+            where: {
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const ParentCommentsByTime = async (req, res) => {
+    try {
+        const commentlist = await Comment.findAll({
+            where: {
+                parent_id: req.params.parent_id,
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const ParentCommentsByScore = async (req, res) => {
+    try {
+        const commentlist = await Comment.findAll({
+            where: {
+                parent_id: req.params.parent_id,
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(commentlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const trendingComments = async (req, res) => {
     try {
 
     } catch (error) {
@@ -26,6 +135,14 @@ export const getCommentsByParent = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
     try {
+        // await Comment.destroy({
+        //     where: {
+        //         id: req.params.id
+        //     }
+        // });
+        res.json({
+            message: "Comment Deleted"
+        });
 
     } catch (error) {
         res.json({ message: error.message });
@@ -34,7 +151,14 @@ export const deleteComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
     try {
-
+        await Comment.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        });
+        res.json({
+            message: "Comment Updated"
+        });
     } catch (error) {
         res.json({ message: error.message });
     }

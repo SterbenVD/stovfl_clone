@@ -1,8 +1,35 @@
-import Post from "../models/postModel.js";
+import { Post } from "../models/postsModel.js";
 
 export const createPost = async (req, res) => {
     try {
+        if (req.body.body === "" && req.body.title === "") { throw { message: "Post cannot be empty" }; }
 
+
+        const now = new Date().getTime();
+        req.body.posttime = new Date().getTime(); //set timestamp
+        const threshold = now - 15 * 60 * 1000; //15 min
+
+        //spam protection:
+        const spamcount = await Post.count({
+            where: {
+                username: req.body.username,
+                posttime: { [Sequelize.Op.gte]: threshold }
+            }
+        });
+        if (spamcount > 15) {
+            res.json({ message: 'Spam' });
+            return;
+        }
+
+        await Post.create(req.body);
+
+        // if (req.body.parentid != null) {
+        //     Post.increment(['replies'], { where: { postid: req.body.parentid } });
+        // }
+
+        res.json({
+            message: "Post created"
+        });
     } catch (error) {
         res.json({ message: error.message });
     }
@@ -10,54 +37,116 @@ export const createPost = async (req, res) => {
 
 export const getPostById = async (req, res) => {
     try {
-        // const post = await Post.findAll({
-        //     where: {
-        //         id: req.params.postid,
-        //     }
-        // });
-        // res.json(post[0]);
+        const post = await Post.findAll({
+            where: {
+                id: req.params.postid,
+            }
+        });
+        res.json(post[0]);
     } catch (error) {
         res.json({ message: error.message });
     }
 }
 
-export const getPostsByUser = async (req, res) => {
+export const UserPostsByTime = async (req, res) => {
     try {
-        // const idlist = await Post.findAll({
-        //     where: {
-        //         username: req.params.username,
-        //     },
-        //     order: [
-        //         ['posttime', 'DESC']
-        //     ],
-        //     attributes: ['postid']
-        // });
-        // res.json(idlist);
+        const postlist = await Post.findAll({
+            where: {
+                owner_user_id: req.params.username,
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
     } catch (error) {
         res.json({ message: error.message });
     }
 }
 
-export const getPostsByTag = async (req, res) => {
+export const UserPostsByScore = async (req, res) => {
     try {
-
+        const postlist = await Post.findAll({
+            where: {
+                owner_user_id: req.params.username,
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
     } catch (error) {
         res.json({ message: error.message });
     }
 }
 
-export const getPostsByParent = async (req, res) => {
+export const TagPostsByTime = async (req, res) => {
     try {
-        // const idlist = await Post.findAll({
-        //     where: {
-        //         parentid: req.params.parentid,
-        //     },
-        //     order: [
-        //         ['likes', 'DESC']
-        //     ],
-        //     attributes: ['postid']
-        // });
-        // res.json(idlist);
+        const taglist = req.body.tags;
+
+        const postlist = await Post.findAll({
+            where: {
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const TagPostsByScore = async (req, res) => {
+    try {
+        const taglist = req.body.tags;
+
+        const postlist = await Post.findAll({
+            where: {
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const ParentPostsByTime = async (req, res) => {
+    try {
+        const postlist = await Post.findAll({
+            where: {
+                parent_id: req.params.parent_id,
+            },
+            order: [
+                ['creation_date', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
+    } catch (error) {
+        res.json({ message: error.message });
+    }
+}
+
+export const ParentPostsByScore = async (req, res) => {
+    try {
+        const postlist = await Post.findAll({
+            where: {
+                parent_id: req.params.parent_id,
+            },
+            order: [
+                ['score', 'DESC']
+            ],
+            attributes: ['id']
+        });
+        res.json(postlist);
     } catch (error) {
         res.json({ message: error.message });
     }
@@ -73,6 +162,14 @@ export const trendingPosts = async (req, res) => {
 
 export const deletePost = async (req, res) => {
     try {
+        // await Post.destroy({
+        //     where: {
+        //         id: req.params.id
+        //     }
+        // });
+        res.json({
+            message: "Post Deleted"
+        });
 
     } catch (error) {
         res.json({ message: error.message });
@@ -81,7 +178,14 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
     try {
-
+        await Post.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        });
+        res.json({
+            message: "Post Updated"
+        });
     } catch (error) {
         res.json({ message: error.message });
     }

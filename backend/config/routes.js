@@ -29,8 +29,8 @@ router.get('/comment/parent/:id', commentC.getCommentsByParent);
 router.patch('/comment/:id', commentC.editComment);
 router.delete('/comment/:id', commentC.deleteComment);
 
-router.post('/vote', setVote); 
-// router.get('/vote/id/:postid', getVote);
+router.post('/vote', voteC.setVote); 
+// router.get('/vote/id/:postid', voteC.getVote);
 router.post('/vote/delete', voteC.resetVote);
 
 router.get('/tag/trend', tagC.getTrending);

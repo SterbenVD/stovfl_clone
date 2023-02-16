@@ -1,5 +1,4 @@
-import User from "../models/userModel.js";
-import sha1 from 'js-sha1';
+import { User } from "../models/usersModel.js";
 import jwt from "jsonwebtoken";
 
 let secretpassword = "Never gonna give you up,Never gonna let you down,Never gonna run around and desert you";
@@ -54,7 +53,7 @@ export const authUser = async (req, res) => {
 
 export const storePassword = async (req, res) => {
     try {
-
+        
     }
     catch (error) {
         res.json({
