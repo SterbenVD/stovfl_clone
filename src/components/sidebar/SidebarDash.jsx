@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styles from './SidebarDash.module.css'
 import Trending from '../trending/Trending'
 <<<<<<< HEAD
@@ -23,6 +24,7 @@ function SidebarDash() {
     <div className={styles.wrapper}>
       <div className={styles.ask}>
         <Link to={`/${id}/ask`}><button className={'btn btn-primary '+styles.askbtn}>Ask A Question</button></Link>
+        <Link to={`/${id}/ask`}><button className={'btn btn-primary '+styles.askbtn}>Ask A Question</button></Link>
       </div>
       <div>
       </div>
@@ -40,6 +42,12 @@ function SidebarDash() {
 >>>>>>> frontend
         </ul>
       </div>
+      {
+        location.pathname=="/" &&<div className={styles.trending}>
+        <Trending title="Trending"/>
+       </div>
+      }
+      
       {
         location.pathname=="/" &&<div className={styles.trending}>
         <Trending title="Trending"/>
