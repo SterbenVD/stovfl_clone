@@ -3,7 +3,7 @@ import { Post } from "../models/postsModel.js";
 
 export const setVote = async (req, res) => {
     try {
-        
+
     } catch (error) {
         res.json({ message: error.message });
     }
@@ -22,7 +22,7 @@ export const getVote = async (req, res) => {
 
 export const resetVote = async (req, res) => {
     try {
-        await Post.destroy({
+        await Vote.destroy({
             where: {
                 user_id: req.body.user_id,
                 post_id: req.body.post_id

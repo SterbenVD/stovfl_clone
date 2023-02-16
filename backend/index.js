@@ -17,7 +17,7 @@ try {
     console.error('Unable to connect to the database: ', error);
 }
 
-// await synctables();
+await synctables();
 // populate_auth();
 
 app.listen(port, () => console.log(`Server running at port ${port}`));

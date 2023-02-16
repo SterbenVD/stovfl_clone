@@ -12,7 +12,7 @@ export const getCommentById = async (req, res) => {
     try {
         const comment = await Comment.findAll({
             where: {
-                id: req.params.commentid,
+                id: req.params.id,
             }
         });
         res.json(comment[0]);
@@ -25,7 +25,7 @@ export const UserCommentsByTime = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                owner_user_id: req.params.username,
+                owner_user_id: req.params.id,
             },
             order: [
                 ['creation_date', 'DESC']
@@ -42,7 +42,7 @@ export const UserCommentsByScore = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                owner_user_id: req.params.username,
+                owner_user_id: req.params.id,
             },
             order: [
                 ['score', 'DESC']
@@ -95,7 +95,7 @@ export const ParentCommentsByTime = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                parent_id: req.params.parent_id,
+                parent_id: req.params.id,
             },
             order: [
                 ['creation_date', 'DESC']
@@ -112,7 +112,7 @@ export const ParentCommentsByScore = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                parent_id: req.params.parent_id,
+                parent_id: req.params.id,
             },
             order: [
                 ['score', 'DESC']

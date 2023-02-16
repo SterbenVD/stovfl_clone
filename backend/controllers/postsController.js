@@ -52,7 +52,7 @@ export const UserPostsByTime = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
-                owner_user_id: req.params.username,
+                owner_user_id: req.params.id,
             },
             order: [
                 ['creation_date', 'DESC']
@@ -69,7 +69,7 @@ export const UserPostsByScore = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
-                owner_user_id: req.params.username,
+                owner_user_id: req.params.id,
             },
             order: [
                 ['score', 'DESC']
@@ -122,7 +122,7 @@ export const ParentPostsByTime = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
-                parent_id: req.params.parent_id,
+                parent_id: req.params.id,
             },
             order: [
                 ['creation_date', 'DESC']
@@ -139,7 +139,7 @@ export const ParentPostsByScore = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
-                parent_id: req.params.parent_id,
+                parent_id: req.params.id,
             },
             order: [
                 ['score', 'DESC']
