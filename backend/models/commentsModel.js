@@ -16,10 +16,10 @@ export const Comment = db.define('comments', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    // score: { // Not sure
-    //     type: DataTypes.SMALLINT,
-    //     allowNull: false
-    // },
+    score: {
+        type: DataTypes.SMALLINT,
+        allowNull: false
+    },
     // content_license: {
     //     type: DataTypes.STRING(64),
     //     allowNull: false
