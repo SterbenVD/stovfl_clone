@@ -48,14 +48,14 @@ export const getPostById = async (req, res) => {
     }
 }
 
-export const UserPostsByTime = async (req, res) => {
+export const PostsByUser = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
                 owner_user_id: req.params.id,
             },
             order: [
-                ['creation_date', 'DESC']
+                [req.params.sort, req.params.order]
             ],
             attributes: ['id']
         });
@@ -65,32 +65,15 @@ export const UserPostsByTime = async (req, res) => {
     }
 }
 
-export const UserPostsByScore = async (req, res) => {
+export const PostsByTags = async (req, res) => {
     try {
-        const postlist = await Post.findAll({
-            where: {
-                owner_user_id: req.params.id,
-            },
-            order: [
-                ['score', 'DESC']
-            ],
-            attributes: ['id']
-        });
-        res.json(postlist);
-    } catch (error) {
-        res.json({ message: error.message });
-    }
-}
-
-export const TagPostsByTime = async (req, res) => {
-    try {
-        const taglist = req.body.tags;
+        // const taglist = req.body.tags;
 
         const postlist = await Post.findAll({
             where: {
             },
             order: [
-                ['creation_date', 'DESC']
+                [req.params.sort, req.params.order]
             ],
             attributes: ['id']
         });
@@ -100,49 +83,15 @@ export const TagPostsByTime = async (req, res) => {
     }
 }
 
-export const TagPostsByScore = async (req, res) => {
-    try {
-        const taglist = req.body.tags;
 
-        const postlist = await Post.findAll({
-            where: {
-            },
-            order: [
-                ['score', 'DESC']
-            ],
-            attributes: ['id']
-        });
-        res.json(postlist);
-    } catch (error) {
-        res.json({ message: error.message });
-    }
-}
-
-export const ParentPostsByTime = async (req, res) => {
+export const PostsByParent = async (req, res) => {
     try {
         const postlist = await Post.findAll({
             where: {
                 parent_id: req.params.id,
             },
             order: [
-                ['creation_date', 'DESC']
-            ],
-            attributes: ['id']
-        });
-        res.json(postlist);
-    } catch (error) {
-        res.json({ message: error.message });
-    }
-}
-
-export const ParentPostsByScore = async (req, res) => {
-    try {
-        const postlist = await Post.findAll({
-            where: {
-                parent_id: req.params.id,
-            },
-            order: [
-                ['score', 'DESC']
+                [req.params.sort, req.params.order]
             ],
             attributes: ['id']
         });
@@ -178,11 +127,11 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
     try {
-        await Post.update(req.body, {
-            where: {
-                id: req.body.id
-            }
-        });
+        // await Post.update(req.body, {
+        //     where: {
+        //         id: req.body.id
+        //     }
+        // });
         res.json({
             message: "Post Updated"
         });

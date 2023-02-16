@@ -11,7 +11,8 @@ export async function populate_auth() {
         let i = 0;
         for (i in people) {
             const p = people[i].dataValues;
-            const name = p.display_name + p.id;
+            let name = p.display_name + "@" + p.id;
+            name = name.replace(/\s+/g, '');
             const newpass = sha256(name);
             await Auth.create({
                 id: p.id,

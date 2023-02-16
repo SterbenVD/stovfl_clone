@@ -18,26 +18,23 @@ router.delete('/user/:id', userC.deleteUser);
 
 router.post('/post', postC.createPost);
 router.get('/post/:id', postC.getPostById);
-router.get('/post/time/user/:id', postC.UserPostsByTime);
-router.get('/post/score/user/:id', postC.UserPostsByScore);
-router.get('/post/time/parent/:id', postC.ParentPostsByTime);
-router.get('/post/score/parent/:id', postC.ParentPostsByScore);
+router.get('/post/user/:id/:sort/:order', postC.PostsByUser);
+router.get('/post/parent/:id/:sort/:order', postC.PostsByParent);
+router.get('/post/tag/:tags/:sort/:order', postC.PostsByTags);
 router.patch('/post/:id', postC.editPost);
 router.delete('/post/:id', postC.deletePost);
 
 router.post('/comment', commentC.createComment);
-router.get('/comment/time/user/:id', commentC.UserCommentsByTime);
-router.get('/comment/score/user/:id', commentC.UserCommentsByScore);
-router.get('/comment/time/parent/:id', commentC.ParentCommentsByTime);
-router.get('/comment/score/parent/:id', commentC.ParentCommentsByScore);
+router.get('/comment/user/:id/:sort/:order', commentC.CommentsByUser);
+router.get('/comment/parent/:id/:sort/:order', commentC.CommentsByParent);
 router.patch('/comment/:id', commentC.editComment);
 router.delete('/comment/:id', commentC.deleteComment);
 
-router.post('/vote', voteC.setVote); 
-// router.get('/vote/id/:postid', voteC.getVote);
-router.post('/vote/delete', voteC.resetVote);
+router.post('/vote', voteC.setVote);
+router.get('/vote/:userid', voteC.getVote);
+router.delete('/vote/:postid', voteC.resetVote);
 
 router.get('/tag/trend', tagC.getTrending);
-
+router.get('/tag/suggest', tagC.suggestTags);
 
 export default router;

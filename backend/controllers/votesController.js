@@ -12,7 +12,7 @@ export const setVote = async (req, res) => {
 export const getVote = async (req, res) => {
     try {
         const votelist = await Like.findAll({
-            where: { user_id: req.params.user_id }
+            where: { user_id: req.params.userid }
         });
         res.json(votelist);
     } catch (error) {
