@@ -18,14 +18,23 @@ function Postcard() {
       <div className={styles.title}>
       What parts of my computer should I upgrade first to speed up development?
       </div>
+      <div>
       <div className={styles.text}>
       <p>I use Eclipse, and the two most noticeable slowdowns caused by my computer are waiting for compiling and waiting for intellisense.</p>                                       
  <p>I already have a fast SSD drive and 3GB of ram.  I'm guessing that upgrading my processor would be the next best thing to do.</p>                                                                                                                                       
  <p>Would that make a significant impact?  Any recommendations for what kind of processor to get? </p>                                                                                                                                                                          
  <p>My current processor is an AMD Athlon 64 X2 Dual Core 1.91 GHz. </p> 
  <br />
- <hr className={styles.footerline}/>                                                                                                                                                                                                                                                 
+  <span className={styles.tagitem}>tag1</span>
+  <span className={styles.tagitem}>tag1</span>
+  <span className={styles.tagitem}>tag1</span>
+  <span className={styles.tagitem}>tag1</span>
+  
+  <hr className={styles.footerline}/>
+                                                                                                                                                                                                                                                 
       </div>
+      </div>
+      
       <div className={styles.footer}>
         <div className={styles.profilepicture}>
           <div className={styles.picture}>
