@@ -89,5 +89,59 @@ font-family: 'Playfair Display', serif;
     object-fit: cover;
 }
 
+.dropdowncontent{
+    float: none;
+    display: none;
+    position: absolute;
+    width: 300%;
+}
+
+.picwrapper:hover .dropdowncontent{
+    display: block;
+}
+
+.dropdownlist{
+    padding-top: 10%;
+    list-style:none;
+    padding-left: 0;
+    font-size: 20px;
+}
+
+/* .dropitem{
+    background-color: #2f68be;
+    color: white;
+    border-radius: 10px;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    text-align: center;
+    margin-bottom: 2%;
+} */
+
+/* .dropitem:hover{
+background-color: #0948a6;
+cursor: pointer;
+} */
+
+.item{
+    width: 100%;
+    margin-bottom: 2%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    font-size: 20px;
+    position: relative;
+}
+
+.linkstyle{
+    text-emphasis: none;
+    text-decoration: none;
+
+}
+
+.linkstyle:hover {
+    text-emphasis: none;
+    text-decoration: none;
+    background-color: rgba(0,0,0,0);
+    
+}
 
 

@@ -9,7 +9,7 @@ function Navbar() {
     <div>
  <div className={styles.Navbar}>
     <div className={styles.name}>
-      <img src="se-icon.png" alt="no-image" className={styles.icon}/>
+      <img src="/se-icon.png" alt="no-image" className={styles.icon}/>
       <div>
       <span className={styles.queue}>Queue</span><span className={styles.underflow}>Underflow</span>
       </div>
