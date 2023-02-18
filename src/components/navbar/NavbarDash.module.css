@@ -129,24 +129,6 @@ span{
     font-size: 20px;
 }
 
-<<<<<<< HEAD
-/* .dropitem{
-    background-color: #2f68be;
-    color: white;
-    border-radius: 10px;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    text-align: center;
-    margin-bottom: 2%;
-} */
-
-/* .dropitem:hover{
-background-color: #0948a6;
-cursor: pointer;
-} */
-
-=======
->>>>>>> frontend
 .item{
     width: 100%;
     margin-bottom: 2%;
@@ -166,13 +148,8 @@ cursor: pointer;
     text-emphasis: none;
     text-decoration: none;
     background-color: rgba(0,0,0,0);
-<<<<<<< HEAD
-    
-}
-=======
     border-style: none;
 }
 
->>>>>>> frontend
 
 
