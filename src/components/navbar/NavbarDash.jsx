@@ -11,11 +11,7 @@ function NavbarDash() {
     <div>
  <div className={styles.Navbar}>
     <div className={styles.name}>
-<<<<<<< HEAD
       <img src="/se-icon.png" alt="no-image" className={styles.icon}/>
-=======
-     <Link to='/?login=true' className={styles.linkstyle}><img src="/se-icon.png" alt="no-image" className={styles.icon}/></Link> 
->>>>>>> frontend
       <div>
       <Link to="/?login=true" className={styles.linkstyle}><span className={styles.queue}>Queue</span><span className={styles.underflow}>Underflow</span></Link>
       </div>

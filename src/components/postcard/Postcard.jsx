@@ -32,29 +32,11 @@ function Postcard({type,accepted,postID,title}) {
  <p>I already have a fast SSD drive and 3GB of ram.  I'm guessing that upgrading my processor would be the next best thing to do.</p>                                                                                                                                       
  <p>Would that make a significant impact?  Any recommendations for what kind of processor to get? </p>                                                                                                                                                                          
  <p>My current processor is an AMD Athlon 64 X2 Dual Core 1.91 GHz. </p> 
-<<<<<<< HEAD
  <br />
-=======
- <br />{
-  (type=="questions" || type=="home") &&
-  <>
->>>>>>> frontend
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
-<<<<<<< HEAD
-=======
-
-  </>}
-
-  {
-    type=="comment" && <>
-    <h2 className={styles.title} style={{paddingTop: "0vh",marginTop:"0", paddingBottom:"0",marginBottom:"0",minHeight:"2vh"}}>My Comment:</h2>
-    <p>Good naming convention and well structured code will help you decrease the comments need. Don`t forget that each line of comments you add it's a new line to maintain!!</p>
-    </>
-  }
->>>>>>> frontend
   
   <hr className={styles.footerline}/>
                                                                                                                                                                                                                                                  
