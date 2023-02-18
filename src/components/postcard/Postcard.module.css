@@ -9,7 +9,7 @@
 }
 
 .right{
-    width: 90%;
+    width: 80%;
     display: flex;
     flex-direction: column;
 }
@@ -21,6 +21,7 @@
     font-family: 'Playfair Display', serif;
     font-family: 'Roboto', sans-serif;
     hyphens: auto;
+    color: black;
 }
 
 .text{
@@ -114,3 +115,31 @@ align-items: center;
     background-color: #c4cace;
     cursor: pointer;
 }
+<<<<<<< HEAD
+=======
+
+.options{
+    width:10%;
+    margin-top: 5%;
+}
+
+.optionicon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20%;
+}
+
+.linkstyle{
+    text-emphasis: none;
+    text-decoration: none;
+
+}
+
+.linkstyle:hover {
+    text-emphasis: none;
+    text-decoration: none;
+    background-color: rgba(0,0,0,0);
+    border-style: none;
+}
+>>>>>>> frontend

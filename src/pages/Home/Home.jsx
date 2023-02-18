@@ -1,11 +1,12 @@
-import React,{createContext,useEffect,useState} from 'react'
+import React,{createContext,useEffect,useState,useRef, useCallback} from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import NavbarDash from '../../components/navbar/NavbarDash'
 import SidebarDash from '../../components/sidebar/SidebarDash'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Postcard from '../../components/postcard/Postcard'
 import styles from './Home.module.css'
-// import { createContext } from 'react'
+import Feed from '../../components/Feed/Feed'
+
 
 import { useSearchParams } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ function Home() {
   useEffect(()=>{
     setLogin(query.get("login"))
   },[login])
+
 
   return (
     <Header.Provider value={{header,setHeader}}>
@@ -33,21 +35,7 @@ function Home() {
         <div>
           <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>{header}</h2>
         </div>
-        <ul className={styles.list}>
-          <li className={styles.card}>
-          <Postcard/>
-          </li>
-          <li className={styles.card}>
-          <Postcard/>
-          </li>
-          <li className={styles.card}>
-          <Postcard/>
-          </li>
-          <li className={styles.card}>
-          <Postcard/>
-          </li>
-
-        </ul>
+       <Feed postcardtype={"home"}/>
       </div>
     </div>
     </Header.Provider>

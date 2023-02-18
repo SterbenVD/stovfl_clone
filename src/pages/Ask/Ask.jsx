@@ -20,10 +20,17 @@ function TagButton(props){
   )
 }
 
+<<<<<<< HEAD
 function Ask() {
 
   const desRef = useRef(null)
   const [des,setDes] = useState("")
+=======
+function Ask({edit}) {
+
+  const desRef = useRef(null)
+  const [des,setDes] = useState(edit.desc)
+>>>>>>> frontend
 
   const setHTML = ()=>{
       setDes(desRef.current.value)
@@ -41,7 +48,11 @@ function Ask() {
     setInputValue(e.target.value);
   };
 
+<<<<<<< HEAD
   const [tag,setTag] =useState([])
+=======
+  const [tag,setTag] =useState(edit.tags)
+>>>>>>> frontend
   const handleKeyPress = (event)=>{
  
     if(event.key==='Enter')
@@ -78,9 +89,15 @@ function Ask() {
       <SidebarDash/>
       <div className={styles.inputs}>
         <h2>Add A Title</h2>
+<<<<<<< HEAD
         <input type="text" placeholder='Enter the title' className={styles.title}/>
         <h2>Add description of the question</h2>
         <textarea ref = {desRef} name="description" rows="10" className={styles.text} placeholder='Enter the question (in HTML)' onChange={setHTML}></textarea>
+=======
+        <input type="text" placeholder='Enter the title' className={styles.title} defaultValue={edit.title}/>
+        <h2>Add description of the question</h2>
+        <textarea ref = {desRef} name="description" rows="10" className={styles.text} placeholder='Enter the question (in HTML)' onChange={setHTML}>{edit.desc}</textarea>
+>>>>>>> frontend
         <h2>Preview</h2>
         <div className={styles.preview} dangerouslySetInnerHTML={{__html:des}}></div>
       </div>
