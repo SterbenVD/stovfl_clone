@@ -1,0 +1,11 @@
+.list{
+    list-style: none;
+    overflow-y: auto;
+}
+
+.card{
+box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.21);
+-webkit-box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.21);
+-moz-box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.21);
+margin: 4vh 0;
+}

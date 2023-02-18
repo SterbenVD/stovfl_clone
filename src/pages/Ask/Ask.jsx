@@ -20,10 +20,10 @@ function TagButton(props){
   )
 }
 
-function Ask() {
+function Ask({edit}) {
 
   const desRef = useRef(null)
-  const [des,setDes] = useState("")
+  const [des,setDes] = useState(edit.desc)
 
   const setHTML = ()=>{
       setDes(desRef.current.value)
@@ -41,7 +41,7 @@ function Ask() {
     setInputValue(e.target.value);
   };
 
-  const [tag,setTag] =useState([])
+  const [tag,setTag] =useState(edit.tags)
   const handleKeyPress = (event)=>{
  
     if(event.key==='Enter')
@@ -78,9 +78,9 @@ function Ask() {
       <SidebarDash/>
       <div className={styles.inputs}>
         <h2>Add A Title</h2>
-        <input type="text" placeholder='Enter the title' className={styles.title}/>
+        <input type="text" placeholder='Enter the title' className={styles.title} defaultValue={edit.title}/>
         <h2>Add description of the question</h2>
-        <textarea ref = {desRef} name="description" rows="10" className={styles.text} placeholder='Enter the question (in HTML)' onChange={setHTML}></textarea>
+        <textarea ref = {desRef} name="description" rows="10" className={styles.text} placeholder='Enter the question (in HTML)' onChange={setHTML}>{edit.desc}</textarea>
         <h2>Preview</h2>
         <div className={styles.preview} dangerouslySetInnerHTML={{__html:des}}></div>
       </div>

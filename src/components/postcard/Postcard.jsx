@@ -1,8 +1,13 @@
 import React from 'react'
 import styles from './Postcard.module.css'
 import {ChatCenteredText} from 'phosphor-react'
-import {ArrowUp, ArrowDown} from 'phosphor-react'
-function Postcard() {
+import {ArrowUp, ArrowDown,Check,Trash,PencilSimple} from 'phosphor-react'
+import {Link,useParams} from 'react-router-dom'
+
+function Postcard({type,accepted,postID,title}) {
+
+  const params = useParams();
+  
   return (
     <div className={styles.container}>
       <div className={styles.votecount}>
@@ -13,10 +18,13 @@ function Postcard() {
           </div>
           <ArrowDown size={45} color="#fa0000" weight='bold' style={{marginLeft: "30%"}} />
         </div>
+        {type=='answer' && accepted=="true" && <>
+        <Check size={45} color="#02ac16" weight="bold" style={{marginLeft: "30%",marginTop:"30%"}}/>
+        </>}
       </div>
       <div className={styles.right}>
       <div className={styles.title}>
-      What parts of my computer should I upgrade first to speed up development?
+      {title}
       </div>
       <div>
       <div className={styles.text}>
@@ -24,11 +32,22 @@ function Postcard() {
  <p>I already have a fast SSD drive and 3GB of ram.  I'm guessing that upgrading my processor would be the next best thing to do.</p>                                                                                                                                       
  <p>Would that make a significant impact?  Any recommendations for what kind of processor to get? </p>                                                                                                                                                                          
  <p>My current processor is an AMD Athlon 64 X2 Dual Core 1.91 GHz. </p> 
- <br />
+ <br />{
+  (type=="questions" || type=="home") &&
+  <>
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
   <span className={styles.tagitem}>tag1</span>
+
+  </>}
+
+  {
+    type=="comment" && <>
+    <h2 className={styles.title} style={{paddingTop: "0vh",marginTop:"0", paddingBottom:"0",marginBottom:"0",minHeight:"2vh"}}>My Comment:</h2>
+    <p>Good naming convention and well structured code will help you decrease the comments need. Don`t forget that each line of comments you add it's a new line to maintain!!</p>
+    </>
+  }
   
   <hr className={styles.footerline}/>
                                                                                                                                                                                                                                                  
@@ -54,8 +73,17 @@ function Postcard() {
        <div>50+</div> 
         </div>
       </div>
-      </div>
+      </div>{
+        (type!="home" && type!="comment") &&
+      <div className={styles.options}>
+        <div className={styles.optionicon}>
+        <Trash size={25} color="#b80000" weight="bold" style={{cursor:"pointer"}}/>
+        </div>
+        <div className={styles.optionicon}>
+       <Link to={`/${params.userID}/questions/${postID}/edit`} className={styles.linkstyle}><PencilSimple size={25} color="#2b3b8c" weight="bold" style={{cursor:"pointer"}}/></Link> 
+          </div ></div>}
     </div>
+
   )
 }
 
