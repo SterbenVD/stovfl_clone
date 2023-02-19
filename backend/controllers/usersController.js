@@ -1,25 +1,6 @@
 import { User } from "../models/usersModel.js";
 import { Auth } from "../models/authModel.js";
-import { sha256 } from "js-sha256";
-import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
-
-export const createUser = async (req, res) => {
-    try {
-        let password = sha256(req.body.password + req.body.creation_date); //salted hash
-        req.body.delete(password);
-        await User.create(req.body);
-        // await Auth.create({})
-        let token = jwt.sign({ username: req.body.username }, secretpassword);
-        res.json({
-            username: req.body.username,
-            token: token,
-            success: true,
-        });
-    } catch (error) {
-        res.json({ message: error.message });
-    }
-}
 
 export const updateUser = async (req, res) => {
     try {

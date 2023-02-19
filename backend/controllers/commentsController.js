@@ -1,8 +1,48 @@
 import { Comment } from "../models/commentsModel.js";
+import { Post } from "../models/postsModel.js";
+
+async function postupdate(){
+    
+} 
 
 export const createComment = async (req, res) => {
     try {
+        if (req.body.body === "" && req.body.title === "") { throw { message: "Comment cannot be empty" }; }
 
+        const now = new Date().getTime();
+        const threshold = now - 30 * 60 * 1000;
+
+        const spamcount = await Comment.count({
+            where: {
+                user_id: req.body.user_id,
+                creation_date: { [Sequelize.Op.gte]: threshold }
+            }
+        });
+
+        if (spamcount > 30) {
+            res.json({ message: 'Spam' });
+            return;
+        }
+
+        let comment = await Comment.create(req.body);
+
+        let post = await Post.update({ last_activity_date: now }, {
+            where: {
+                id: comment.post_id
+            }
+        });
+
+        if (post.parent_id != "") {
+            await Post.update({ last_activity_date: now }, {
+                where: {
+                    id: post.parent_id
+                }
+            });
+        }
+
+        res.json({
+            message: "Comment created"
+        });
     } catch (error) {
         res.json({ message: error.message });
     }
@@ -42,7 +82,7 @@ export const CommentsByParent = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                post_id: req.params.id,
+                comment_id: req.params.id,
             },
             order: [
                 [req.params.sort, req.params.order]
@@ -73,11 +113,26 @@ export const deleteComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
     try {
-        await Comment.update(req.body, {
+        let comment = await Comment.update(req.body, {
             where: {
                 id: req.params.id
             }
         });
+
+        let post = await Post.update({ last_activity_date: now }, {
+            where: {
+                id: comment.post_id
+            }
+        });
+
+        if (post.parent_id != "") {
+            await Post.update({ last_activity_date: now }, {
+                where: {
+                    id: post.parent_id
+                }
+            });
+        }
+
         res.json({
             message: "Comment Updated"
         });

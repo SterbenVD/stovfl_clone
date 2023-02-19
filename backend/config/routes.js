@@ -9,7 +9,7 @@ import * as voteC from '../controllers/votesController.js';
 const router = express.Router();
 
 router.get('/auth', authC.authUser);
-router.post('/user', userC.createUser);
+router.post('/user', authC.createUser);
 router.get('/user/:user_name', userC.getUserByName); // Works
 router.get('/usersearch/:id', userC.getFuzzyUser); // Works
 

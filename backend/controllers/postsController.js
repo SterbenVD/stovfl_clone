@@ -4,28 +4,30 @@ export const createPost = async (req, res) => {
     try {
         if (req.body.body === "" && req.body.title === "") { throw { message: "Post cannot be empty" }; }
 
-
         const now = new Date().getTime();
-        req.body.posttime = new Date().getTime(); //set timestamp
-        const threshold = now - 15 * 60 * 1000; //15 min
+        const threshold = now - 30 * 60 * 1000;
 
-        //spam protection:
         const spamcount = await Post.count({
             where: {
-                username: req.body.username,
-                posttime: { [Sequelize.Op.gte]: threshold }
+                owner_user_id: req.body.owner_user_id,
+                creation_date: { [Sequelize.Op.gte]: threshold }
             }
         });
-        if (spamcount > 15) {
+
+        if (spamcount > 30) {
             res.json({ message: 'Spam' });
             return;
         }
 
-        await Post.create(req.body);
+        let post = await Post.create(req.body);
 
-        // if (req.body.parentid != null) {
-        //     Post.increment(['replies'], { where: { postid: req.body.parentid } });
-        // }
+        if (post.parent_id != "") {
+            await Post.update({ last_activity_date: now }, {
+                where: {
+                    id: post.parent_id
+                }
+            });
+        }
 
         res.json({
             message: "Post created"
@@ -127,11 +129,20 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
     try {
-        await Post.update(req.body, {
+        let post = await Post.update(req.body, {
             where: {
                 id: req.body.id
             }
         });
+
+        if (post.parent_id != "") {
+            await Post.update({ last_activity_date: now }, {
+                where: {
+                    id: post.parent_id
+                }
+            });
+        }
+
         res.json({
             message: "Post Updated"
         });
