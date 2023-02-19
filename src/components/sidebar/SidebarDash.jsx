@@ -9,11 +9,9 @@ function SidebarDash() {
   const [param,setParams] = useSearchParams()
   const user = useParams()
   const id = location.pathname=="/"?param.get("uid"):user.userID
-  // useEffect(()=>{console.log(id)},[])
   return (
     <div className={styles.wrapper}>
       <div className={styles.ask}>
-        <Link to={`/${id}/ask`}><button className={'btn btn-primary '+styles.askbtn}>Ask A Question</button></Link>
         <Link to={`/${id}/ask`}><button className={'btn btn-primary '+styles.askbtn}>Ask A Question</button></Link>
       </div>
       <div>
@@ -31,13 +29,6 @@ function SidebarDash() {
         <Trending title="Trending"/>
        </div>
       }
-      
-      {
-        location.pathname=="/" &&<div className={styles.trending}>
-        <Trending title="Trending"/>
-       </div>
-      }
-      
     </div>
   )
 }
