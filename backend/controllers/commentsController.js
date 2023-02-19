@@ -10,7 +10,7 @@ export const createComment = async (req, res) => {
 
 export const getCommentById = async (req, res) => {
     try {
-        const comment = await Comment.findAll({
+        const comment = await Comment.findByPk({
             where: {
                 id: req.params.id,
             }
@@ -25,7 +25,7 @@ export const CommentsByUser = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                owner_user_id: req.params.id,
+                user_id: req.params.id,
             },
             order: [
                 [req.params.sort, req.params.order]
@@ -42,7 +42,7 @@ export const CommentsByParent = async (req, res) => {
     try {
         const commentlist = await Comment.findAll({
             where: {
-                parent_id: req.params.id,
+                post_id: req.params.id,
             },
             order: [
                 [req.params.sort, req.params.order]
@@ -73,11 +73,11 @@ export const deleteComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
     try {
-        // await Comment.update(req.body, {
-        //     where: {
-        //         id: req.body.id
-        //     }
-        // });
+        await Comment.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        });
         res.json({
             message: "Comment Updated"
         });

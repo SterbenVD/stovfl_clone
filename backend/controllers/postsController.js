@@ -39,7 +39,7 @@ export const getPostById = async (req, res) => {
     try {
         const post = await Post.findAll({
             where: {
-                id: req.params.postid,
+                id: req.params.id,
             }
         });
         res.json(post[0]);
@@ -111,11 +111,11 @@ export const trendingPosts = async (req, res) => {
 
 export const deletePost = async (req, res) => {
     try {
-        // await Post.destroy({
-        //     where: {
-        //         id: req.params.id
-        //     }
-        // });
+        await Post.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
         res.json({
             message: "Post Deleted"
         });
@@ -127,11 +127,11 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
     try {
-        // await Post.update(req.body, {
-        //     where: {
-        //         id: req.body.id
-        //     }
-        // });
+        await Post.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        });
         res.json({
             message: "Post Updated"
         });
