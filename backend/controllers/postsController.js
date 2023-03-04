@@ -145,6 +145,7 @@ export const editPost = async (req, res) => {
       },
     });
 
+    const now = new Date().getTime();
     if (post.parent_id != "") {
       await Post.update(
         { last_activity_date: now },

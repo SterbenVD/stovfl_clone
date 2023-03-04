@@ -1,7 +1,8 @@
 import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
-async function postupdate(comment){
+async function postupdate(comment) {
+    const now = new Date().getTime();
     let post = await Post.update({ last_activity_date: now }, {
         where: {
             id: comment.post_id
@@ -15,7 +16,7 @@ async function postupdate(comment){
             }
         });
     }
-} 
+}
 
 export const createComment = async (req, res) => {
     try {
