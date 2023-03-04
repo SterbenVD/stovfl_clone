@@ -12,12 +12,16 @@ export const getTrending = async (req, res) => {
 
 export const getFuzzyTag = async (req, res) => {
     try {
-        let tag = req.params.id.toString().toLowerCase();
+        let checker = ['[', '$', '&', '+', ':', ';', '=', '?', '@', '#', '|', '\'', '<', '>', '.', '^', '*', '(', ')', '%', '!', '-', ']'];
+        let tag = req.query.tag.toString().toLowerCase();
+        checker.map(ele => {
+            tag = tag.replaceAll(ele, "\\" + ele)
+          });
         console.log(tag);
         const taglist = await Tag.findAll({
             where: {
                 tag_name: {
-                    [Op.startsWith]: tag
+                    [Op.regexp]: tag
                 }
             }
         });

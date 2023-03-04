@@ -20,7 +20,11 @@ export const updateUser = async (req, res) => {
 export const getUserByName = async (req, res) => {
     try {
         let arr = req.params.user_name.split("@");
-        let iden = arr[arr.length - 1];
+        let iden = "";
+        if(arr.length==2)
+            iden = arr[arr.length - 1];
+        else if(arr.length==1)
+            iden = arr[0];
         const user = await User.findAll({
             where: {
                 id: iden
