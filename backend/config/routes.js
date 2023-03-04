@@ -18,6 +18,7 @@ router.get("/post/user/:id/:post_type/:sort/:order/", postC.PostsByUser); // Wor
 router.get("/post/parent/:id/:sort/:order", postC.PostsByParent); // Works
 router.get("/post/tag/:sort/:order", postC.PostsByTags); // Works
 
+router.get("/comment/:id", commentC.getCommentById); // Works
 router.get("/comment/user/:id/:sort/:order", commentC.CommentsByUser); // Works
 router.get("/comment/parent/:id/:sort/:order", commentC.CommentsByParent); // Works
 

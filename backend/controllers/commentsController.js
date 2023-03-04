@@ -50,7 +50,7 @@ export const createComment = async (req, res) => {
 
 export const getCommentById = async (req, res) => {
     try {
-        const comment = await Comment.findByPk({
+        const comment = await Comment.findAll({
             where: {
                 id: req.params.id,
             }
