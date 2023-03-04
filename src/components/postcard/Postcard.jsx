@@ -1,79 +1,176 @@
-import React from 'react'
-import styles from './Postcard.module.css'
-import {ChatCenteredText} from 'phosphor-react'
-import {ArrowUp, ArrowDown,Check,Trash,PencilSimple} from 'phosphor-react'
-import {Link,useParams} from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import useGetUser from "../../hooks/useGetUser";
+import styles from "./Postcard.module.css";
+import { ChatCenteredText } from "phosphor-react";
+import { ArrowUp, ArrowDown, Check, Trash, PencilSimple } from "phosphor-react";
+import { Link, useParams } from "react-router-dom";
+import useGetPostDetails from "../../hooks/useGetPostDetails";
+import DOMPurify from "dompurify";
+import url from "../../../url.js";
+import axios from "axios";
 
-function Postcard({type,accepted,postID,title}) {
+function Postcard({ type, accepted, postID, title }) {
+  const state = useGetPostDetails({ postID: postID });
+  const [tags, setTags] = useState([]);
+  const getTags = () => {
+    setTags(() => {
+      const temp = state.tags
+        .trim()
+        .replace(/>/gi, ",")
+        .replace(/</gi, "")
+        .split(",");
+      return temp.slice(0, temp.length - 1);
+    });
+  };
+
+  const [time, setTime] = useState("");
+  const getTime = () => {
+    let date = new Date(state.creation_date);
+    let current = new Date();
+    if (
+      date.getFullYear() + 1 < current.getFullYear() ||
+      (date.getFullYear() + 1 == current.getFullYear() &&
+        date.getMonth() < current.getMonth())
+    )
+      setTime(
+        (current.getFullYear() - date.getFullYear()).toString() + "yrs ago"
+      );
+    else if (date.getMonth() != current.getMonth())
+      setTime(
+        (current.getMonth() - date.getMonth() + 12).toString() + "months ago"
+      );
+    else if (date.getDate() != current.getDate())
+      setTime((current.getDate() - date.getDate()).toString() + "days ago");
+    else if (date.getHours() != current.getHours())
+      setTime((current.getHours() - date.getHours()).toString() + "hrs ago");
+    else if (date.getMinutes() != current.getMinutes())
+      setTime(
+        (current.getMinutes() - date.getMinutes()).toString() + "minutes ago"
+      );
+    else
+      setTime(
+        (current.getSeconds() - date.getSeconds()).toString() + "seconds ago"
+      );
+  };
+
+  const [profilePic, setProfilePic] = useState("/man.png");
+
+  const getProfilePic = () => {
+    axios.get(`${url.axios_url}/user/${state.owner_user_id}`).then((res) => {
+      console.log(res);
+      if (res.data.profile_image_url) setProfilePic(res.data.profile_image_url);
+    });
+  };
+
+  useEffect(() => {
+    console.log(state);
+    getTags();
+    getTime();
+    getProfilePic();
+  }, [state]);
 
   const params = useParams();
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.votecount}>
         <div className={styles.count}>
-        <ArrowUp size={45} color="#2a00fa" weight='bold' style={{marginLeft: "30%"}} />
-          <div className={styles.votes}>
-              0
-          </div>
-          <ArrowDown size={45} color="#fa0000" weight='bold' style={{marginLeft: "30%"}} />
+          <ArrowUp
+            size={36}
+            color="#2a00fa"
+            weight="bold"
+            style={{ marginLeft: "32%" }}
+          />
+          <div className={styles.votes}>{state.score}</div>
+          <ArrowDown
+            size={36}
+            color="#fa0000"
+            weight="bold"
+            style={{ marginLeft: "32%" }}
+          />
         </div>
-        {type=='answer' && accepted=="true" && <>
-        <Check size={45} color="#02ac16" weight="bold" style={{marginLeft: "30%",marginTop:"30%"}}/>
-        </>}
+        {type == "answer" && accepted == "true" && (
+          <>
+            <Check
+              size={36}
+              color="#02ac16"
+              weight="bold"
+              style={{ marginLeft: "30%", marginTop: "32%" }}
+            />
+          </>
+        )}
       </div>
       <div className={styles.right}>
-      <div className={styles.title}>
-      {title}
-      </div>
-      <div>
-      <div className={styles.text}>
-      <p>I use Eclipse, and the two most noticeable slowdowns caused by my computer are waiting for compiling and waiting for intellisense.</p>                                       
- <p>I already have a fast SSD drive and 3GB of ram.  I'm guessing that upgrading my processor would be the next best thing to do.</p>                                                                                                                                       
- <p>Would that make a significant impact?  Any recommendations for what kind of processor to get? </p>                                                                                                                                                                          
- <p>My current processor is an AMD Athlon 64 X2 Dual Core 1.91 GHz. </p> 
- <br />
-  <span className={styles.tagitem}>tag1</span>
-  <span className={styles.tagitem}>tag1</span>
-  <span className={styles.tagitem}>tag1</span>
-  <span className={styles.tagitem}>tag1</span>
-  
-  <hr className={styles.footerline}/>
-                                                                                                                                                                                                                                                 
-      </div>
-      </div>
-      
-      <div className={styles.footer}>
-        <div className={styles.profilepicture}>
-          <div className={styles.picture}>
-            <div className={styles.dp}>
-            <img src="/man.png" alt="" className={styles.itemimage} />
+        <div className={styles.title}>{state.title}</div>
+        <div>
+          <div className={styles.text}>
+            <div
+              className={styles.texttwo}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(state.body),
+              }}
+            ></div>
+            <br />
+            {tags.map((tag) => {
+              return (
+                <span className={styles.tagitem} key={tag}>
+                  {tag}
+                </span>
+              );
+            })}
+
+            <hr className={styles.footerline} />
+          </div>
+        </div>
+
+        <div className={styles.footer}>
+          <div className={styles.profilepicture}>
+            <div className={styles.picture}>
+              <div className={styles.dp}>
+                <img src={profilePic} alt="" className={styles.itemimage} />
+              </div>
+            </div>
+            <div className={styles.name}>
+              Posted By:{" "}
+              {state.owner_display_name == null
+                ? "Anonymous"
+                : state.owner_display_name}
             </div>
           </div>
-          <div className={styles.name}>
-            Posted By: Harshit Pant
+          <div className={styles.time}>{time}</div>
+          <div className={styles.responses}>
+            <ChatCenteredText size={32} color="#812222" />
+            <div>{state.anscount}</div>
           </div>
         </div>
-        <div className={styles.time}>
-          12hr ago
-        </div>
-        <div className={styles.responses}>
-          <ChatCenteredText size={32} color="#812222" />
-       <div>50+</div> 
-        </div>
       </div>
-      </div>{
-        (type!="home" && type!="comment") &&
-      <div className={styles.options}>
-        <div className={styles.optionicon}>
-        <Trash size={25} color="#b80000" weight="bold" style={{cursor:"pointer"}}/>
+      {type != "home" && type != "comment" && (
+        <div className={styles.options}>
+          <div className={styles.optionicon}>
+            <Trash
+              size={25}
+              color="#b80000"
+              weight="bold"
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+          <div className={styles.optionicon}>
+            <Link
+              to={`/${params.userID}/questions/${postID}/edit`}
+              className={styles.linkstyle}
+            >
+              <PencilSimple
+                size={25}
+                color="#2b3b8c"
+                weight="bold"
+                style={{ cursor: "pointer" }}
+              />
+            </Link>
+          </div>
         </div>
-        <div className={styles.optionicon}>
-       <Link to={`/${params.userID}/questions/${postID}/edit`} className={styles.linkstyle}><PencilSimple size={25} color="#2b3b8c" weight="bold" style={{cursor:"pointer"}}/></Link> 
-          </div ></div>}
+      )}
     </div>
-
-  )
+  );
 }
 
-export default Postcard
+export default Postcard;

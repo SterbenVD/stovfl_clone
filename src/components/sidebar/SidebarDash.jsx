@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import styles from './SidebarDash.module.css'
 import Trending from '../trending/Trending'
 import { useLocation,Link,useSearchParams,useParams } from 'react-router-dom'
 
-function SidebarDash() {
+function SidebarDash(props) {
 
   const location = useLocation()
+  const [sec,setSec]=useState('Trending Posts')
   const [param,setParams] = useSearchParams()
   const user = useParams()
   const id = location.pathname=="/"?param.get("uid"):user.userID
@@ -26,7 +27,7 @@ function SidebarDash() {
       </div>
       {
         location.pathname=="/" &&<div className={styles.trending}>
-        <Trending title="Trending"/>
+        <Trending title="Trending" func={props.sec}/>
        </div>
       }
     </div>

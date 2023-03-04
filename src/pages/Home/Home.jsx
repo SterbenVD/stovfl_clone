@@ -16,12 +16,12 @@ function Home() {
   const [header,setHeader] = useState("Trending Posts");
   const [login,setLogin] = useState("false")
   const [query,setQuery] = useSearchParams()
+  const [section,setSection] = useState('Trending Posts')
   useEffect(()=>{
     setLogin(query.get("login"))
   },[login])
 
-
-  return (
+return (
     <Header.Provider value={{header,setHeader}}>
 <div className={styles.wrapper}>
       <div className={styles.navbar}>
@@ -29,13 +29,13 @@ function Home() {
           login=="false" ? <Navbar/>:<NavbarDash/>
         }
       </div>{
-          login=="false" ? <Sidebar/>:<SidebarDash/>
+          login=="false" ? <Sidebar sec={setSection}/>:<SidebarDash sec={setSection}/>
         }
       <div className={styles.postcontainer}>
         <div>
           <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>{header}</h2>
         </div>
-       <Feed postcardtype={"home"}/>
+       <Feed postcardtype={"home"} section={section}/>
       </div>
     </div>
     </Header.Provider>

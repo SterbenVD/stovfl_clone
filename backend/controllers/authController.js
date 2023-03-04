@@ -1,13 +1,13 @@
 import { User } from "../models/usersModel.js";
+import { Auth } from "../models/authModel.js";
 import { sha256 } from "js-sha256";
 import jwt from "jsonwebtoken";
 
-let secretpassword = "Never gonna give you up,Never gonna let you down,Never gonna run around and desert you";
-
-export const checkToken = async (req, res) => {
+let secretpassword = "False hopes are more dangerous than fears";
+let salt = sha256(secretpassword);
+export const checkToken = async (req, res, next) => {
     try {
-        let salt = sha256(secretpassword);
-        let token = req.body.token;
+        let token = req.token;
         if (!token) {
             res.json({
                 success: false,
@@ -27,10 +27,10 @@ export const checkToken = async (req, res) => {
 
         }
         else {
-            res.json({
-                success: true,
+            req.json({
                 user_name: decodedToken.user_name
             });
+            next();
         }
     }
     catch (error) {
@@ -43,7 +43,31 @@ export const checkToken = async (req, res) => {
 
 export const authUser = async (req, res) => {
     try {
+        const passlist = await Auth.findAll({
+            where: {
+                user_name: req.body.user_name
+            }
+        })
+        const pass = passlist[0].dataValues;
+        const userlist = await User.findAll({
+            where: {
+                id: pass.id
+            }
+        })
+        const user = userlist[0].dataValues;
+        let enpass = sha256(req.body.password + user.creation_date);
 
+        if (pass.pass === enpass) {
+            let token = jwt.sign({ username: pass.user_name }, salt);
+            res.json({
+                username: pass.username,
+                token: token,
+                outcome: "Success",
+            });
+        }
+        else {
+            res.json({ outcome: "Fail" });
+        }
     }
     catch (error) {
         res.json({
@@ -53,14 +77,24 @@ export const authUser = async (req, res) => {
     }
 }
 
-export const storePassword = async (req, res) => {
+export const createUser = async (req, res) => {
     try {
-
-    }
-    catch (error) {
+        let password = sha256(req.body.password + req.body.creation_date); //salted hash
+        req.body.delete(password);
+        let user = await User.create(req.body);
+        let username = req.body.display_name + "@" + user.id;
+        await Auth.create({
+            id: req.body.id,
+            user_name: username,
+            pass: password
+        })
+        let token = jwt.sign({ user_name: username }, salt);
         res.json({
-            success: false,
-            message: error.message
+            user_name: username,
+            token: token,
+            success: true,
         });
+    } catch (error) {
+        res.json({ message: error.message });
     }
 }

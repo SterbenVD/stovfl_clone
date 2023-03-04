@@ -3,7 +3,13 @@ import { Post } from "../models/postsModel.js";
 
 export const setVote = async (req, res) => {
     try {
-
+        await Vote.create(req.body);
+        let updatescore = 5 - req.body.vote_type_id * 2;
+        await Post.increment({ score: updatescore }, {
+            where: {
+                id: req.body.post_id
+            }
+        });
     } catch (error) {
         res.json({ message: error.message });
     }

@@ -1,7 +1,7 @@
 import styles from './App.module.css'
 import {Home} from './pages/Home/Home.jsx'
 import Dashboard from './pages/Dashboard/Dashboard'
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom'
 import Ask from './pages/Ask/Ask'
 import Settings from './pages/Settings/Settings'
 import MyAnswers from './pages/MyAnswers/MyAnswers'
@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home/>}/>
+        <Route path='/' element={<Home/>}></Route>
         <Route path='/:userID' element={<Dashboard/>}></Route>
         <Route path='/:userID/ask' element={<Ask edit={{title:"",tags:[],desc:``}}/>}></Route>
         <Route path='/:userID/settings' element={<Settings/>}></Route>

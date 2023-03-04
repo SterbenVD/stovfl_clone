@@ -2,6 +2,9 @@ import React, { useEffect, useRef,useState } from 'react'
 import styles from './NavbarDash.module.css'
 import {MagnifyingGlass} from 'phosphor-react'
 import {Link,useParams} from 'react-router-dom'
+import axios from 'axios'
+import url from '../../../url'
+import useGetUser from '../../hooks/useGetUser'
 
 function NavbarDash() {
 
@@ -25,9 +28,12 @@ function NavbarDash() {
                 "result 9",
                 "Result 9"]
 
+
+  const {userName,userProfilePic} = useGetUser();
   const inpRef = useRef()
   const [searchResult,setSearchResult] = useState([])
-  const {userID} = useParams()
+  const par = useParams()
+  const userID = par.userID
   const inputRef = useRef()
   const handleSearchChange =(e)=>{
     if(e.target.value.length>0)
@@ -56,7 +62,7 @@ function NavbarDash() {
     <div className={styles.name}>
       <img src="/se-icon.png" alt="no-image" className={styles.icon}/>
       <div>
-      <Link to="/?login=true" className={styles.linkstyle}><span className={styles.queue}>Queue</span><span className={styles.underflow}>Underflow</span></Link>
+      <Link to={`/?login=true&uid=${userID}`} className={styles.linkstyle}><span className={styles.queue}>Queue</span><span className={styles.underflow}>Underflow</span></Link>
       </div>
     </div>
     <div className={styles.searchwrapper}>
@@ -75,7 +81,7 @@ function NavbarDash() {
     </div>
     <div className={styles.signin}>
     <div className={styles.picwrapper}>
-            <img src="/man.png" alt="" className={styles.itemimage}/>
+            <img src={userProfilePic} alt="" className={styles.itemimage}/>
             <div className={styles.dropdowncontent}>
             <ul className={styles.dropdownlist}>
               <li className={styles.dropitem}><Link className={styles.link} to={`/${userID}/settings`}><button className={"btn-primary btn "+styles.item}>Settings</button>  </Link></li>
