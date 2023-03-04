@@ -17,26 +17,36 @@ export default function useGetPosts(pageNumber, section) {
     "73",
     "94",
   ]);
-  // useEffect(() => {
-  //   if (section == "Trending")
-  //     setAllPosts([
-  //       "4",
-  //       "9",
-  //       "16",
-  //       "18",
-  //       "38",
-  //       "39",
-  //       "42",
-  //       "44",
-  //       "49",
-  //       "57",
-  //       "73",
-  //       "94",
-  //     ]);
-  //   else {
-  //     axios.get(`${url.axios_url}/post/`);
-  //   }
-  // }, [section]);
+  useEffect(() => {
+    console.log(section);
+    if (section == "Trending")
+      setAllPosts([
+        "4",
+        "9",
+        "16",
+        "18",
+        "38",
+        "39",
+        "42",
+        "44",
+        "49",
+        "57",
+        "73",
+        "94",
+      ]);
+    else {
+      axios
+        .get(
+          `${
+            url.axios_url
+          }/post/tag/creation_date/desc?tags=${encodeURIComponent(section)}`
+        )
+        .then((res) => {
+          console.log(encodeURIComponent(section));
+          console.log(res);
+        });
+    }
+  }, [section]);
   const [hasMore, setHasMore] = useState(false);
   const [posts, setPosts] = useState(["4", "9", "16", "18", "38"]);
   const [loading, setLoading] = useState(true);

@@ -74,7 +74,7 @@ export const PostsByUser = async (req, res) => {
 
 export const PostsByTags = async (req, res) => {
   try {
-    let taglist = req.params.tags.toLowerCase().split(",");
+    let taglist = req.query.tags.toLowerCase().split(",");
     console.log(taglist);
     const postlist = await Post.findAll({
       where: {

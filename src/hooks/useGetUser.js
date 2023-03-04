@@ -24,7 +24,7 @@ function useGetUser() {
   useEffect(() => {
     let id = searchParams.get("uid") ? searchParams.get("uid") : params.userID;
     axios.get(`${url.axios_url}/user/${id}`).then((res) => {
-      console.log(res);
+      //   console.log(res);
       setUser({
         userName: res.data.display_name,
         userProfilePic: res.data.profile_image_url,
