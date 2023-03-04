@@ -32,6 +32,7 @@ function useGetPostDetails({ postID }) {
 
   useEffect(() => {
     axios.get(`${url.axios_url}/post/${postID}`).then((res) => {
+      console.log(res);
       dispatch({
         type: "home",
         payload: {

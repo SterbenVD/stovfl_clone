@@ -66,7 +66,8 @@ function Postcard({ type, accepted, postID}) {
 
   useEffect(() => {
     // console.log(state);
-    getTags();
+    if(state.tags)
+      getTags();
     getTime();
     getProfilePic();
   }, [state]);
