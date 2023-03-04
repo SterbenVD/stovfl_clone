@@ -30,8 +30,8 @@ export const resetVote = async (req, res) => {
     try {
         await Vote.destroy({
             where: {
-                user_id: req.body.user_id,
-                post_id: req.body.post_id
+                user_id: req.params.userid,
+                post_id: req.params.postid
             }
         });
         res.json({

@@ -14,23 +14,25 @@ export const checkToken = async (req, res, next) => {
                 message: "Error! Token was not provided."
             });
         }
-        const decodedToken = jwt.verify(token, salt);
-        const user = await Auth.findAll({
-            where: {
-                user_name: decodedToken.user_name
-            }
-        })
-        if (!user) {
-            res.json({
-                success: false
-            });
-
-        }
         else {
-            req.json({
-                user_name: decodedToken.user_name
-            });
-            next();
+            const decodedToken = jwt.verify(token, salt);
+            const user = await Auth.findAll({
+                where: {
+                    user_name: decodedToken.user_name
+                }
+            })
+            if (!user) {
+                res.json({
+                    success: false
+                });
+
+            }
+            else {
+                req.json({
+                    user_name: decodedToken.user_name
+                });
+                next();
+            }
         }
     }
     catch (error) {

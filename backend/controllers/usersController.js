@@ -40,7 +40,8 @@ export const getFuzzyUser = async (req, res) => {
                 user_name: {
                     [Op.startsWith]: user
                 }
-            }
+            },
+            attributes: ['user_name']
         });
         res.json(userlist);
     } catch (error) {

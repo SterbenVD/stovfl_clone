@@ -26,7 +26,7 @@ router.get('/tagsearch/:id', tagC.getFuzzyTag); // Works
 
 router.get('/checkToken', authC.checkToken);
 
-// router.use(authC.checkToken);
+router.use('/', authC.checkToken);
 router.patch('/user/:id', userC.updateUser);
 router.delete('/user/:id', userC.deleteUser);
 router.post('/post', postC.createPost);
@@ -37,6 +37,6 @@ router.patch('/comment/:id', commentC.editComment);
 router.delete('/comment/:id', commentC.deleteComment);
 router.post('/vote', voteC.setVote);
 router.get('/vote/:userid', voteC.getVote);
-router.delete('/vote/:postid', voteC.resetVote);
+router.delete('/vote/:userid/:postid', voteC.resetVote);
 
 export default router;
