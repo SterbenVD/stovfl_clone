@@ -13,9 +13,9 @@ function MyComments() {
     <SidebarDash/>
     <div className={styles.postcontainer}>
         <div>
-          <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>My Questions</h2>
+          <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>My Comments</h2>
         </div>
-        <Feed postcardtype={"comment"}/>
+        <Feed postcardtype={"comment"} section={"comments"}/>
       </div>
     </div>
   )

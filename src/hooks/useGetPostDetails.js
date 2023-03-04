@@ -3,6 +3,7 @@ import axios from "axios";
 import url from "../../url";
 
 function useGetPostDetails({ postID, type }) {
+  const [x, setX] = useState("");
   const [data, setData] = useState({
     title: "",
     body: "",
@@ -67,56 +68,49 @@ function useGetPostDetails({ postID, type }) {
     // console.log(state);
   }, [state]);
 
-  const datagen = () => {
-    axios.get(`${url.axios_url}/post/${postID}`).then((res) => {
-      // console.log(type);
-      // console.log(res);
-      if (type == "question" || type == "home") {
-        axios
-          .get(`${url.axios_url}/user/${res.data.owner_user_id}`)
-          .then((res2) => {
-            dispatch({
-              type: type,
-              payload: {
-                title: res.data.title,
-                body: res.data.body,
-                score: res.data.score,
-                creation_date: res.data.creation_date,
-                owner_display_name: res2.data.display_name,
-                owner_user_id: res.data.owner_user_id,
-                tags: res.data.tags,
-                anscount: 10,
-              },
-            });
+  const datagen = async () => {
+    let res = await axios.get(`${url.axios_url}/post/${postID}`);
+    if (type == "question" || type == "home") {
+      axios
+        .get(`${url.axios_url}/user/${res.data.owner_user_id}`)
+        .then((res2) => {
+          // console.log(res2);
+          dispatch({
+            type: type,
+            payload: {
+              title: res.data.title,
+              body: res.data.body,
+              score: res.data.score,
+              creation_date: res.data.creation_date,
+              owner_display_name: res2.data.display_name,
+              owner_user_id: res.data.owner_user_id,
+              tags: res.data.tags,
+              anscount: 10,
+            },
           });
-      } else if (type == "answer") {
-        // console.log(res.data.parent_id === null);
-        axios
-          .get(`${url.axios_url}/post/${res.data.parent_id}`)
-          .then((res2) => {
-            console.log(res2);
-            axios
-              .get(`${url.axios_url}/user/${res2.owner_user_id}`)
-              .then((res3) => {
-                // console.log(res3);
-                dispatch({
-                  type: type,
-                  payload: {
-                    title: res2.data.title,
-                    body: res.data.body,
-                    score: res.data.score,
-                    creation_date: res.data.creation_date,
-                    owner_user_id: res3.data.owner_user_id,
-                    owner_display_name: res3.data.display_name,
-                    tags: res.data.tags,
-                    anscount: 10,
-                    parent_id: res.data.parent_id,
-                  },
-                });
-              });
-          });
-      }
-    });
+        });
+    } else if (type == "answer") {
+      // console.log(`${url.axios_url}/post/${res.data.parent_id}`);
+      let res2 = await axios.get(`${url.axios_url}/post/${res.data.parent_id}`);
+      // console.log(res2);
+      let res3 = await axios.get(
+        `${url.axios_url}/user/${res2.data.owner_user_id}`
+      );
+      dispatch({
+        type: type,
+        payload: {
+          title: res2.data.title,
+          body: res.data.body,
+          score: res.data.score,
+          creation_date: res.data.creation_date,
+          owner_user_id: res3.data.owner_user_id,
+          owner_display_name: res3.data.display_name,
+          tags: res.data.tags,
+          anscount: 10,
+          parent_id: res.data.parent_id,
+        },
+      });
+    }
   };
 
   useEffect(() => {

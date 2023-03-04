@@ -84,7 +84,7 @@ function Postcard({ type, accepted, postID}) {
             weight="bold"
             style={{ marginLeft: "32%" }}
           />
-          <div className={styles.votes}>{state.score===undefined?0:state.score}</div>
+          <div className={styles.votes}>{state.score}</div>
           <ArrowDown
             size={36}
             color="#fa0000"
@@ -158,7 +158,8 @@ function Postcard({ type, accepted, postID}) {
             />
           </div>
           <div className={styles.optionicon}>
-            <Link
+            {
+              type=="question"?<Link
               to={`/${params.userID}/questions/${postID}/edit`}
               className={styles.linkstyle}
             >
@@ -168,7 +169,19 @@ function Postcard({ type, accepted, postID}) {
                 weight="bold"
                 style={{ cursor: "pointer" }}
               />
+            </Link>:<Link
+              to={`/${params.userID}/answers/${postID}/edit`}
+              className={styles.linkstyle}
+            >
+              <PencilSimple
+                size={25}
+                color="#2b3b8c"
+                weight="bold"
+                style={{ cursor: "pointer" }}
+              />
             </Link>
+            }
+            
           </div>
         </div>
       )}

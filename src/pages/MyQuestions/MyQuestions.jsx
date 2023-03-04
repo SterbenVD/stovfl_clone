@@ -18,7 +18,7 @@ function MyQuestions() {
         <div>
           <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>My Questions</h2>
         </div>
-        <Feed postcardtype={"questions"} section={section}/>
+        <Feed postcardtype={"question"} section={section}/>
       </div>
     </div>
   )

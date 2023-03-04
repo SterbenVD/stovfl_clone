@@ -18,10 +18,10 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
     "73",
     "94",
   ]);
-  const [posts, setPosts] = useState(allPosts.slice(0, 5));
+  const [posts, setPosts] = useState([]);
   const params = useParams();
   useEffect(() => {
-    console.log(section);
+    // console.log(section);
     if (section == "Trending Posts") {
       setAllPosts([
         "4",
@@ -59,6 +59,16 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
         });
+    } else if (section == "comments") {
+      axios
+        .get(
+          `${url.axios_url}/comment/user/${
+            params.userID.split("@")[1]
+          }/creation_date/desc`
+        )
+        .then((res) => {
+          console.log(res);
+        });
     } else {
       axios
         .get(
@@ -68,8 +78,8 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
         )
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
-          console.log(posts);
-          console.log(allPosts);
+          // console.log(posts);
+          // console.log(allPosts);
           setPageNumber(1);
         });
     }
@@ -77,7 +87,7 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
 
   useEffect(() => {
     setPosts(allPosts.slice(0, 5));
-    console.log(posts);
+    // console.log(posts);
   }, [allPosts]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
