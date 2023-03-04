@@ -8,7 +8,7 @@ import useGetUser from '../../hooks/useGetUser'
 function Settings() {
 
 
-  const {details,userProfilePic} = useGetUser();
+  const {details,userProfilePic,userName} = useGetUser();
   const [image,setImage] = useState("/man.png")
 
   const [imageStyle,setImageStyle] = useState(styles.pic)
@@ -59,7 +59,7 @@ function Settings() {
                 </div>
                 <div className={styles.data}>
                   <div className={styles.listitem}>
-                    <input type="text" className={styles.inputfield}placeholder='' defaultValue={details.display_name}/>
+                    <input type="text" className={styles.inputfield} defaultValue={details.display_name}/>
                     <button className={'btn btn-primary '+ styles.changebtn}>Change</button>
                   </div>
                   <div className={styles.listitem}>
@@ -68,7 +68,7 @@ function Settings() {
 
                   </div>
                   <div className={styles.listitem}>
-                  <input type="text" className={styles.inputfield} defaultValue={details.websiteUrl} spellCheck={false}/>
+                  <input type="text" className={styles.inputfield} defaultValue={details.website} spellCheck={false}/>
                   <button className={'btn btn-primary '+ styles.changebtn}>Change</button>
 
                   </div>

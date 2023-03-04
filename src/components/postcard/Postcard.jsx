@@ -9,7 +9,7 @@ import DOMPurify from "dompurify";
 import url from "../../../url.js";
 import axios from "axios";
 
-function Postcard({ type, accepted, postID, title }) {
+function Postcard({ type, accepted, postID}) {
   const state = useGetPostDetails({ postID: postID });
   const [tags, setTags] = useState([]);
   const getTags = () => {
@@ -56,14 +56,16 @@ function Postcard({ type, accepted, postID, title }) {
   const [profilePic, setProfilePic] = useState("/man.png");
 
   const getProfilePic = () => {
-    axios.get(`${url.axios_url}/user/${state.owner_user_id}`).then((res) => {
-      console.log(res);
-      if (res.data.profile_image_url) setProfilePic(res.data.profile_image_url);
-    });
+    if(state.owner_user_id){
+      axios.get(`${url.axios_url}/user/${state.owner_user_id}`).then((res) => {
+        // console.log(res);
+        if (res.data.profile_image_url) setProfilePic(res.data.profile_image_url);
+      });
+    }
   };
 
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
     getTags();
     getTime();
     getProfilePic();
@@ -133,7 +135,7 @@ function Postcard({ type, accepted, postID, title }) {
             <div className={styles.name}>
               Posted By:{" "}
               {state.owner_display_name == null
-                ? "Anonymous"
+                ? "[DELETED]"
                 : state.owner_display_name}
             </div>
           </div>

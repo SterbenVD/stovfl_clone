@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
-import { Op } from "sequelize";
 export const createPost = async (req, res) => {
   try {
     if (req.body.body === "" && req.body.title === "") {
