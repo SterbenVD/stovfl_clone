@@ -1,5 +1,5 @@
 import { Post } from "../models/postsModel.js";
-
+import { Op } from "sequelize";
 export const createPost = async (req, res) => {
     try {
         if (req.body.body === "" && req.body.title === "") { throw { message: "Post cannot be empty" }; }
@@ -55,6 +55,7 @@ export const PostsByUser = async (req, res) => {
         const postlist = await Post.findAll({
             where: {
                 owner_user_id: req.params.id,
+                post_type_id: req.params.post_type,
             },
             order: [
                 [req.params.sort, req.params.order]
@@ -69,10 +70,13 @@ export const PostsByUser = async (req, res) => {
 
 export const PostsByTags = async (req, res) => {
     try {
-        // const taglist = req.body.tags;
-
+        let taglist = req.params.tags.toLowerCase().split(',');
+        console.log(taglist);
         const postlist = await Post.findAll({
             where: {
+                tags: {
+                    [Op.regexp]: { [Op.all]: taglist },
+                },
             },
             order: [
                 [req.params.sort, req.params.order]

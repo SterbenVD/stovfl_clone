@@ -43,26 +43,30 @@ export const checkToken = async (req, res, next) => {
 
 export const authUser = async (req, res) => {
     try {
-        const pass = await Auth.findAll({
+        const passlist = await Auth.findAll({
             where: {
                 user_name: req.body.user_name
             }
         })
-        const user = await User.findAll({
+        const pass = passlist[0].dataValues;
+        const userlist = await User.findAll({
             where: {
-                id: pass[0].id
+                id: pass.id
             }
         })
-        if (pass[0].password === sha256(req.body.password + user[0].creation_date)) {
-            let token = jwt.sign({ username: pass[0].user_name }, secretpassword);
+        const user = userlist[0].dataValues;
+        let enpass = sha256(req.body.password + user.creation_date);
+
+        if (pass.pass === enpass) {
+            let token = jwt.sign({ username: pass.user_name }, salt);
             res.json({
-                username: pass[0].username,
+                username: pass.username,
                 token: token,
                 outcome: "Success",
             });
         }
         else {
-            res.json({ outcome: "Fail" }); 
+            res.json({ outcome: "Fail" });
         }
     }
     catch (error) {
@@ -78,7 +82,7 @@ export const createUser = async (req, res) => {
         let password = sha256(req.body.password + req.body.creation_date); //salted hash
         req.body.delete(password);
         let user = await User.create(req.body);
-        let username = req.body.display_name + "@" + user.id; 
+        let username = req.body.display_name + "@" + user.id;
         await Auth.create({
             id: req.body.id,
             user_name: username,

@@ -6,4 +6,3 @@ drop database cqadb;
 createdb cqadb
 psql -d cqadb
 \i ../config/cdb.sql
-\i ../config/constraints.sql

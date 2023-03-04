@@ -1,8 +1,20 @@
 import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
+import { Op } from "sequelize";
+async function postupdate(comment){
+    let post = await Post.update({ last_activity_date: now }, {
+        where: {
+            id: comment.post_id
+        }
+    });
 
-async function postupdate(){
-    
+    if (post.parent_id != "") {
+        await Post.update({ last_activity_date: now }, {
+            where: {
+                id: post.parent_id
+            }
+        });
+    }
 } 
 
 export const createComment = async (req, res) => {
@@ -26,19 +38,7 @@ export const createComment = async (req, res) => {
 
         let comment = await Comment.create(req.body);
 
-        let post = await Post.update({ last_activity_date: now }, {
-            where: {
-                id: comment.post_id
-            }
-        });
-
-        if (post.parent_id != "") {
-            await Post.update({ last_activity_date: now }, {
-                where: {
-                    id: post.parent_id
-                }
-            });
-        }
+        await postupdate(comment);
 
         res.json({
             message: "Comment created"
@@ -119,19 +119,7 @@ export const editComment = async (req, res) => {
             }
         });
 
-        let post = await Post.update({ last_activity_date: now }, {
-            where: {
-                id: comment.post_id
-            }
-        });
-
-        if (post.parent_id != "") {
-            await Post.update({ last_activity_date: now }, {
-                where: {
-                    id: post.parent_id
-                }
-            });
-        }
+        await postupdate(comment);
 
         res.json({
             message: "Comment Updated"

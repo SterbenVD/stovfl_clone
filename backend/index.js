@@ -2,6 +2,7 @@ import db from "./config/database.js";
 import express from "express";
 import routes from "./config/routes.js";
 import cors from "cors";
+import bodyParser from "body-parser";
 import { synctables, populate_auth } from "./config/sync.js";
 
 const port = 5172;

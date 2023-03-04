@@ -9,13 +9,6 @@ export const getTrending = async (req, res) => {
     }
 }
 
-export const suggestTags = async (req, res) => {
-    try {
-
-    } catch (error) {
-        res.json({ message: error.message });
-    }
-}
 
 export const getFuzzyTag = async (req, res) => {
     try {

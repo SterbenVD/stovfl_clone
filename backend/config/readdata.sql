@@ -1,6 +1,6 @@
 -- Read Data
 \copy users from '../Data/Users.csv' delimiter ',' csv;
-\copy posts from '../Data/Posts.csv' delimiter ',' csv header;
+\copy posts from '../Data/Posts.csv' delimiter ',' csv;
 \copy comments from '../Data/Comments.csv' delimiter ',' csv header;
 \copy Tags from '../Data/Tags.csv' delimiter ',' csv header;
 \copy votes from '../Data/Votes.csv' delimiter ',' csv header;
