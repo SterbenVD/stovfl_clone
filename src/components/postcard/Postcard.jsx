@@ -10,7 +10,7 @@ import url from "../../../url.js";
 import axios from "axios";
 
 function Postcard({ type, accepted, postID}) {
-  const state = useGetPostDetails({ postID: postID });
+  const state = useGetPostDetails({ postID: postID,type:type });
   const [tags, setTags] = useState([]);
   const getTags = () => {
     setTags(() => {
@@ -84,7 +84,7 @@ function Postcard({ type, accepted, postID}) {
             weight="bold"
             style={{ marginLeft: "32%" }}
           />
-          <div className={styles.votes}>{state.score}</div>
+          <div className={styles.votes}>{state.score===undefined?0:state.score}</div>
           <ArrowDown
             size={36}
             color="#fa0000"

@@ -6,6 +6,8 @@ import SidebarDash from '../../components/sidebar/SidebarDash'
 import Feed from '../../components/Feed/Feed'
 
 function MyQuestions() {
+
+  const [section,setSection] = useState("questions")
   return (
     <div className={styles.wrapper}>
     <div className={styles.navbar}>
@@ -16,7 +18,7 @@ function MyQuestions() {
         <div>
           <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>My Questions</h2>
         </div>
-        <Feed postcardtype={"questions"}/>
+        <Feed postcardtype={"questions"} section={section}/>
       </div>
     </div>
   )

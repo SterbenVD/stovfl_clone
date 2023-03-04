@@ -1,7 +1,7 @@
 import React, { useEffect, useRef,useState } from 'react'
 import styles from './NavbarDash.module.css'
 import {MagnifyingGlass} from 'phosphor-react'
-import {Link,useParams} from 'react-router-dom'
+import {Link,useParams, useSearchParams} from 'react-router-dom'
 import axios from 'axios'
 import url from '../../../url'
 import useGetUser from '../../hooks/useGetUser'
@@ -33,8 +33,12 @@ function NavbarDash() {
   const inpRef = useRef()
   const [searchResult,setSearchResult] = useState([])
   const par = useParams()
-  const userID = par.userID
+  const [search,setSearch] = useSearchParams()
+  const userID = search.get("uid")?search.get("uid"):par.userID
   const inputRef = useRef()
+  useEffect(()=>{
+    console.log(userID)
+  },[userID])
   const handleSearchChange =(e)=>{
     if(e.target.value.length>0)
       {
