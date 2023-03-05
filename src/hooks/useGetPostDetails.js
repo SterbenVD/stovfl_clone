@@ -3,7 +3,6 @@ import axios from "axios";
 import url from "../../url";
 
 function useGetPostDetails({ postID, type }) {
-  const [x, setX] = useState("");
   const [data, setData] = useState({
     title: "",
     body: "",
@@ -52,6 +51,7 @@ function useGetPostDetails({ postID, type }) {
           owner_user_id: action.payload.owner_user_id,
           tags: action.payload.tags,
           anscount: action.payload.anscount,
+          parent_id: action.payload.parent_id,
         };
       case "comment":
         return {
@@ -61,6 +61,7 @@ function useGetPostDetails({ postID, type }) {
           owner_display_name: action.payload.owner_display_name,
           owner_user_id: action.payload.owner_user_id,
           text: action.payload.text,
+          parent_id: action.payload.parent_id,
         };
     }
   };
@@ -100,7 +101,9 @@ function useGetPostDetails({ postID, type }) {
                 owner_user_id: res.data.owner_user_id,
                 tags: res.data.tags,
                 anscount: 10,
-                last_edit_date: res.data.last_edit_date,
+                last_edit_date: res.data.last_edit_date
+                  ? res.data.last_edit_date
+                  : res.data.creation_date,
               },
             });
           });
@@ -154,6 +157,7 @@ function useGetPostDetails({ postID, type }) {
           creation_date: res.data.creation_date,
           owner_user_id: res.data.user_id,
           owner_display_name: user.data.display_name,
+          parent_id: post.data.id,
         },
       });
     }

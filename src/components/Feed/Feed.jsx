@@ -9,6 +9,7 @@ function Feed({ postcardtype,section }) {
   const { loading, error, posts, hasMore } = useGetPosts(pageNumber,section,setPageNumber);
   
 useEffect(()=>{
+  console.log(section)
   setPageNumber(1)
 },[section])
 

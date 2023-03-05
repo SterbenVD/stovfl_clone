@@ -3,7 +3,7 @@ import useGetUser from "../../hooks/useGetUser";
 import styles from "./Postcard.module.css";
 import { ChatCenteredText } from "phosphor-react";
 import { ArrowUp, ArrowDown, Check, Trash, PencilSimple } from "phosphor-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import useGetPostDetails from "../../hooks/useGetPostDetails";
 import DOMPurify from "dompurify";
 import url from "../../../url.js";
@@ -12,6 +12,7 @@ import axios from "axios";
 function Postcard({ type, accepted, postID}) {
   const state = useGetPostDetails({ postID: postID,type:type });
   const [tags, setTags] = useState([]);
+  const [link,setLinks] = useState('')
   const getTags = () => {
     setTags(() => {
       const temp = state.tags
@@ -63,18 +64,34 @@ function Postcard({ type, accepted, postID}) {
       });
     }
   };
+  const params = useParams();
+  const [searchParams,setSearchParams] = useSearchParams()
+  const userID = searchParams.get('uid')?searchParams.get('uid'):params.userID
+  const login = 
 
   useEffect(() => {
-    // console.log(state);
+    console.log(state)
+    if(type=='question'||type=='home')
+      {
+        if(searchParams.get('login')=='true'||params.userID)
+          setLinks(`/posts/${postID}?login=true&uid=${userID}`)
+        else 
+          setLinks(`/posts/${postID}?login=false`)
+
+      }
+    else if(type=='answer'||type=='comment'){
+      setLinks(`/posts/${state.parent_id}?login=true&uid=${userID}`)
+    }
     if(state.tags)
       getTags();
     getTime();
     getProfilePic();
   }, [state]);
 
-  const params = useParams();
+
 
   return (
+    
     <div className={styles.container}>
       <div className={styles.votecount}>
         <div className={styles.count}>
@@ -104,7 +121,7 @@ function Postcard({ type, accepted, postID}) {
         )}
       </div>
       <div className={styles.right}>
-        <div className={styles.title}>{state.title}</div>
+      <Link to={link} style={{textDecoration:"none",color:"black"}}><div className={styles.title}>{state.title}</div></Link>
         <div>
           <div className={styles.text}>
             <div
@@ -195,7 +212,8 @@ function Postcard({ type, accepted, postID}) {
         </div>
       )}
     </div>
-  );
+    
+  )
 }
 
 export default Postcard;

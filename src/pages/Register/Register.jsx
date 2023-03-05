@@ -1,14 +1,28 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import styles from "./Register.module.css";
 import hidePwdImg from "/hide.svg";
 import showPwdImg from "/show.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import url from '../../../url.js'
 
 export default function Register() {
   const [style, setStyle] = useState(styles.no_error);
+  const nameRef = useRef(null)
+  const passRef = useRef(null)
   const [pwd, setPwd] = useState("");
   const [isRevealPwd, setIsRevealPwd] = useState(false);
+  const handleRegister = async ()=>{
+    const data = {
+      display_name: nameRef.current.value,
+      password: passRef.current.value
+    }
+    let res = await axios.post(`${url.axios_url}/user`,data)
+    console.log(res)
+    setStyle(styles.error)
+  }
+
   return (
     <>
       <div className={styles.main}>
@@ -20,20 +34,22 @@ export default function Register() {
 
           <form className="login-form">
             <label className={styles.label_css} htmlFor="email">
-              email
+              Name
             </label>
             <input
+              ref = {nameRef}
               className={styles.input_css}
               type="email"
-              placeholder="youremail@gmail.com"
+              placeholder="Your Name"
               id="email"
               name="email"
             />
             <label className={styles.label_css} htmlFor="password">
-              password
+              Password
             </label>
             <div className={styles.pwd_container}>
               <input
+              ref = {passRef}
                 className={styles.input_css}
                 name="pwd"
                 placeholder="Enter Password"
@@ -50,11 +66,11 @@ export default function Register() {
           </form>
           <button
             className={styles.button_css}
-            onClick={() => setStyle(styles.error)}
+            onClick={handleRegister}
           >
             Register
           </button>
-          <div className={style}>Email is already registered</div>
+          <div className={style}>Your User Name is </div>
           <h4 className={styles.h4_css}>Already have an account ?</h4>
           <Link to='/login' className={styles.linkstyle}><button
             className={styles.butt}

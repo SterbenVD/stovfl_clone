@@ -26,7 +26,7 @@ return (
 <div className={styles.wrapper}>
       <div className={styles.navbar}>
         {
-          login=="false" ? <Navbar/>:<NavbarDash/>
+          login=="false" ? <Navbar sec={setSection}/>:<NavbarDash sec={setSection} />
         }
       </div>{
           login=="false" ? <Sidebar sec={setSection}/>:<SidebarDash sec={setSection}/>

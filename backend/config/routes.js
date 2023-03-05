@@ -23,7 +23,7 @@ router.get("/comment/user/:id/:sort/:order", commentC.CommentsByUser); // Works
 router.get("/comment/parent/:id/:sort/:order", commentC.CommentsByParent); // Works
 
 router.get("/tag/trend", tagC.getTrending);
-router.get("/tagsearch/", tagC.getFuzzyTag); // Works
+router.get("/tagsearch", tagC.getFuzzyTag); // Works
 
 router.get("/checkToken", authC.checkToken);
 
