@@ -25,7 +25,7 @@ router.get("/comment/parent/:id/:sort/:order", commentC.CommentsByParent); // Wo
 router.get("/tag/trend", tagC.getTrending);
 router.get("/tagsearch", tagC.getFuzzyTag); // Works
 
-router.get("/checkToken", authC.checkToken); // Works
+router.get("/checkToken/:token", authC.checkToken2); // Works
 
 router.use("/", authC.checkToken); // Works
 router.patch("/user/:id", userC.updateUser);

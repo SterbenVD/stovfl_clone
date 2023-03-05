@@ -16,7 +16,7 @@ export const checkToken = async (req, res, next) => {
       });
     } else {
       const decodedToken = jwt.verify(token, salt);
-      console.log(decodedToken)
+      console.log(decodedToken);
       const user = await Auth.findAll({
         where: {
           user_name: decodedToken.username,
@@ -27,7 +27,7 @@ export const checkToken = async (req, res, next) => {
           success: false,
         });
       } else {
-        req.body.user_name=decodedToken.username
+        req.body.user_name = decodedToken.username;
         next();
       }
     }
@@ -39,6 +39,40 @@ export const checkToken = async (req, res, next) => {
   }
 };
 
+export const checkToken2 = async (req, res) => {
+  try {
+    let token = req.params.token;
+    if (!token) {
+      res.json({
+        success: false,
+        message: "Error! Token was not provided.",
+      });
+    } else {
+      const decodedToken = jwt.verify(token, salt);
+      console.log(decodedToken);
+      const user = await Auth.findAll({
+        where: {
+          user_name: decodedToken.username,
+        },
+      });
+      if (!user) {
+        res.json({
+          success: false,
+        });
+      } else {
+        res.json({
+          success: true,
+          user_name: decodedToken.username,
+        });
+      }
+    }
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 export const authUser = async (req, res) => {
   try {

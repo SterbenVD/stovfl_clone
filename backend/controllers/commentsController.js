@@ -1,6 +1,15 @@
 import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
+
+export const identity = (user_name) => {
+  let arr = user_name.split("@");
+  let iden = "";
+  if (arr.length == 2) iden = arr[arr.length - 1];
+  else if (arr.length == 1) iden = arr[0];
+  return iden;
+};
+
 async function postupdate(comment) {
   const now = new Date().toISOString();
   let post = await Post.update(
@@ -28,6 +37,10 @@ export const createComment = async (req, res) => {
   try {
     if (req.body.body === "" && req.body.title === "") {
       throw { message: "Comment cannot be empty" };
+    }
+
+    if (identity(req.body.user_name) != req.user_id) {
+      throw { message: "Different User" };
     }
 
     let max_val = await Comment.max("id");
@@ -104,6 +117,9 @@ export const CommentsByParent = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
   try {
+    if (identity(req.body.user_name) != req.user_id) {
+      throw { message: "Different User" };
+    }
     await Comment.update(
       { user_id: -1 },
       {
@@ -122,6 +138,9 @@ export const deleteComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
   try {
+    if (identity(req.body.user_name) != req.user_id) {
+      throw { message: "Different User" };
+    }
     let comment = await Comment.update(req.body, {
       where: {
         id: req.params.id,

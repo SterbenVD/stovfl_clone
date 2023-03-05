@@ -1,10 +1,22 @@
 import { Sequelize } from "sequelize";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
+
+export const identity = (user_name) => {
+  let arr = user_name.split("@");
+  let iden = "";
+  if (arr.length == 2) iden = arr[arr.length - 1];
+  else if (arr.length == 1) iden = arr[0];
+  return iden;
+};
 export const createPost = async (req, res) => {
   try {
     if (req.body.body === "" && req.body.title === "") {
       throw { message: "Post cannot be empty" };
+    }
+
+    if (identity(req.body.user_name) != req.owner_user_id) {
+      throw { message: "Different User" };
     }
 
     let max_val = await Post.max("id");
@@ -151,6 +163,9 @@ export const trendingPosts = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    if (identity(req.body.user_name) != req.owner_user_id) {
+      throw { message: "Different User" };
+    }
     await Post.update(
       { onwer_user_id: -1 },
       {
@@ -169,6 +184,9 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
+    if (identity(req.body.user_name) != req.owner_user_id) {
+      throw { message: "Different User" };
+    }
     console.log(req.params);
     console.log(req.body);
     let post = await Post.update(req.body, {
