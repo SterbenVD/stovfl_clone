@@ -39,6 +39,7 @@ export const checkToken = async (req, res, next) => {
   }
 };
 
+
 export const authUser = async (req, res) => {
   try {
     // let checker = [

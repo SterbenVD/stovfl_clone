@@ -27,7 +27,7 @@ export const createPost = async (req, res) => {
 
     let post = await Post.create(req.body);
 
-    if (post.parent_id != "") {
+    if (post.parent_id !==undefined) {
       await Post.update(
         { last_activity_date: now },
         {
@@ -166,14 +166,18 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
+    console.log(req.params)
+    console.log(req.body)
     let post = await Post.update(req.body, {
       where: {
-        id: req.body.id,
+        id: req.params.id,
       },
     });
 
     const now = (new Date()).toISOString();
-    if (post.parent_id != "") {
+    console.log(post.parent_id)
+    if (post.parent_id !==undefined) {
+
       await Post.update(
         { last_activity_date: now },
         {

@@ -12,7 +12,7 @@ async function postupdate(comment) {
     }
   );
 
-  if (post.parent_id != "") {
+  if (post.parent_id !==undefined) {
     await Post.update(
       { last_activity_date: now },
       {

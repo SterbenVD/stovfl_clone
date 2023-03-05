@@ -115,8 +115,7 @@ function Ask() {
 
     let tags=""
     for (var t in tag){
-      tag[t]="<"+tag[t]+">"
-      tags+=tag[t];
+      tags+="<"+tag[t]+">";
     }
     let token = document.cookie
     let time = (new Date()).toISOString()
@@ -129,11 +128,26 @@ function Ask() {
       post_type_id: 1,
       score: 0
     }
-    console.log(token)
-    let res = axios.post(`${url.axios_url}/post`,data)
+    const edit = 
+    {
+      title: title,
+      body: des,
+      tags: tags,
+      token: token
+    }
+    let res;
+    // console.log(token)
+    console.log(param.postID)
+    if(location.pathname.includes('edit'))
+      {res = axios.patch(`${url.axios_url}/post/${param.postID}`,data)}
+    else
+      {res = axios.post(`${url.axios_url}/post`,data)}
     console.log(res)
   }
 
+  useEffect(()=>{
+   console.log(location.pathname) 
+  },[])
 
   return (
     <div className={styles.wrapper}>
