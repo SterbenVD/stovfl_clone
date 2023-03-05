@@ -27,7 +27,7 @@ router.get("/tagsearch", tagC.getFuzzyTag); // Works
 
 router.get("/checkToken", authC.checkToken);
 
-// router.use("/", authC.checkToken);
+router.use("/", authC.checkToken);
 router.patch("/user/:id", userC.updateUser);
 router.delete("/user/:id", userC.deleteUser);
 router.post("/post", postC.createPost);

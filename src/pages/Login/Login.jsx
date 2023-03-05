@@ -3,7 +3,7 @@ import { useState,useRef } from "react";
 import styles from "./Login.module.css";
 import hidePwdImg from "/hide.svg";
 import showPwdImg from "/show.svg";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import url from '../../../url'
 import axios from "axios";
 
@@ -14,6 +14,7 @@ export default function Login() {
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   const nameRef = useRef(null)
   const passRef = useRef(null)
+  const navigate = useNavigate();
 
   const handleChange=()=>{
     setUsername(nameRef.current.value)
@@ -28,7 +29,12 @@ export default function Login() {
     const res = await axios.get(`${url.axios_url}/auth`,{
       params:data
     })
-    console.log(res)
+    if(res.data.outcome=='Fail')
+      setStyle(styles.error)
+    else{
+      document.cookie=res.data.token
+      navigate(`/?login=true&uid=${username}`)
+    }
   }
   return (
     <>

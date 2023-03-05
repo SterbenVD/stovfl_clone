@@ -10,19 +10,20 @@ export const createPost = async (req, res) => {
     let max_val = await Post.max('id');
     req.body.id = 1 + max_val;
     const now = (new Date()).toISOString();
-    const threshold = now - 30 * 60 * 1000;
+    req.body.creation_date = now;
+    // const threshold = now - 30 * 60 * 1000;
 
-    const spamcount = await Post.count({
-      where: {
-        owner_user_id: req.body.owner_user_id,
-        creation_date: { [Sequelize.Op.gte]: threshold },
-      },
-    });
+    // const spamcount = await Post.count({
+    //   where: {
+    //     owner_user_id: req.body.owner_user_id,
+    //     creation_date: { [Sequelize.Op.gte]: threshold },
+    //   },
+    // });
 
-    if (spamcount > 30) {
-      res.json({ message: "Spam" });
-      return;
-    }
+    // if (spamcount > 30) {
+    //   res.json({ message: "Spam" });
+    //   return;
+    // }
 
     let post = await Post.create(req.body);
 

@@ -8,7 +8,7 @@ let secretpassword = "False hopes are more dangerous than fears";
 let salt = sha256(secretpassword);
 export const checkToken = async (req, res, next) => {
   try {
-    let token = req.token;
+    let token = req.body.token;
     if (!token) {
       res.json({
         success: false,
@@ -16,9 +16,10 @@ export const checkToken = async (req, res, next) => {
       });
     } else {
       const decodedToken = jwt.verify(token, salt);
+      console.log(decodedToken)
       const user = await Auth.findAll({
         where: {
-          user_name: decodedToken.user_name,
+          user_name: decodedToken.username,
         },
       });
       if (!user) {
@@ -26,9 +27,7 @@ export const checkToken = async (req, res, next) => {
           success: false,
         });
       } else {
-        req.json({
-          user_name: decodedToken.user_name,
-        });
+        req.body.user_name=decodedToken.username
         next();
       }
     }
@@ -42,36 +41,36 @@ export const checkToken = async (req, res, next) => {
 
 export const authUser = async (req, res) => {
   try {
-    let checker = [
-      "[",
-      "$",
-      "&",
-      "+",
-      ":",
-      ";",
-      "=",
-      "?",
-      "@",
-      "#",
-      "|",
-      "'",
-      "<",
-      ">",
-      ".",
-      "^",
-      "*",
-      "(",
-      ")",
-      "%",
-      "!",
-      "-",
-      "]",
-    ];
-    for (var element in req.query) {
-      checker.map((ele) => {
-        element = element.replaceAll(ele, "\\" + ele);
-      });
-    }
+    // let checker = [
+    //   "[",
+    //   "$",
+    //   "&",
+    //   "+",
+    //   ":",
+    //   ";",
+    //   "=",
+    //   "?",
+    //   "@",
+    //   "#",
+    //   "|",
+    //   "'",
+    //   "<",
+    //   ">",
+    //   ".",
+    //   "^",
+    //   "*",
+    //   "(",
+    //   ")",
+    //   "%",
+    //   "!",
+    //   "-",
+    //   "]",
+    // ];
+    // for (var element in req.query) {
+    //   checker.map((ele) => {
+    //     element = element.replaceAll(ele, "\\" + ele);
+    //   });
+    // }
     const passlist = await Auth.findAll({
       where: {
         user_name: req.query.user_name,
