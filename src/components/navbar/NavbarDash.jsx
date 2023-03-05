@@ -7,30 +7,9 @@ import url from '../../../url'
 import useGetUser from '../../hooks/useGetUser'
 import useSearch from '../../hooks/useSearch'
 
-function NavbarDash({sec}) {
 
 
-  const values=["result 1",
-                "Result 1",
-                "result 2",
-                "Result 2",
-                "result 3",
-                "Result 3",
-                "result 4",
-                "Result 4",
-                "result 5",
-                "Result 5",
-                "result 6",
-                "Result 6",
-                "result 7",
-                "Result 7",
-                "result 8",
-                "Result 8",
-                "result 9",
-                "Result 9",
-                "result 10",
-              "result 11"]
-
+function NavbarDash({sec,setTaglist,taglist}) {
   const [size,setSize] = useState('less')
   const inputRef = useRef()
   const [entry,setEntry] = useState('')
@@ -44,24 +23,12 @@ function NavbarDash({sec}) {
   const userID = search.get("uid")?search.get("uid"):par.userID
 
   useEffect(()=>{
-    // console.log(userID)
   },[userID])
   const handleSearchChange =(e)=>{
     setEntry(e.target.value)
     if(e.target.value.length>0)
       {
-        // let comp = e.target.value
-        // let comp_length = e.target.value.length
-        // setSearchResult(values.filter((item)=>{
-        //   return item.slice(0,comp_length)==comp     
-        // }))
-        inputRef.current.style.visibility="visible"
-        // if(searchRes.length<10)
-        // {
-        //   const length = searchRes.length*4;
-        //   setHeight(`${length}vh`)
-        // }
-          
+        inputRef.current.style.visibility="visible" 
       }
     else
     {
@@ -83,9 +50,23 @@ function NavbarDash({sec}) {
   const [section,setSection] = useState('')
 
   const handleSearch=(()=>{
-    console.log(inpRef.current.value)
-    sec(inpRef.current.value)
+    // console.log(inpRef.current.value)
+    setTaglist((old)=> [...old,inpRef.current.value])
+    // console.log(taglist)
+  
   })
+
+  useEffect(()=>{
+    if(taglist)
+      {
+        // console.log("Here")
+        // console.log(taglist.toString())
+        // sec(taglist.toString())
+      }
+      else{
+        // console.log("here")
+      }
+  },[taglist])
 
   return (
     

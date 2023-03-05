@@ -12,6 +12,7 @@ export default function Register() {
   const nameRef = useRef(null)
   const passRef = useRef(null)
   const [pwd, setPwd] = useState("");
+  const [userName,setUserName] = useState('');
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   const handleRegister = async ()=>{
     const data = {
@@ -20,6 +21,7 @@ export default function Register() {
     }
     let res = await axios.post(`${url.axios_url}/user`,data)
     console.log(res)
+    setUserName(res.data.user_name)
     setStyle(styles.error)
   }
 
@@ -41,7 +43,7 @@ export default function Register() {
               className={styles.input_css}
               type="email"
               placeholder="Your Name"
-              id="email"
+              id="text"
               name="email"
             />
             <label className={styles.label_css} htmlFor="password">
@@ -70,7 +72,7 @@ export default function Register() {
           >
             Register
           </button>
-          <div className={style}>Your User Name is </div>
+          <div className={style}>Your User Name is <Link to={`/${userName}`}>{userName}</Link> </div>
           <h4 className={styles.h4_css}>Already have an account ?</h4>
           <Link to='/login' className={styles.linkstyle}><button
             className={styles.butt}

@@ -22,7 +22,7 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
   const params = useParams();
   useEffect(() => {
     // console.log(section);
-    if (section == "Trending Posts") {
+    if (section == "Trending Posts" || !section) {
       setAllPosts([
         "4",
         "9",
