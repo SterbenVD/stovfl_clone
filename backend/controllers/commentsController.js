@@ -2,7 +2,7 @@ import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
 async function postupdate(comment) {
-  const now = new Date().getTime();
+  const now = (new Date()).toISOString();
   let post = await Post.update(
     { last_activity_date: now },
     {
@@ -30,7 +30,7 @@ export const createComment = async (req, res) => {
       throw { message: "Comment cannot be empty" };
     }
 
-    const now = new Date().getTime();
+    const now = (new Date()).toISOString();
     const threshold = now - 30 * 60 * 1000;
 
     const spamcount = await Comment.count({

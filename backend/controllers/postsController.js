@@ -7,7 +7,7 @@ export const createPost = async (req, res) => {
       throw { message: "Post cannot be empty" };
     }
 
-    const now = new Date().getTime();
+    const now = (new Date()).toISOString();
     const threshold = now - 30 * 60 * 1000;
 
     const spamcount = await Post.count({
@@ -169,7 +169,7 @@ export const editPost = async (req, res) => {
       },
     });
 
-    const now = new Date().getTime();
+    const now = (new Date()).toISOString();
     if (post.parent_id != "") {
       await Post.update(
         { last_activity_date: now },
