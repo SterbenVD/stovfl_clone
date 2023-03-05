@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
 
-export const identity = (user_name) => {
+export const identity = async (user_name) => {
   let arr = user_name.split("@");
   let iden = "";
   if (arr.length == 2) iden = arr[arr.length - 1];
@@ -15,7 +15,8 @@ export const createPost = async (req, res) => {
       throw { message: "Post cannot be empty" };
     }
 
-    if (identity(req.body.user_name) != req.owner_user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.owner_user_id) {
       throw { message: "Different User" };
     }
 
@@ -163,7 +164,8 @@ export const trendingPosts = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    if (identity(req.body.user_name) != req.owner_user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.owner_user_id) {
       throw { message: "Different User" };
     }
     await Post.update(
@@ -184,7 +186,8 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
-    if (identity(req.body.user_name) != req.owner_user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.owner_user_id) {
       throw { message: "Different User" };
     }
     console.log(req.params);

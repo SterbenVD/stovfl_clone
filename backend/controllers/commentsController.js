@@ -2,7 +2,7 @@ import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
 
-export const identity = (user_name) => {
+export const identity = async (user_name) => {
   let arr = user_name.split("@");
   let iden = "";
   if (arr.length == 2) iden = arr[arr.length - 1];
@@ -38,8 +38,8 @@ export const createComment = async (req, res) => {
     if (req.body.body === "" && req.body.title === "") {
       throw { message: "Comment cannot be empty" };
     }
-
-    if (identity(req.body.user_name) != req.user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.user_id) {
       throw { message: "Different User" };
     }
 
@@ -117,7 +117,8 @@ export const CommentsByParent = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
   try {
-    if (identity(req.body.user_name) != req.user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.user_id) {
       throw { message: "Different User" };
     }
     await Comment.update(
@@ -138,7 +139,8 @@ export const deleteComment = async (req, res) => {
 
 export const editComment = async (req, res) => {
   try {
-    if (identity(req.body.user_name) != req.user_id) {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.body.user_id) {
       throw { message: "Different User" };
     }
     let comment = await Comment.update(req.body, {
