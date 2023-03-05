@@ -77,7 +77,8 @@ function NavbarDash({sec,setTaglist,taglist,setUser}) {
         return <li key={i}><div style={{minHeight:"4vh",display:"flex",alignItems:"center",cursor:"pointer"}} className={styles.searchitem} onClick={()=>{
           inputRef.current.style.visibility="hidden"
           setSearchRes([])
-          const extract = item.slice(0,1)
+          const extract = inpRef.current.value.slice(0,1)
+          console.log(extract)
           inpRef.current.value=item
           handleSearch(extract,item)
           handleSearchChange({target:{value:item}})
