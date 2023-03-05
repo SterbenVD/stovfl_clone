@@ -28,16 +28,17 @@ router.get("/tagsearch", tagC.getFuzzyTag); // Works
 router.get("/checkToken/:token", authC.checkToken2); // Works
 
 router.use("/", authC.checkToken); // Works
-router.patch("/user/:id", userC.updateUser);
+router.patch("/user/:id", userC.updateUser); // Works
 router.delete("/user/:id", userC.deleteUser);
 router.post("/post", postC.createPost); // Works
 router.patch("/post/:id", postC.editPost); // Works
 router.delete("/post/:id", postC.deletePost);
-router.post("/comment", commentC.createComment);
-router.patch("/comment/:id", commentC.editComment);
+router.post("/comment", commentC.createComment); // Works
+router.patch("/comment/:id", commentC.editComment); // Works
 router.delete("/comment/:id", commentC.deleteComment);
 router.post("/vote", voteC.setVote);
 router.get("/vote/:userid", voteC.getVote);
 router.delete("/vote/:userid/:postid", voteC.resetVote);
+router.patch("/pass/:id", authC.updatePass);
 
 export default router;

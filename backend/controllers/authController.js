@@ -42,7 +42,7 @@ export const checkToken = async (req, res, next) => {
 export const checkToken2 = async (req, res) => {
   try {
     let token = req.params.token;
-    console.log(token)
+    console.log(token);
     if (!token) {
       res.json({
         success: false,
@@ -160,6 +160,33 @@ export const createUser = async (req, res) => {
       user_name: username,
       token: token,
       success: true,
+    });
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
+export const identity = async (user_name) => {
+  let arr = user_name.split("@");
+  let iden = "";
+  if (arr.length == 2) iden = arr[arr.length - 1];
+  else if (arr.length == 1) iden = arr[0];
+  return iden;
+};
+
+export const updatePass = async (req, res) => {
+  try {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.params.id) {
+      throw { message: "Different User" };
+    }
+    await Auth.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.json({
+      message: "Password Updated",
     });
   } catch (error) {
     res.json({ message: error.message });
