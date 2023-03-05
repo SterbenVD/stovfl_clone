@@ -36,7 +36,6 @@ Javascript, HTML/CSS, PostgresSQL
 ## Code Description 
 We have used vite and node.js to create the skeleton of frontend and backend respectively.
 
-
 Backend code is contained in the 'backend' folder. Backend provides a simple REST API to query from the database. It first connects with the database, then starts the server at the port 5172 locally. Models in 'models' folder specify how the tables of the database are represented. Controllers in 'controllers' folder use these models and the active connection to query all data requried by the frontend and presents the results in a JSON format. 
 
 
