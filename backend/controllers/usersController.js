@@ -2,8 +2,20 @@ import { User } from "../models/usersModel.js";
 import { Auth } from "../models/authModel.js";
 import { Op } from "sequelize";
 
+export const identity = async (user_name) => {
+  let arr = user_name.split("@");
+  let iden = "";
+  if (arr.length == 2) iden = arr[arr.length - 1];
+  else if (arr.length == 1) iden = arr[0];
+  return iden;
+};
+
 export const updateUser = async (req, res) => {
   try {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.params.id) {
+      throw { message: "Different User" };
+    }
     await User.update(req.body, {
       where: {
         id: req.params.id,
@@ -59,6 +71,10 @@ export const getFuzzyUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
+    let iden = await identity(req.body.user_name);
+    if (iden != req.params.id) {
+      throw { message: "Different User" };
+    }
     await Post.update(
       { onwer_user_id: -1 },
       {
