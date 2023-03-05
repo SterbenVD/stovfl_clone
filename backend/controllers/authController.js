@@ -180,6 +180,15 @@ export const updatePass = async (req, res) => {
     if (iden != req.params.id) {
       throw { message: "Different User" };
     }
+    const userlist = await User.findAll({
+      where: {
+        id: req.params.id,
+      },
+    });
+    const user = userlist[0].dataValues;
+    let password = sha256(req.body.password + user.creation_date);
+    req.body.pass = password;
+    console.log(req.body)
     await Auth.update(req.body, {
       where: {
         id: req.params.id,

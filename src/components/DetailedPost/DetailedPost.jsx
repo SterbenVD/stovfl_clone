@@ -23,6 +23,126 @@ function DetailedPost({type,postID}) {
     const [allComments,setAllComments] = useState([])
     const urlparams = useParams()
     const [link,setLink] = useState('')
+    const [voteCast,setVoteCast] = useState('false');
+    const [voteCount,setVoteCount] =useState(0)
+
+
+    useEffect(()=>{
+        setVoteCount(state.score)
+    },[state])
+
+    useEffect(()=>{
+        axios.get(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`).then((res)=>{
+            console.log(res)
+            if(res.data[0])
+                {
+                    if(res.data[0].vote_type_id==2)
+                        setVoteCast('upvote')
+                    else
+                        setVoteCast('downvote')
+                }
+            console.log(voteCast)
+        })
+    },[])
+
+    useEffect(()=>{
+        console.log(voteCast)
+    },[voteCast])
+    const upvote = async ()=>{
+        const token = document.cookie
+        // console.log(token)
+        if(voteCast!='false'){
+            //reset
+            console.log("here")
+            let data = {
+                post_id: postID,
+                user_id: param.get('uid').split('@')[1],
+                vote_type_id: 2,
+                token: token
+            }
+            let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:2}})
+            console.log(res)
+            let res2 = await axios.post(`${url.axios_url}/vote`,data)
+            console.log(res2)
+            setVoteCount((old)=>{
+                if(voteCast=='upvote')
+                    return old
+                else
+                    return old +2
+            })
+            setVoteCast((old)=>{
+                if(old!='upvote')
+                    return 'upvote'
+                else 
+                    return old
+            })
+        }
+        else{
+            setVoteCast('upvote')
+            console.log(voteCast)
+            let data = {
+                post_id: postID,
+                user_id: param.get('uid').split('@')[1],
+                vote_type_id: 2,
+                token: token
+            }
+            let res = await axios.post(`${url.axios_url}/vote`,data)
+            console.log(res)
+            setVoteCount((old)=>{
+                old+1
+            })
+
+        }
+    }
+
+    const downvote = async ()=>{
+        const token = document.cookie
+        // console.log(token)
+        if(voteCast!='false'){
+            //reset
+            console.log("here")
+            let data = {
+                post_id: postID,
+                user_id: param.get('uid').split('@')[1],
+                vote_type_id: 3,
+                token: token
+            }
+            let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:3}})
+            console.log(res)
+            let res2 = await axios.post(`${url.axios_url}/vote`,data)
+            console.log(res2)
+            setVoteCount((old)=>{
+                if(voteCast=='upvote')
+                    return old
+                else
+                    return old -2
+            })
+            setVoteCast((old)=>{
+                if(old!='downvote')
+                    return 'upvote'
+                else 
+                    return old
+            })
+        }
+        else{
+            console.log("downvote")
+            setVoteCast('downvote')
+            // console.log(voteCast)
+            let data = {
+                post_id: postID,
+                user_id: param.get('uid').split('@')[1],
+                vote_type_id: 3,
+                token: token
+            }
+            let res = await axios.post(`${url.axios_url}/vote`,data)
+            console.log(res)
+            setVoteCount((old)=>{
+                old-1
+            })
+
+        }
+    }
+
 
     const getComments = async ()=>{
         let res = await axios.get(`${url.axios_url}/comment/parent/${postID}/creation_date/asc`)
@@ -115,11 +235,11 @@ function DetailedPost({type,postID}) {
                 <div className={styles.questionbody}>
                     <div className={styles.left}>
                     <div className={styles.count}>
-        <ArrowUp size={35} color="#2a00fa" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
+        <ArrowUp size={35} onClick={upvote} color="#2a00fa" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
           <div className={styles.votes}>
-              {state.score}
+              {voteCount}
           </div>
-          <ArrowDown size={35} color="#fa0000" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
+          <ArrowDown size={35} onClick={downvote} color="#fa0000" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
           {login=="true" &&param.get('uid')==postID && <Link to={link}>
           <Pencil size={35} color="#b5a4a3" weight='light' style={{marginLeft: "33.5%",cursor:"pointer",marginTop:"10%"}}/>
           </Link>}

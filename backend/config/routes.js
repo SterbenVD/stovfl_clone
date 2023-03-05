@@ -26,6 +26,7 @@ router.get("/tag/trend", tagC.getTrending);
 router.get("/tagsearch", tagC.getFuzzyTag); // Works
 
 router.get("/checkToken/:token", authC.checkToken2); // Works
+router.get("/vote/:userid/:postid", voteC.getVote);
 
 router.use("/", authC.checkToken); // Works
 router.patch("/user/:id", userC.updateUser); // Works
@@ -37,7 +38,6 @@ router.post("/comment", commentC.createComment); // Works
 router.patch("/comment/:id", commentC.editComment); // Works
 router.delete("/comment/:id", commentC.deleteComment);
 router.post("/vote", voteC.setVote);
-router.get("/vote/:userid", voteC.getVote);
 router.delete("/vote/:userid/:postid", voteC.resetVote);
 router.patch("/pass/:id", authC.updatePass);
 

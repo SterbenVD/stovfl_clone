@@ -1,7 +1,7 @@
 import React, { useEffect, useRef,useState } from 'react'
 import styles from './NavbarDash.module.css'
 import {MagnifyingGlass} from 'phosphor-react'
-import {Link,useParams, useRouteLoaderData, useSearchParams} from 'react-router-dom'
+import {Link,useParams, useRouteLoaderData, useSearchParams,useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import url from '../../../url'
 import useGetUser from '../../hooks/useGetUser'
@@ -19,7 +19,7 @@ function NavbarDash({sec,setTaglist,taglist,setUser}) {
   const par = useParams()
   const [search,setSearch] = useSearchParams()
   const userID = search.get("uid")?search.get("uid"):par.userID
-
+  const navigate = useNavigate()
   useEffect(()=>{
   },[userID])
   const handleSearchChange =(e)=>{
@@ -93,7 +93,13 @@ function NavbarDash({sec,setTaglist,taglist,setUser}) {
             <div className={styles.dropdowncontent}>
             <ul className={styles.dropdownlist}>
               <li className={styles.dropitem}><Link className={styles.link} to={`/${userID}/settings`}><button className={"btn-primary btn "+styles.item}>Settings</button>  </Link></li>
-              <li className={styles.dropitem}><button className={"btn-primary btn "+styles.item}>Logout</button></li>
+              <li className={styles.dropitem}><button className={"btn-primary btn "+styles.item} onClick={
+                ()=>{
+                  // document.cookie = 'expires=Thu, 01 Jan 1970 00:00:00 UTC'
+                  // browser.cookies.remove();
+                  navigate('/?login=false')
+                }
+              }>Logout</button></li>
             </ul>
             </div>
             

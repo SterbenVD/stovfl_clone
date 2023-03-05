@@ -3,6 +3,8 @@ import { Post } from "../models/postsModel.js";
 
 export const setVote = async (req, res) => {
   try {
+    // console.log(req.body.token)
+
     let max_val = await Vote.max("id");
     req.body.id = 1 + max_val;
     const now = new Date().toISOString();
@@ -24,8 +26,8 @@ export const setVote = async (req, res) => {
 
 export const getVote = async (req, res) => {
   try {
-    const votelist = await Like.findAll({
-      where: { user_id: req.params.userid },
+    const votelist = await Vote.findAll({
+      where: { user_id: req.params.userid,post_id: req.params.postid },
     });
     res.json(votelist);
   } catch (error) {
@@ -35,12 +37,22 @@ export const getVote = async (req, res) => {
 
 export const resetVote = async (req, res) => {
   try {
+    console.log(req.body.user_name)
     await Vote.destroy({
       where: {
         user_id: req.params.userid,
         post_id: req.params.postid,
       },
     });
+    let updatescore = req.body.vote_type_id * 2 - 5;
+    await Post.increment(
+      { score: updatescore },
+      {
+        where: {
+          id: req.params.postid,
+        },
+      }
+    );
     res.json({
       message: "Vote Deleted",
     });
