@@ -9,7 +9,7 @@ function SidebarDash(props) {
   const [sec,setSec]=useState('Trending Posts')
   const [param,setParams] = useSearchParams()
   const user = useParams()
-  const id = location.pathname=="/"?param.get("uid"):user.userID
+  const id = location.pathname=="/"?param.get("uid"):location.pathname.includes('posts')?param.get("uid"):user.userID
   return (
     <div className={styles.wrapper}>
       <div className={styles.ask}>

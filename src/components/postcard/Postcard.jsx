@@ -121,8 +121,17 @@ function Postcard({ type, accepted, postID}) {
                 </span>
               );
             })}
-
+          {
+            type=="comment" && <>
+            <h4 style={{color: "black"}}>Comment:</h4>
+            <div>
+              {state.text}
+            </div>
+            </>
+          }
             <hr className={styles.footerline} />
+
+
           </div>
         </div>
 

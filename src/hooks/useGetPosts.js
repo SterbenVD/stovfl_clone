@@ -66,8 +66,20 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
             params.userID.split("@")[1]
           }/creation_date/desc`
         )
-        .then((res) => {
-          console.log(res);
+        .then(async (res) => {
+          // console.log(res);
+          let commentIDs = res.data.map((r) => r.id);
+          // console.log(commentIDs);
+          setAllPosts(commentIDs);
+        });
+    } else if (section == "post-answers") {
+      axios
+        .get(`${url.axios_url}/post/parent/${params.postID}/score/desc`)
+        .then(async (res) => {
+          // console.log(res);
+          let commentIDs = res.data.map((r) => r.id);
+          // console.log(commentIDs);
+          setAllPosts(commentIDs);
         });
     } else {
       axios
@@ -88,6 +100,7 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
   useEffect(() => {
     setPosts(allPosts.slice(0, 5));
     // console.log(posts);
+    // console.log(allPosts);
   }, [allPosts]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);

@@ -74,13 +74,37 @@ export const PostsByUser = async (req, res) => {
 
 export const PostsByTags = async (req, res) => {
   try {
-    console.log(req.params.tags)
-    let checker = ['[', '$', '&', '+', ':', ';', '=', '?', '@', '#', '|', '\'', '<', '>', '.', '^', '*', '(', ')', '%', '!', '-', ']'];
+    console.log(req.params.tags);
+    let checker = [
+      "[",
+      "$",
+      "&",
+      "+",
+      ":",
+      ";",
+      "=",
+      "?",
+      "@",
+      "#",
+      "|",
+      "'",
+      "<",
+      ">",
+      ".",
+      "^",
+      "*",
+      "(",
+      ")",
+      "%",
+      "!",
+      "-",
+      "]",
+    ];
     let taglist = req.query.tags.toLowerCase().split(",");
-    taglist = taglist.map(element => {
+    taglist = taglist.map((element) => {
       element = "<" + element + ">";
-      checker.map(ele => {
-        element = element.replaceAll(ele, "\\" + ele)
+      checker.map((ele) => {
+        element = element.replaceAll(ele, "\\" + ele);
       });
       return element;
     });
@@ -88,7 +112,7 @@ export const PostsByTags = async (req, res) => {
     const postlist = await Post.findAll({
       where: {
         tags: {
-          [Op.regexp]: { [Op.all]: taglist }
+          [Op.regexp]: { [Op.all]: taglist },
         },
       },
       order: [[req.params.sort, req.params.order]],
