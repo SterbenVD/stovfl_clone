@@ -1,8 +1,8 @@
 sudo su - postgres
-cd /home/sterben/Work/Projects/stovfl_clone/backend/Data
+cd config folder (replace config folder with location)
 psql -d postgres
 drop database cqadb;
 \q
 createdb cqadb
 psql -d cqadb
-\i ../config/cdb.sql
+\i ./cdb.sql
