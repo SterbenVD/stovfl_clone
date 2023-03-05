@@ -28,7 +28,6 @@ export default function useGetPosts(
   const [posts, setPosts] = useState([]);
   const params = useParams();
   useEffect(() => {
-    // console.log(section);
     if (section == "Trending Posts" || !section) {
       setAllPosts([
         "4",
