@@ -85,8 +85,11 @@ export default function useGetPosts(
         });
     } else if (section == "user") {
       axios
-        .get(`${url.axios_url}/post/user/${user}/1/${sort}/${order}`)
+        .get(
+          `${url.axios_url}/post/user/${user.split("@")[1]}/1/${sort}/${order}`
+        )
         .then(async (res) => {
+          console.log(res);
           let commentIDs = res.data.map((r) => r.id);
           setAllPosts(commentIDs);
         });

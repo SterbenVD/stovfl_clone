@@ -23,7 +23,6 @@ function useSearch(e) {
     setSearchResults(tags);
   };
   useEffect(() => {
-    controller.abort();
     if (e.startsWith("#")) {
       searchByTag();
     } else if (e.startsWith("@")) {

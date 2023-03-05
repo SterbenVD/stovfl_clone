@@ -26,7 +26,7 @@ export default function Login() {
       password: passRef.current.value
     }
     const res = await axios.get(`${url.axios_url}/auth`,{
-      body:data
+      params:data
     })
     console.log(res)
   }
