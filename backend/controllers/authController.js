@@ -42,9 +42,39 @@ export const checkToken = async (req, res, next) => {
 
 export const authUser = async (req, res) => {
   try {
+    let checker = [
+      "[",
+      "$",
+      "&",
+      "+",
+      ":",
+      ";",
+      "=",
+      "?",
+      "@",
+      "#",
+      "|",
+      "'",
+      "<",
+      ">",
+      ".",
+      "^",
+      "*",
+      "(",
+      ")",
+      "%",
+      "!",
+      "-",
+      "]",
+    ];
+    for (var element in req.query) {
+      checker.map((ele) => {
+        element = element.replaceAll(ele, "\\" + ele);
+      });
+    }
     const passlist = await Auth.findAll({
       where: {
-        user_name: req.body.user_name,
+        user_name: req.query.user_name,
       },
     });
     const pass = passlist[0].dataValues;
@@ -54,7 +84,7 @@ export const authUser = async (req, res) => {
       },
     });
     const user = userlist[0].dataValues;
-    let enpass = sha256(req.body.password + user.creation_date);
+    let enpass = sha256(req.query.password + user.creation_date);
 
     if (pass.pass === enpass) {
       let token = jwt.sign({ username: pass.user_name }, salt);
@@ -84,6 +114,7 @@ export const createUser = async (req, res) => {
     delete req.body.password;
     let user = await User.create(req.body);
     let username = req.body.display_name + "@" + user.id;
+    username = username.replace(/\s+/g, '');
     await Auth.create({
       id: req.body.id,
       user_name: username,
