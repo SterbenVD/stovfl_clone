@@ -60,6 +60,11 @@ export const deleteUser = async (req, res) => {
                 id: req.params.id
             }
         });
+        await Auth.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
         res.json({
             "message": "User Deleted"
         });
