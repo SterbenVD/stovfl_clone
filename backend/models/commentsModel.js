@@ -3,7 +3,6 @@ import db from "../config/database.js";
 
 export const Comment = db.define('comments', {
     id: {
-        autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true

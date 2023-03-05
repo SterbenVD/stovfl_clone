@@ -30,6 +30,8 @@ export const createComment = async (req, res) => {
       throw { message: "Comment cannot be empty" };
     }
 
+    
+    req.body.id = 1 + (await max(Comment));
     const now = (new Date()).toISOString();
     const threshold = now - 30 * 60 * 1000;
 

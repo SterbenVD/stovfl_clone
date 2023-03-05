@@ -2,6 +2,7 @@ import { User } from "../models/usersModel.js";
 import { Auth } from "../models/authModel.js";
 import { sha256 } from "js-sha256";
 import jwt from "jsonwebtoken";
+import { max } from "../config/sync.js";
 
 let secretpassword = "False hopes are more dangerous than fears";
 let salt = sha256(secretpassword);
@@ -82,6 +83,7 @@ export const authUser = async (req, res) => {
 export const createUser = async (req, res) => {
     try {
         const date = new Date();
+        req.body.id = 1 + (await max(User));
         req.body.creation_date = date.toISOString();
         let password = sha256(req.body.password + req.body.creation_date); //salted hash
         delete req.body.password;

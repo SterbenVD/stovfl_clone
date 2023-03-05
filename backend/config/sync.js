@@ -5,6 +5,17 @@ import { Comment } from "../models/commentsModel.js";
 import { Vote } from "../models/votesModel.js";
 import { Auth } from "../models/authModel.js";
 import { sha256 } from 'js-sha256';
+import { Sequelize, QueryInterface } from "sequelize";
+
+export async function max(table) {
+    try {
+        max = await table.max('id');
+        return max;
+    } catch (error) {
+        console.error('Lol: ', error);
+    }
+}
+
 export async function populate_auth() {
     try {
         const people = await User.findAll();

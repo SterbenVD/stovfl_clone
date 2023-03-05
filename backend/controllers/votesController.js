@@ -3,6 +3,7 @@ import { Post } from "../models/postsModel.js";
 
 export const setVote = async (req, res) => {
     try {
+        req.body.id = 1 + (await max(Vote));
         await Vote.create(req.body);
         let updatescore = 5 - req.body.vote_type_id * 2;
         await Post.increment({ score: updatescore }, {

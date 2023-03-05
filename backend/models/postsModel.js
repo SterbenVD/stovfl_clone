@@ -3,7 +3,6 @@ import db from "../config/database.js";
 
 export const Post = db.define('posts', {
     id: {
-        autoIncrement: true,
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
