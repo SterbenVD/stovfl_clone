@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/auth", authC.authUser); // Works
 router.post("/user", authC.createUser);
 router.get("/user/:user_name", userC.getUserByName); // Works
-router.get("/usersearch/:id", userC.getFuzzyUser); // Works
+router.get("/usersearch", userC.getFuzzyUser); // Works
 
 router.get("/post/:id", postC.getPostById); // Works
 router.get("/post/user/:id/:post_type/:sort/:order/", postC.PostsByUser); // Works
