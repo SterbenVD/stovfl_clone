@@ -1,7 +1,7 @@
 import React, { useEffect, useRef,useState } from 'react'
 import styles from './NavbarDash.module.css'
 import {MagnifyingGlass} from 'phosphor-react'
-import {Link,useParams, useSearchParams} from 'react-router-dom'
+import {Link,useParams, useRouteLoaderData, useSearchParams} from 'react-router-dom'
 import axios from 'axios'
 import url from '../../../url'
 import useGetUser from '../../hooks/useGetUser'
@@ -9,15 +9,13 @@ import useSearch from '../../hooks/useSearch'
 
 
 
-function NavbarDash({sec,setTaglist,taglist}) {
-  const [size,setSize] = useState('less')
+function NavbarDash({sec,setTaglist,taglist,setUser}) {
   const inputRef = useRef()
   const [entry,setEntry] = useState('')
   const [searchRes,setSearchRes] = useSearch(entry)
   const [height,setHeight] = useState('40vh')
   const {userName,userProfilePic} = useGetUser();
   const inpRef = useRef()
-  const [searchResult,setSearchResult] = useState([])
   const par = useParams()
   const [search,setSearch] = useSearchParams()
   const userID = search.get("uid")?search.get("uid"):par.userID
@@ -47,26 +45,15 @@ function NavbarDash({sec,setTaglist,taglist}) {
     }
   },[searchRes])
 
-  const [section,setSection] = useState('')
-
-  const handleSearch=(()=>{
-    // console.log(inpRef.current.value)
-    setTaglist((old)=> [...old,inpRef.current.value])
-    // console.log(taglist)
+  const handleSearch=(e,item)=>{
+    if(e=="#")
+      setTaglist((old)=> [...old,inpRef.current.value])
+    else
+      setUser(item)
   
-  })
+  }
 
-  useEffect(()=>{
-    if(taglist)
-      {
-        // console.log("Here")
-        // console.log(taglist.toString())
-        // sec(taglist.toString())
-      }
-      else{
-        // console.log("here")
-      }
-  },[taglist])
+ 
 
   return (
     
@@ -90,8 +77,9 @@ function NavbarDash({sec,setTaglist,taglist}) {
         return <li key={i}><div style={{minHeight:"4vh",display:"flex",alignItems:"center",cursor:"pointer"}} className={styles.searchitem} onClick={()=>{
           inputRef.current.style.visibility="hidden"
           setSearchRes([])
+          const extract = item.slice(0,1)
           inpRef.current.value=item
-          handleSearch()
+          handleSearch(extract,item)
           handleSearchChange({target:{value:item}})
         }}>{item}</div></li>
       })}
@@ -100,7 +88,7 @@ function NavbarDash({sec,setTaglist,taglist}) {
     </div>
     <div className={styles.signin}>
     <div className={styles.picwrapper}>
-            <img src={userProfilePic} alt="" className={styles.itemimage}/>
+            <img src={userProfilePic?userProfilePic:"/man.png"} alt="" className={styles.itemimage}/>
             <div className={styles.dropdowncontent}>
             <ul className={styles.dropdownlist}>
               <li className={styles.dropitem}><Link className={styles.link} to={`/${userID}/settings`}><button className={"btn-primary btn "+styles.item}>Settings</button>  </Link></li>

@@ -10,8 +10,16 @@ function useSearch(e) {
     let tags = await axios.get(
       `${url.axios_url}/tagsearch?tag=${e.slice(1, e.length)}`
     );
-    // console.log(tags);
     tags = tags.data.map((tag) => tag.tag_name);
+    setSearchResults(tags);
+  };
+
+  const searchByUser = async () => {
+    let tags = await axios.get(
+      `${url.axios_url}/usersearch/${e.slice(1, e.length)}`
+    );
+    console.log(tags);
+    tags = tags.data.map((tag) => tag.user_name);
     setSearchResults(tags);
   };
   useEffect(() => {
@@ -19,7 +27,7 @@ function useSearch(e) {
     if (e.startsWith("#")) {
       searchByTag();
     } else if (e.startsWith("@")) {
-      //search by user
+      searchByUser();
     } else {
       //search by title
     }

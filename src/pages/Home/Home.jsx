@@ -35,6 +35,7 @@ function Home() {
   const [query,setQuery] = useSearchParams()
   const [section,setSection] = useState('Trending Posts')
   const [taglist,setTagList] = useState([])
+  const [user,setUser] = useState('')
   useEffect(()=>{
     setLogin(query.get("login"))
   },[login])
@@ -54,12 +55,20 @@ function Home() {
     console.log(section)
   },[section])
 
+  useEffect(()=>{
+    if(user)
+      {
+        console.log(user)
+        setSection('user')
+      }
+  },[user])
+
 return (
     <Header.Provider value={{header,setHeader}}>
 <div className={styles.wrapper}>
       <div className={styles.navbar}>
         {
-          login=="false" ? <Navbar sec={setSection} setTaglist={setTagList}/>:<NavbarDash sec={setSection} setTaglist={setTagList}/>
+          login=="false" ? <Navbar sec={setSection} setTaglist={setTagList} setUser={setUser}/>:<NavbarDash sec={setSection} setUser={setUser} setTaglist={setTagList}/>
         }
       </div>{
           login=="false" ? <Sidebar sec={setSection} taglist={taglist}/>:<SidebarDash sec={setSection} taglist={taglist}/>
@@ -75,7 +84,7 @@ return (
         <div>
           <h2 style={{textAlign: "center", paddingBottom:"0vh", position:"sticky"}}>{header}</h2>
         </div>
-       <Feed postcardtype={"home"} section={section}/>
+       <Feed postcardtype={"home"} section={section} user={user}/>
       </div>
     </div>
     </Header.Provider>

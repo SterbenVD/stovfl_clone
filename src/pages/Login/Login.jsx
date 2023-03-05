@@ -1,14 +1,35 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import styles from "./Login.module.css";
 import hidePwdImg from "/hide.svg";
 import showPwdImg from "/show.svg";
 import { Link } from "react-router-dom";
+import url from '../../../url'
+import axios from "axios";
 
 export default function Login() {
   const [style, setStyle] = useState(styles.no_error);
+  const [username,setUsername] = useState('')
   const [pwd, setPwd] = useState("");
   const [isRevealPwd, setIsRevealPwd] = useState(false);
+  const nameRef = useRef(null)
+  const passRef = useRef(null)
+
+  const handleChange=()=>{
+    setUsername(nameRef.current.value)
+  }
+
+  const handleLogin = async()=>{
+    console.log(nameRef.current.value)
+    const data = {
+      user_name: username,
+      password: passRef.current.value
+    }
+    const res = await axios.get(`${url.axios_url}/auth`,{
+      body:data
+    })
+    console.log(res)
+  }
   return (
     <>
       <div className={styles.main}>
@@ -20,20 +41,23 @@ export default function Login() {
 
           <form className="login-form">
             <label className={styles.label_css} htmlFor="email">
-              email
+              Username
             </label>
             <input
+            ref ={nameRef}
               className={styles.input_css}
-              type="email"
-              placeholder="youremail@gmail.com"
+              type="text"
+              placeholder="Your Username"
               id="email"
               name="email"
+              onChange={handleChange}
             />
             <label className={styles.label_css} htmlFor="password">
-              password
+              Password
             </label>
             <div className={styles.pwd_container}>
               <input
+              ref = {passRef}
                 className={styles.input_css}
                 name="pwd"
                 placeholder="Enter Password"
@@ -50,7 +74,7 @@ export default function Login() {
           </form>
           <button
             className={styles.button_css}
-            onClick={() => setStyle(styles.error)}
+            onClick={() => handleLogin()}
           >
             Log In
           </button>

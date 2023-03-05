@@ -3,10 +3,14 @@ import Postcard from "../postcard/Postcard";
 import styles from "./Feed.module.css";
 import useGetPosts from "../../hooks/useGetPosts";
 
-function Feed({ postcardtype,section }) {
+function Feed({ postcardtype,section,user }) {
   const [pageNumber, setPageNumber] = useState(1);
+  const [sortBy,setSortBy] = useState("creation_date")
+  const [order,setOrder] = useState("desc");
+  const [orderScore,setOrderScore] = useState("desc");
+  const [orderDate,setDate] = useState("desc");
   const [header,setHeader] = useState('Trending');
-  const { loading, error, posts, hasMore } = useGetPosts(pageNumber,section,setPageNumber);
+  const { loading, error, posts, hasMore } = useGetPosts(pageNumber,section,setPageNumber,sortBy,order,user);
   
 useEffect(()=>{
   // console.log(section)
@@ -26,8 +30,51 @@ useEffect(()=>{
     },
     [loading, hasMore]
   );
+
+  const handleSort= (e)=>{
+    if(e=='date')
+      {
+        setSortBy('creation_date')
+        if(orderDate=='desc')
+          {
+            setDate('asc')
+            setOrder('asc')
+          }
+          else{
+            setDate('desc')
+            setOrder('desc')
+          }
+      }
+    else
+      {
+        setSortBy('score')
+        if(orderScore=='desc')
+          {
+            setOrderScore('asc')
+            setOrder('asc')
+          }
+          else{
+            setOrderScore('desc')
+            setOrder('desc')
+          }
+      }
+  }
   return (
     <div>
+      <div style={{display:"flex",justifyContent:"right",paddingRight:"7%"}}>
+        <div className={styles.sort}>
+          Date
+          <button className={"btn-primary btn " + styles.order} onClick={()=>{handleSort('date')}}>
+            {orderDate}
+          </button>
+        </div>
+        <div className={styles.sort}>
+          Score
+          <button className={"btn-primary btn " + styles.order} onClick={()=>{handleSort('score')}}>
+            {orderScore}
+          </button>
+          </div>
+      </div>
       <ul className={styles.list}>
         
         { 

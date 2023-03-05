@@ -18,8 +18,8 @@ setAboutMe(details.aboutMe)
       <div dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(aboutMe)}}></div>
 
  <h2 style={{marginTop:"5vh",marginBottom:"2vh"}}>My Website</h2>
- <a href=" https://thomasjowens.com/
-" className={styles.website}> https://thomasjowens.com/
+ <a href={details.website?details.website:""}
+className={styles.website}> {details.website?details.website:"<No Website>"}
 </a>
       
     </div>

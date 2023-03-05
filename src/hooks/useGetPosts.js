@@ -3,7 +3,14 @@ import axios from "axios";
 import url from "../../url";
 import { useParams } from "react-router";
 
-export default function useGetPosts(pageNumber, section, setPageNumber) {
+export default function useGetPosts(
+  pageNumber,
+  section,
+  setPageNumber,
+  sort,
+  order,
+  user
+) {
   const [allPosts, setAllPosts] = useState([
     "4",
     "9",
@@ -44,7 +51,7 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
         .get(
           `${url.axios_url}/post/user/${
             params.userID.split("@")[1]
-          }/1/creation_date/desc`
+          }/1/${sort}/${order}`
         )
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
@@ -54,7 +61,7 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
         .get(
           `${url.axios_url}/post/user/${
             params.userID.split("@")[1]
-          }/2/creation_date/desc`
+          }/2/${sort}/${order}`
         )
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
@@ -64,43 +71,42 @@ export default function useGetPosts(pageNumber, section, setPageNumber) {
         .get(
           `${url.axios_url}/comment/user/${
             params.userID.split("@")[1]
-          }/creation_date/desc`
+          }/${sort}/${order}`
         )
         .then(async (res) => {
-          // console.log(res);
           let commentIDs = res.data.map((r) => r.id);
-          // console.log(commentIDs);
           setAllPosts(commentIDs);
         });
     } else if (section == "post-answers") {
       axios
-        .get(`${url.axios_url}/post/parent/${params.postID}/score/desc`)
+        .get(`${url.axios_url}/post/parent/${params.postID}/${sort}/${order}`)
         .then(async (res) => {
-          // console.log(res);
           let commentIDs = res.data.map((r) => r.id);
-          // console.log(commentIDs);
+          setAllPosts(commentIDs);
+        });
+    } else if (section == "user") {
+      axios
+        .get(`${url.axios_url}/post/user/${user}/1/${sort}/${order}`)
+        .then(async (res) => {
+          let commentIDs = res.data.map((r) => r.id);
           setAllPosts(commentIDs);
         });
     } else {
       axios
         .get(
-          `${
-            url.axios_url
-          }/post/tag/creation_date/desc?tags=${encodeURIComponent(section)}`
+          `${url.axios_url}/post/tag/${sort}/${order}?tags=${encodeURIComponent(
+            section
+          )}`
         )
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
-          // console.log(posts);
-          // console.log(allPosts);
           setPageNumber(1);
         });
     }
-  }, [section]);
+  }, [section, sort, order]);
 
   useEffect(() => {
     setPosts(allPosts.slice(0, 5));
-    // console.log(posts);
-    // console.log(allPosts);
   }, [allPosts]);
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(true);
