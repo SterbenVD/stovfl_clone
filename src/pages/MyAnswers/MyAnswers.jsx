@@ -3,8 +3,11 @@ import styles from './MyAnswers.module.css'
 import NavbarDash from '../../components/navbar/NavbarDash'
 import SidebarDash from '../../components/sidebar/SidebarDash'
 import Feed from '../../components/Feed/Feed'
+import Auth from '../../../Auth'
 
 function MyAnswers() {
+Auth()
+
   return (
     <div className={styles.wrapper}>
     <div className={styles.navbar}>

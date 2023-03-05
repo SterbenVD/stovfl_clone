@@ -42,6 +42,7 @@ export const checkToken = async (req, res, next) => {
 export const checkToken2 = async (req, res) => {
   try {
     let token = req.params.token;
+    console.log(token)
     if (!token) {
       res.json({
         success: false,

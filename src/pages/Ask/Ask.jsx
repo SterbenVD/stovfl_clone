@@ -6,6 +6,7 @@ import {X} from 'phosphor-react'
 import axios from 'axios'
 import { useLocation, useParams } from 'react-router-dom'
 import url from '../../../url'
+import Auth from '../../../Auth'
 
 function TagButton(props){
   const handleClick = ()=>{
@@ -25,6 +26,7 @@ function TagButton(props){
 
 
 function Ask() {
+  Auth()
 
   const inputRef = useRef(null)
   const inpRef = useRef(null)
@@ -139,9 +141,9 @@ function Ask() {
     // console.log(token)
     console.log(param.postID)
     if(location.pathname.includes('edit'))
-      {res = axios.patch(`${url.axios_url}/post/${param.postID}`,data)}
+      {res = await axios.patch(`${url.axios_url}/post/${param.postID}`,data)}
     else
-      {res = axios.post(`${url.axios_url}/post`,data)}
+      {res =await axios.post(`${url.axios_url}/post`,data)}
     console.log(res)
   }
 

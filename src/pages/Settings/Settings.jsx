@@ -4,10 +4,11 @@ import NavbarDash from '../../components/navbar/NavbarDash'
 import SidebarDash from '../../components/sidebar/SidebarDash'
 import DOMPurify from 'dompurify'
 import useGetUser from '../../hooks/useGetUser'
+import Auth from '../../../Auth'
 
 function Settings() {
 
-
+  Auth()
   const {details,userProfilePic,userName} = useGetUser();
   const [image,setImage] = useState("/man.png")
 

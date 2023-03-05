@@ -45,7 +45,7 @@ export const createComment = async (req, res) => {
 
     let max_val = await Comment.max("id");
     req.body.id = 1 + max_val;
-    const now = new Date().toISOString();
+    const now = (new Date()).toISOString();
     // const threshold = now - 30 * 60 * 1000;
 
     // const spamcount = await Comment.count({
@@ -59,7 +59,7 @@ export const createComment = async (req, res) => {
     //   res.json({ message: "Spam" });
     //   return;
     // }
-
+    req.body.creation_date = now;
     let comment = await Comment.create(req.body);
 
     await postupdate(comment);

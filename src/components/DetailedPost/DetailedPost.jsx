@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import styles from './DetailedPost.module.css'
 import {Link, useSearchParams,useParams } from 'react-router-dom'
 import {ArrowUp,ArrowDown,Pencil} from 'phosphor-react'
@@ -38,7 +38,7 @@ function DetailedPost({type,postID}) {
 
 
     useEffect(()=>{
-        console.log(state)
+        // console.log(state)
         // console.log(postID)
         getParsedTime(state,setTime)
         if(type=='question')
@@ -86,6 +86,24 @@ function DetailedPost({type,postID}) {
             setCommentList(allComments.slice(0,commentLength))
         }
         
+    }
+
+    const [comment,setComment] =useState('')
+    const commentRef = useRef(null)
+
+    const handleComment =async()=>{
+        // console.log(comment)
+        let token = document.cookie
+        const data = {
+            text: comment,
+            post_id: postID,
+            user_id: param.get('uid').split('@')[1],
+            user_display_name: param.get('uid').split('@')[0],
+            token: token
+        }
+
+        let res = await axios.post(`${url.axios_url}/comment`,data)
+        console.log(res)
     }
   return (
     <div className={styles.postcontainer}>
@@ -147,7 +165,7 @@ function DetailedPost({type,postID}) {
                         </div>
                         
                         
-                        <div><textarea name="Add comment" id="" cols="30" rows="2" style={{borderStyle:"none",width:"100%"}} placeholder={"Add a comment..."}></textarea></div>
+                        <div><textarea ref={commentRef} onChange={()=>{setComment(commentRef.current.value)}} name="Add comment" id="" cols="30" rows="2" style={{borderStyle:"none",width:"100%"}} placeholder={"Add a comment..."}></textarea> <button className="btn-primary btn" onClick={handleComment}>Comment</button> </div>
                     </div>
                 </div>
             </div>

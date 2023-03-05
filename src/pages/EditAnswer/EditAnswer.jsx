@@ -7,9 +7,11 @@ import { useParams,useSearchParams } from 'react-router-dom'
 import useGetPostDetails from '../../hooks/useGetPostDetails'
 import axios from 'axios'
 import url from '../../../url'
+import Auth from '../../../Auth'
 
 function EditAnswer() {
 
+  Auth()
   const [params,setParams] = useSearchParams()
     const desRef = useRef(null)
   const [des,setDes] = useState("")

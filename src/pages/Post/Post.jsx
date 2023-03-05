@@ -1,5 +1,5 @@
 import React,{useEffect, useRef,useState,useCallback} from 'react'
-import { useLocation,useSearchParams,useParams,Link } from 'react-router-dom'
+import { useLocation,useSearchParams,useParams,Link, useNavigate } from 'react-router-dom'
 import NavbarDash from '../../components/navbar/NavbarDash'
 import Navbar from '../../components/navbar/Navbar'
 import Sidebar from '../../components/sidebar/Sidebar'
@@ -41,6 +41,23 @@ function Post() {
       },
       [loading, hasMore]
     );
+
+    const navigate = useNavigate()
+
+    const handleSubmit = async ()=>{
+      const token = document.cookie;
+      const data = {
+        body: des,
+        owner_user_id: params.get("uid").split('@')[1],
+        token:token,
+        post_type_id: 2,
+        score: 0,
+        parent_id: urlparams.postID
+      }
+      const res = await axios.post(`${url.axios_url}/post`,data)
+      if(!res.data.success)
+        navigate('/login')
+    }
    
   return (
     <div className={styles.wrappermain}>
@@ -61,7 +78,7 @@ function Post() {
         }
         <div className={styles.postcontainer}>
             <DetailedPost type={"question"} postID={urlparams.postID}/>
-            <h2>43 Answers</h2>
+            <h2>{posts.length} Answers</h2>
             {
               <ul style={{listStyle:"none",paddingLeft:"0"}}>
               {posts.map((post, index) => {
@@ -98,7 +115,7 @@ function Post() {
         <textarea ref = {desRef} spellCheck="false" name="description" rows="10" className={styles.text} placeholder='Enter your answer' onChange={setHTML} style={{width:"100%",fontSize:"18px"}}></textarea>
         <h4>Preview</h4>
         <div className={styles.preview} dangerouslySetInnerHTML={{__html:des}}></div>
-        <button className={'btn btn-primary'} style={{width:"10%",marginBottom:"5%",paddingTop:"1%",paddingBottom:"1%",fontSize:"18px"}}>Post</button>
+        <button className={'btn btn-primary'} style={{width:"10%",marginBottom:"5%",paddingTop:"1%",paddingBottom:"1%",fontSize:"18px"}} onClick={handleSubmit}>Post</button>
       </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ A user can perform the following anonymously:
   - A user
   - Tag(s)
 - View posts
-- View a user profile?
+- View a user profile
 
 If the user signs up/signs in to the site, then they can perform the following:
 - Ask questions(posts) and assign predefined tags
@@ -21,7 +21,7 @@ If the user signs up/signs in to the site, then they can perform the following:
 - Harshit Pant (CS21BTECH11021): Frontend(Home,Post, Profile Pages,API connection)
 - Vishal Vijay Devadiga (CS21BTECH11061): Backend(Models, Controllers)
 - Satpute Aniket Tukaram (CS21BTECH11056): Frontend(Signin/Signup pages, Cookies)
-- Mahin Bansal (CS21BTECH11034): Backend(Database design, Data cleanup)
+- Mahin Bansal (CS21BTECH11034): Backend(Database design, Data cleanup, Cookies)
 
 ## Languages
 

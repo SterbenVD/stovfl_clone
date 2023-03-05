@@ -3,6 +3,7 @@ import styles from './AboutMe.module.css'
 import useGetUser from '../../hooks/useGetUser'
 import url from '../../../url'
 import DOMPurify from 'dompurify'
+import axios from 'axios'
 
 function AboutMe() {
 

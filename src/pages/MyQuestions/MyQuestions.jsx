@@ -4,9 +4,11 @@ import NavbarDash from '../../components/navbar/NavbarDash'
 import SidebarDash from '../../components/sidebar/SidebarDash'
 // import Postcard from '../../components/postcard/Postcard'
 import Feed from '../../components/Feed/Feed'
+import Auth from '../../../Auth'
 
 function MyQuestions() {
 
+  Auth()
   const [section,setSection] = useState("questions")
   return (
     <div className={styles.wrapper}>

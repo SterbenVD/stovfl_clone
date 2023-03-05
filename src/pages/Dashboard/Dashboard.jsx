@@ -4,8 +4,11 @@ import styles from './Dashboard.module.css'
 import SidebarDash from '../../components/sidebar/SidebarDash'
 import AboutMe from '../../components/AboutMe/AboutMe'
 import MyStats from '../../components/MyStats/MyStats'
+import Auth from '../../../Auth'
 
 function Dashboard() {
+
+Auth()
 
   return (
     <div className={styles.wrapper}>

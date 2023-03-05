@@ -80,8 +80,12 @@ export default function useGetPosts(
       axios
         .get(`${url.axios_url}/post/parent/${params.postID}/${sort}/${order}`)
         .then(async (res) => {
+          console.log(res)
           let commentIDs = res.data.map((r) => r.id);
+          console.log(commentIDs)
           setAllPosts(commentIDs);
+        }).catch((e)=>{
+          setAllPosts([])
         });
     } else if (section == "user") {
       axios
