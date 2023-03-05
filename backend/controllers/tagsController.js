@@ -16,12 +16,11 @@ export const getFuzzyTag = async (req, res) => {
         let tag = req.query.tag.toString().toLowerCase();
         checker.map(ele => {
             tag = tag.replaceAll(ele, "\\" + ele)
-          });
-        console.log(tag);
+        });
         const taglist = await Tag.findAll({
             where: {
                 tag_name: {
-                    [Op.regexp]: tag
+                    [Op.iRegexp]: tag
                 }
             }
         });

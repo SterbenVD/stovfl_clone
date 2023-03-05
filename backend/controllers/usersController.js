@@ -21,9 +21,9 @@ export const getUserByName = async (req, res) => {
     try {
         let arr = req.params.user_name.split("@");
         let iden = "";
-        if(arr.length==2)
+        if (arr.length == 2)
             iden = arr[arr.length - 1];
-        else if(arr.length==1)
+        else if (arr.length == 1)
             iden = arr[0];
         const user = await User.findAll({
             where: {
@@ -38,11 +38,15 @@ export const getUserByName = async (req, res) => {
 
 export const getFuzzyUser = async (req, res) => {
     try {
-        let user = req.params.id.toString().toLowerCase();
+        let checker = ['[', '$', '&', '+', ':', ';', '=', '?', '@', '#', '|', '\'', '<', '>', '.', '^', '*', '(', ')', '%', '!', '-', ']'];
+        let id = req.query.id.toString().toLowerCase();
+        checker.map(ele => {
+            id = id.replaceAll(ele, "\\" + ele)
+        });
         const userlist = await Auth.findAll({
             where: {
                 user_name: {
-                    [Op.startsWith]: user
+                    [Op.iRegexp]: id
                 }
             },
             attributes: ['user_name']
