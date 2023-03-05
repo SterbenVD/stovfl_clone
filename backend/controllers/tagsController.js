@@ -22,7 +22,8 @@ export const getFuzzyTag = async (req, res) => {
                 tag_name: {
                     [Op.iRegexp]: tag
                 }
-            }
+            },
+            limit: 15
         });
 
         res.json(taglist);

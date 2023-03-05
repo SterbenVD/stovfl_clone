@@ -50,6 +50,7 @@ export const getFuzzyUser = async (req, res) => {
                     [Op.iLike]: id
                 }
             },
+            limit: 15,
             attributes: ['user_name']
         });
         res.json(userlist);
