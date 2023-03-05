@@ -25,9 +25,13 @@ function TagButton(props){
 
 function Ask() {
 
+  const inputRef = useRef(null)
+  const inpRef = useRef(null)
   const titleRef = useRef(null);
   const [title,setTitle] = useState(null)
   const location = useLocation();
+  const [searchRes,setSearchRes] =useState(['tag1'])
+  const [height,setHeight] = useState("40vh")
 
   const desRef = useRef(null)
   const [des,setDes] = useState("")
@@ -41,10 +45,20 @@ function Ask() {
   const [inputValue, setInputValue] = useState("");
   const resetUserInput = () => {
     setInputValue("");
+    inputRef.current.style.visibilty="hidden"
   };
 
-  const handleUserInput = (e) => {
+  const handleUserInput = async (e) => {
     setInputValue(e.target.value);
+    let res = await axios.get(`${url.axios_url}/tagsearch`,{
+      params:{
+        tag:inputValue
+      }
+    })
+    console.log(res)
+    let tags = res.data.map((tag)=>tag.tag_name)
+    setSearchRes(tags)
+    inputRef.current.style.visibility="visible"
   };
 
   const [tag,setTag] =useState([])
@@ -96,6 +110,9 @@ function Ask() {
       }
   },[])
 
+  
+
+
   return (
     <div className={styles.wrapper}>
        <div className={styles.navbar}>
@@ -117,6 +134,20 @@ function Ask() {
         <h2>Tags</h2>
         <div className={styles.tags}>
         <input type="text" ref={tagfieldRef} placeholder='Enter the tag' className={styles.text} onKeyDown={handleKeyPress} onChange={handleUserInput} value={inputValue}/>
+        <div ref={inputRef} style={{visibility:"hidden",szIndex:"10",position:"relative",top:"150%",minWidth:"77.8%",minHeight:height,overflowY:"auto",maxHeight:height,backgroundColor:"white"}} className={styles.suggest}> 
+    <ul style={{listStyle:"none",paddingLeft:"0",fontSize:"16px"}}>
+
+      {searchRes.map((item,i)=>{
+        return <li key={i}><div style={{minHeight:"4vh",display:"flex",alignItems:"center",cursor:"pointer"}} className={styles.searchitem} onClick={()=>{
+          inputRef.current.style.visibility="hidden"
+          setSearchRes([])
+          const extract = item.slice(0,1)
+          tagfieldRef.current.value=item
+          handleClick()
+        }}>{item}</div></li>
+      })}
+    </ul> 
+    </div>
 <button className={'btn btn-primary '+styles.tagsubmit} onClick={handleClick}>Enter</button>
         </div>
         <div className={styles.displaytags}>
