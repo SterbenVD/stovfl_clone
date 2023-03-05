@@ -6,6 +6,7 @@ import DetailedPost from '../../components/DetailedPost/DetailedPost'
 import { useParams,useSearchParams } from 'react-router-dom'
 import useGetPostDetails from '../../hooks/useGetPostDetails'
 import axios from 'axios'
+import url from '../../../url'
 
 function EditAnswer() {
 
@@ -30,10 +31,23 @@ function EditAnswer() {
     setHTML()
   },[state])
 
+  const [parentID,setParentID] =useState('')
+  useEffect(()=>{
+    setParentID(state.parent_id)
+  },[state])
 
-  const handleClick = ()=>{
-
+  const handleClick = async()=>{
+    const token = document.cookie
+    console.log(token)
+    const data = {
+      body: des,
+      token: token
+    }
+    let res = await axios.patch(`${url.axios_url}/post/${urlParam.postID}`,data)
+    console.log(res)
   }
+
+  
   return (
     <div className={styles.wrapper}>
        <div className={styles.navbar}>
@@ -41,7 +55,7 @@ function EditAnswer() {
       </div>
       <SidebarDash/>
       <div className={styles.postcontainer}>
-            <DetailedPost type={"question"}/>
+            <DetailedPost type={"question"} postID={parentID}/>
             <div style={{width:"100%"}}>
                 <h4>Your Answer</h4>
                 <div className={styles.inputs}>

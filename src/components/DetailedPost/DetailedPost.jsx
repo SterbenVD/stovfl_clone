@@ -26,33 +26,28 @@ function DetailedPost({type,postID}) {
 
     const getComments = async ()=>{
         let res = await axios.get(`${url.axios_url}/comment/parent/${postID}/creation_date/asc`)
-        // console.log(`${postID}`)
-        // console.log(res)
-        // const x = res.data.length()>5?5:res.data.length()
+    
         if(res.data.length>5)
             setCommentLength(5)
         else 
             setCommentLength(res.data.length)
-        // console.log(commentLength)
         setCommentList(res.data.slice(0,commentLength))
         setAllComments(res.data)
 
     }
 
+
     useEffect(()=>{
-        // console.log(type)
-        // console.log(state)
+        console.log(state)
+        // console.log(postID)
         getParsedTime(state,setTime)
         if(type=='question')
         {
             axios.get(`${url.axios_url}/user/${state.owner_user_id}`).then((res)=>{
-                // console.log(res)
             if(res.data.profile_image_url) setprofileimage(res.data.profile_image_url)})
         }
         else{
-            // console.log(state)
             axios.get(`${url.axios_url}/user/${state.display_id}`).then((res)=>{
-                // console.log(res)
                 if(res.data.profile_image_url) setprofileimage(res.data.profile_image_url)
             }) 
         }
@@ -71,7 +66,6 @@ function DetailedPost({type,postID}) {
         else
             setLink(`/user/${param.get('uid')}/answers/${postID}/edit`)   
     },[state])
-
     const handleMore = ()=>{
         if(more=='more')
         {
