@@ -31,7 +31,8 @@ export const createComment = async (req, res) => {
     }
 
     
-    req.body.id = 1 + (await max(Comment));
+    let max_val = await Comment.max('id');
+    req.body.id = 1 + max_val;
     const now = (new Date()).toISOString();
     const threshold = now - 30 * 60 * 1000;
 

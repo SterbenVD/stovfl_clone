@@ -77,7 +77,8 @@ export const authUser = async (req, res) => {
 export const createUser = async (req, res) => {
   try {
     const date = new Date();
-    req.body.id = 1 + (await max(User));
+    let max_val = await User.max('id');
+    req.body.id = 1 + (max_val);
     req.body.creation_date = date.toISOString();
     let password = sha256(req.body.password + req.body.creation_date); //salted hash
     delete req.body.password;

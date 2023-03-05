@@ -7,7 +7,8 @@ export const createPost = async (req, res) => {
       throw { message: "Post cannot be empty" };
     }
 
-    req.body.id = 1 + (await max(Post));
+    let max_val = await Post.max('id');
+    req.body.id = 1 + max_val;
     const now = (new Date()).toISOString();
     const threshold = now - 30 * 60 * 1000;
 
