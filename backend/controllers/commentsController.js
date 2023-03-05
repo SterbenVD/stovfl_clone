@@ -2,7 +2,7 @@ import { Comment } from "../models/commentsModel.js";
 import { Post } from "../models/postsModel.js";
 import { Op } from "sequelize";
 async function postupdate(comment) {
-  const now = (new Date()).toISOString();
+  const now = new Date().toISOString();
   let post = await Post.update(
     { last_activity_date: now },
     {
@@ -12,7 +12,7 @@ async function postupdate(comment) {
     }
   );
 
-  if (post.parent_id !==undefined) {
+  if (post.parent_id !== undefined) {
     await Post.update(
       { last_activity_date: now },
       {
@@ -30,23 +30,22 @@ export const createComment = async (req, res) => {
       throw { message: "Comment cannot be empty" };
     }
 
-    
-    let max_val = await Comment.max('id');
+    let max_val = await Comment.max("id");
     req.body.id = 1 + max_val;
-    const now = (new Date()).toISOString();
-    const threshold = now - 30 * 60 * 1000;
+    const now = new Date().toISOString();
+    // const threshold = now - 30 * 60 * 1000;
 
-    const spamcount = await Comment.count({
-      where: {
-        user_id: req.body.user_id,
-        creation_date: { [Sequelize.Op.gte]: threshold },
-      },
-    });
+    // const spamcount = await Comment.count({
+    //   where: {
+    //     user_id: req.body.user_id,
+    //     creation_date: { [Sequelize.Op.gte]: threshold },
+    //   },
+    // });
 
-    if (spamcount > 30) {
-      res.json({ message: "Spam" });
-      return;
-    }
+    // if (spamcount > 30) {
+    //   res.json({ message: "Spam" });
+    //   return;
+    // }
 
     let comment = await Comment.create(req.body);
 
@@ -105,11 +104,14 @@ export const CommentsByParent = async (req, res) => {
 
 export const deleteComment = async (req, res) => {
   try {
-    await Comment.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
+    await Comment.update(
+      { user_id: -1 },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
     res.json({
       message: "Comment Deleted",
     });

@@ -9,7 +9,7 @@ import * as voteC from "../controllers/votesController.js";
 const router = express.Router();
 
 router.get("/auth", authC.authUser); // Works
-router.post("/user", authC.createUser);
+router.post("/user", authC.createUser); // Works
 router.get("/user/:user_name", userC.getUserByName); // Works
 router.get("/usersearch", userC.getFuzzyUser); // Works
 
@@ -25,13 +25,13 @@ router.get("/comment/parent/:id/:sort/:order", commentC.CommentsByParent); // Wo
 router.get("/tag/trend", tagC.getTrending);
 router.get("/tagsearch", tagC.getFuzzyTag); // Works
 
-router.get("/checkToken", authC.checkToken);
+router.get("/checkToken", authC.checkToken); // Works
 
-router.use("/", authC.checkToken);
+router.use("/", authC.checkToken); // Works
 router.patch("/user/:id", userC.updateUser);
 router.delete("/user/:id", userC.deleteUser);
-router.post("/post", postC.createPost);
-router.patch("/post/:id", postC.editPost);
+router.post("/post", postC.createPost); // Works
+router.patch("/post/:id", postC.editPost); // Works
 router.delete("/post/:id", postC.deletePost);
 router.post("/comment", commentC.createComment);
 router.patch("/comment/:id", commentC.editComment);

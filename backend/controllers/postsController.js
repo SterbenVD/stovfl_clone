@@ -7,9 +7,9 @@ export const createPost = async (req, res) => {
       throw { message: "Post cannot be empty" };
     }
 
-    let max_val = await Post.max('id');
+    let max_val = await Post.max("id");
     req.body.id = 1 + max_val;
-    const now = (new Date()).toISOString();
+    const now = new Date().toISOString();
     req.body.creation_date = now;
     // const threshold = now - 30 * 60 * 1000;
 
@@ -27,7 +27,7 @@ export const createPost = async (req, res) => {
 
     let post = await Post.create(req.body);
 
-    if (post.parent_id !==undefined) {
+    if (post.parent_id !== undefined) {
       await Post.update(
         { last_activity_date: now },
         {
@@ -151,11 +151,14 @@ export const trendingPosts = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    await Post.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
+    await Post.update(
+      { onwer_user_id: -1 },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
     res.json({
       message: "Post Deleted",
     });
@@ -166,18 +169,17 @@ export const deletePost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
-    console.log(req.params)
-    console.log(req.body)
+    console.log(req.params);
+    console.log(req.body);
     let post = await Post.update(req.body, {
       where: {
         id: req.params.id,
       },
     });
 
-    const now = (new Date()).toISOString();
-    console.log(post.parent_id)
-    if (post.parent_id !==undefined) {
-
+    const now = new Date().toISOString();
+    console.log(post.parent_id);
+    if (post.parent_id !== undefined) {
       await Post.update(
         { last_activity_date: now },
         {
