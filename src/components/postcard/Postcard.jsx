@@ -95,6 +95,7 @@ function Postcard({ type, accepted, postID}) {
     <div className={styles.container}>
       <div className={styles.votecount}>
         <div className={styles.count}>
+          {type!='comment' && <>
           <ArrowUp
             size={36}
             color="#2a00fa"
@@ -108,8 +109,9 @@ function Postcard({ type, accepted, postID}) {
             weight="bold"
             style={{ marginLeft: "32%" }}
           />
+          </>}
         </div>
-        {type == "answer" && accepted == "true" && (
+        {type == "answer" && state.accepted == "true" && (
           <>
             <Check
               size={36}
@@ -168,8 +170,10 @@ function Postcard({ type, accepted, postID}) {
           </div>
           <div className={styles.time}>{time}</div>
           <div className={styles.responses}>
+            {type!='comment' && <>
             <ChatCenteredText size={32} color="#812222" />
             <div>{state.anscount}</div>
+            </>}
           </div>
         </div>
       </div>

@@ -26,17 +26,18 @@ function EditAnswer() {
 
 
   const state = useGetPostDetails({postID:postID,type:"answer"})
+  const [parentID,setParentID] =useState('')
   useEffect(()=>{
-    console.log(postID)
-    console.log(state)
+    // console.log(state)
+    if(state.parent_id)
+      setParentID(state.parent_id)
     desRef.current.value = state.body
     setHTML()
   },[state])
 
-  const [parentID,setParentID] =useState('')
-  useEffect(()=>{
-    setParentID(state.parent_id)
-  },[state])
+  // useEffect(()=>{
+  //   console.log(parentID)
+  // },[parentID])
 
   const handleClick = async()=>{
     const token = document.cookie
@@ -57,7 +58,7 @@ function EditAnswer() {
       </div>
       <SidebarDash/>
       <div className={styles.postcontainer}>
-            <DetailedPost type={"question"} postID={parentID}/>
+            {state.parent_id && <DetailedPost type={"question"} postID={parentID}/>}
             <div style={{width:"100%"}}>
                 <h4>Your Answer</h4>
                 <div className={styles.inputs}>

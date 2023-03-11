@@ -12,6 +12,7 @@ function useGetPostDetails({ postID, type }) {
     owner_user_id: "",
     tags: "",
     anscount: "",
+    accepted: "",
   });
   const reducer = (state, action) => {
     switch (action.type) {
@@ -52,6 +53,7 @@ function useGetPostDetails({ postID, type }) {
           tags: action.payload.tags,
           anscount: action.payload.anscount,
           parent_id: action.payload.parent_id,
+          accepted: action.payload.accepted,
         };
       case "comment":
         return {
@@ -81,6 +83,11 @@ function useGetPostDetails({ postID, type }) {
     // console.log(state);
   }, [state]);
 
+  useEffect(() => {
+    // console.log(postID);
+    datagen();
+  }, [postID]);
+
   const datagen = async () => {
     if (type != "comment") {
       let res = await axios.get(`${url.axios_url}/post/${postID}`);
@@ -90,30 +97,33 @@ function useGetPostDetails({ postID, type }) {
           .get(`${url.axios_url}/user/${res.data.owner_user_id}`)
           .then((res2) => {
             // console.log(res2);
-            dispatch({
-              type: type,
-              payload: {
-                title: res.data.title,
-                body: res.data.body,
-                score: res.data.score,
-                creation_date: res.data.creation_date,
-                owner_display_name: res2.data.display_name,
-                owner_user_id: res.data.owner_user_id,
-                tags: res.data.tags,
-                anscount: 10,
-                last_edit_date: res.data.last_edit_date
-                  ? res.data.last_edit_date
-                  : res.data.creation_date,
-              },
-            });
+            axios
+              .get(`${url.axios_url}/post/parent/${postID}/creation_date/desc`)
+              .then((res3) => {
+                dispatch({
+                  type: type,
+                  payload: {
+                    title: res.data.title,
+                    body: res.data.body,
+                    score: res.data.score,
+                    creation_date: res.data.creation_date,
+                    owner_display_name: res2.data.display_name,
+                    owner_user_id: res.data.owner_user_id,
+                    tags: res.data.tags,
+                    anscount: res3.data.length,
+                    last_edit_date: res.data.last_edit_date
+                      ? res.data.last_edit_date
+                      : res.data.creation_date,
+                  },
+                });
+              });
           });
       } else if (type == "answer") {
-        // console.log(`${url.axios_url}/post/${res.data.parent_id}`);
-        // console.log(res);
         let user = await axios.get(
           `${url.axios_url}/user/${res.data.owner_user_id}`
         );
         // console.log(user);
+        // console.log(`${url.axios_url}/post/${res.data.parent_id}`);
         let res2 = await axios.get(
           `${url.axios_url}/post/${res.data.parent_id}`
         );
@@ -121,6 +131,12 @@ function useGetPostDetails({ postID, type }) {
         let res3 = await axios.get(
           `${url.axios_url}/user/${res2.data.owner_user_id}`
         );
+
+        let res4 = await axios.get(
+          `${url.axios_url}/comment/parent/${postID}/creation_date/desc`
+        );
+
+        // console.log(res3);
         dispatch({
           type: type,
           payload: {
@@ -130,11 +146,13 @@ function useGetPostDetails({ postID, type }) {
             body: res.data.body,
             score: res.data.score,
             creation_date: res.data.creation_date,
-            owner_user_id: res3.data.owner_user_id,
+            owner_user_id: res3.data.id,
             owner_display_name: res3.data.display_name,
             tags: res.data.tags,
-            anscount: 10,
+            anscount: res4.data.length,
             parent_id: res.data.parent_id,
+            accepted:
+              res2.data.accepted_answer_id === postID ? "true" : "false",
           },
         });
       }

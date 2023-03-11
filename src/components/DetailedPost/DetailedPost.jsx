@@ -29,8 +29,13 @@ function DetailedPost({type,postID}) {
 
 
     useEffect(()=>{
+        // console.log(state)
         setVoteCount(state.score)
     },[state])
+
+    useEffect(()=>{
+        console.log(postID)
+    },[postID])
 
     useEffect(()=>{
         if(param.get('login')=='true'){
@@ -48,7 +53,7 @@ function DetailedPost({type,postID}) {
     },[])
 
     useEffect(()=>{
-        console.log(voteCast)
+        // console.log(voteCast)
     },[voteCast])
 
     useEffect(()=>{
@@ -67,7 +72,6 @@ function DetailedPost({type,postID}) {
     const upvote = async ()=>{
         if(param.get("login")=='true'){
             const token = document.cookie
-            console.log("here")
             if(voteCast!='false'){
                 //reset
                 let data = {
@@ -122,7 +126,7 @@ function DetailedPost({type,postID}) {
         if(param.get('login')=='true'){
             const token = document.cookie
             if(voteCast!='false'){
-                console.log(voteCast)
+                // console.log(voteCast)
                 let data = {
                     post_id: postID,
                     user_id: param.get('uid').split('@')[1],
@@ -187,8 +191,6 @@ function DetailedPost({type,postID}) {
 
 
     useEffect(()=>{
-        // console.log(state)
-        // console.log(postID)
         getParsedTime(state,setTime)
         if(type=='question')
         {
@@ -211,9 +213,9 @@ function DetailedPost({type,postID}) {
         }
         getComments()
         if(type=='question')
-            setLink(`/user/${param.get('uid')}/questions/${postID}/edit`)
+            setLink(`/${param.get('uid')}/questions/${postID}/edit`)
         else
-            setLink(`/user/${param.get('uid')}/answers/${postID}/edit`)   
+            setLink(`/${param.get('uid')}/answers/${postID}/edit`)   
     },[state])
     const handleMore = ()=>{
         if(more=='more')
@@ -241,7 +243,6 @@ function DetailedPost({type,postID}) {
     const commentRef = useRef(null)
 
     const handleComment =async()=>{
-        // console.log(comment)
         let token = document.cookie
         const data = {
             text: comment,
@@ -268,7 +269,7 @@ function DetailedPost({type,postID}) {
               {voteCount}
           </div>
           <ArrowDown size={35} onClick={downvote} color="#fa0000" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
-          {login=="true" &&param.get('uid')==postID && <Link to={link}>
+          {login=="true" &&param.get('uid').split('@')[1]==state.display_id && <Link to={link}>
           <Pencil size={35} color="#b5a4a3" weight='light' style={{marginLeft: "33.5%",cursor:"pointer",marginTop:"10%"}}/>
           </Link>}
 
