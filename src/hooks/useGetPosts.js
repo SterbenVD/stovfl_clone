@@ -80,12 +80,13 @@ export default function useGetPosts(
       axios
         .get(`${url.axios_url}/post/parent/${params.postID}/${sort}/${order}`)
         .then(async (res) => {
-          console.log(res)
+          // console.log(res)
           let commentIDs = res.data.map((r) => r.id);
-          console.log(commentIDs)
+          // console.log(commentIDs)
           setAllPosts(commentIDs);
-        }).catch((e)=>{
-          setAllPosts([])
+        })
+        .catch((e) => {
+          setAllPosts([]);
         });
     } else if (section == "user") {
       axios
@@ -93,7 +94,7 @@ export default function useGetPosts(
           `${url.axios_url}/post/user/${user.split("@")[1]}/1/${sort}/${order}`
         )
         .then(async (res) => {
-          console.log(res);
+          // console.log(res);
           let commentIDs = res.data.map((r) => r.id);
           setAllPosts(commentIDs);
         });

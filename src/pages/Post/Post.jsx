@@ -16,7 +16,7 @@ import useGetPosts from '../../hooks/useGetPosts'
 function Post() {
     const [params,setParams] = useSearchParams()
     const [pageNumber, setPageNumber] = useState(1);
-    const { loading, error, posts, hasMore } = useGetPosts(pageNumber,"post-answers",setPageNumber);
+    const { loading, error, posts, hasMore } = useGetPosts(pageNumber,"post-answers",setPageNumber,"creation_date","desc");
     const desRef = useRef(null)
     
   const [des,setDes] = useState("")
@@ -59,6 +59,9 @@ function Post() {
         navigate('/login')
     }
    
+    // useEffect(()=>{
+    //   console.log(urlparams.postID)
+    // },[])
   return (
     <div className={styles.wrappermain}>
         <div className={styles.navbar}>

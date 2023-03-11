@@ -7,7 +7,7 @@ import Postcard from '../../components/postcard/Postcard'
 import styles from './Home.module.css'
 import Feed from '../../components/Feed/Feed'
 import { X } from 'phosphor-react'
-
+import { useNavigate } from 'react-router-dom'
 
 import { useSearchParams } from 'react-router-dom'
 
@@ -36,29 +36,37 @@ function Home() {
   const [section,setSection] = useState('Trending Posts')
   const [taglist,setTagList] = useState([])
   const [user,setUser] = useState('')
+  const navigate = useNavigate()
+
   useEffect(()=>{
     setLogin(query.get("login"))
   },[login])
+
+  useEffect(()=>{
+    console.log(query.get('login'))
+    if(query.get('login')===null)
+      navigate('/?login=false')
+  },[])
 
   useEffect(()=>{
     if(taglist)
       {
         setSection(taglist.toString())
       }
-      console.log(taglist)
+      // console.log(taglist)
   },[taglist])
 
   useEffect(()=>{
     if(section=='')
       setSection('Trending Posts')
   
-    console.log(section)
+    // console.log(section)
   },[section])
 
   useEffect(()=>{
     if(user)
       {
-        console.log(user)
+        // console.log(user)
         setSection('user')
       }
   },[user])

@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react'
 import styles from './DetailedPost.module.css'
-import {Link, useSearchParams,useParams } from 'react-router-dom'
+import {Link, useSearchParams,useParams,useNavigate } from 'react-router-dom'
 import {ArrowUp,ArrowDown,Pencil} from 'phosphor-react'
 import Comment from '../comment/Comment'
 import useGetPostDetails from '../../hooks/useGetPostDetails'
@@ -25,6 +25,7 @@ function DetailedPost({type,postID}) {
     const [link,setLink] = useState('')
     const [voteCast,setVoteCast] = useState('false');
     const [voteCount,setVoteCount] =useState(0)
+    const navigate = useNavigate();
 
 
     useEffect(()=>{
@@ -32,115 +33,143 @@ function DetailedPost({type,postID}) {
     },[state])
 
     useEffect(()=>{
-        axios.get(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`).then((res)=>{
-            console.log(res)
-            if(res.data[0])
-                {
-                    if(res.data[0].vote_type_id==2)
-                        setVoteCast('upvote')
-                    else
-                        setVoteCast('downvote')
-                }
-            console.log(voteCast)
-        })
+        if(param.get('login')=='true'){
+            axios.get(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`).then((res)=>{
+                if(res.data[0])
+                    {
+                        if(res.data[0].vote_type_id==2)
+                            setVoteCast('upvote')
+                        else
+                            setVoteCast('downvote')
+                    }
+            })
+        }
+        
     },[])
 
     useEffect(()=>{
         console.log(voteCast)
     },[voteCast])
-    const upvote = async ()=>{
+
+    useEffect(()=>{
+       if(login=='true'){
         const token = document.cookie
-        // console.log(token)
-        if(voteCast!='false'){
-            //reset
+        axios.get(`${url.axios_url}/checkToken/${token}`).then((res)=>{
+            if(res.data.success===false)
+                navigate('/login')
+            else if(res.data.user_name!==param.get('uid'))
+                navigate('/login')
+            
+        })
+       } 
+    },[])
+
+    const upvote = async ()=>{
+        if(param.get("login")=='true'){
+            const token = document.cookie
             console.log("here")
-            let data = {
-                post_id: postID,
-                user_id: param.get('uid').split('@')[1],
-                vote_type_id: 2,
-                token: token
+            if(voteCast!='false'){
+                //reset
+                let data = {
+                    post_id: postID,
+                    user_id: param.get('uid').split('@')[1],
+                    vote_type_id: 2,
+                    token: token
+                }
+                if(voteCast=='upvote'){
+                    let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:2}})
+                }
+                else{
+                    let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:3}})
+                }                
+                let res2 = await axios.post(`${url.axios_url}/vote`,data)
+                setVoteCount((old)=>{
+                    if(voteCast=='upvote')
+                        return old
+                    else
+                        return old +2
+                })
+                setVoteCast((old)=>{
+                    if(old!='upvote')
+                        return 'upvote'
+                    else 
+                        return old
+                })
             }
-            let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:2}})
-            console.log(res)
-            let res2 = await axios.post(`${url.axios_url}/vote`,data)
-            console.log(res2)
-            setVoteCount((old)=>{
-                if(voteCast=='upvote')
-                    return old
-                else
-                    return old +2
-            })
-            setVoteCast((old)=>{
-                if(old!='upvote')
-                    return 'upvote'
-                else 
-                    return old
-            })
+            else{
+                setVoteCast('upvote')
+                let data = {
+                    post_id: postID,
+                    user_id: param.get('uid').split('@')[1],
+                    vote_type_id: 2,
+                    token: token
+                }
+                let res = await axios.post(`${url.axios_url}/vote`,data)
+                setVoteCount((old)=>{
+                    old+1
+                })
+    
+            }
         }
         else{
-            setVoteCast('upvote')
-            console.log(voteCast)
-            let data = {
-                post_id: postID,
-                user_id: param.get('uid').split('@')[1],
-                vote_type_id: 2,
-                token: token
-            }
-            let res = await axios.post(`${url.axios_url}/vote`,data)
-            console.log(res)
-            setVoteCount((old)=>{
-                old+1
-            })
-
+            navigate('/login');
         }
+        
     }
 
     const downvote = async ()=>{
-        const token = document.cookie
-        // console.log(token)
-        if(voteCast!='false'){
-            //reset
-            console.log("here")
-            let data = {
-                post_id: postID,
-                user_id: param.get('uid').split('@')[1],
-                vote_type_id: 3,
-                token: token
+
+        if(param.get('login')=='true'){
+            const token = document.cookie
+            if(voteCast!='false'){
+                console.log(voteCast)
+                let data = {
+                    post_id: postID,
+                    user_id: param.get('uid').split('@')[1],
+                    vote_type_id: 3,
+                    token: token
+                }
+                if(voteCast=='upvote'){
+                    let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:2}})
+                }
+                else{
+                    let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:3}})
+                }
+                let res2 = await axios.post(`${url.axios_url}/vote`,data)
+                setVoteCount((old)=>{
+                    if(voteCast=='upvote')
+                        return old
+                    else
+                        return old -2
+                })
+                setVoteCast((old)=>{
+                    if(old!='downvote')
+                        return 'downvote'
+                    else 
+                        return old
+                })
             }
-            let res = await axios.delete(`${url.axios_url}/vote/${param.get('uid').split('@')[1]}/${postID}`,{data:{token:token,vote_type_id:3}})
-            console.log(res)
-            let res2 = await axios.post(`${url.axios_url}/vote`,data)
-            console.log(res2)
-            setVoteCount((old)=>{
-                if(voteCast=='upvote')
-                    return old
-                else
-                    return old -2
-            })
-            setVoteCast((old)=>{
-                if(old!='downvote')
-                    return 'upvote'
-                else 
-                    return old
-            })
+            else{
+                setVoteCast('downvote')
+                // console.log(voteCast)
+                let data = {
+                    post_id: postID,
+                    user_id: param.get('uid').split('@')[1],
+                    vote_type_id: 3,
+                    token: token
+                }
+                let res = await axios.post(`${url.axios_url}/vote`,data)
+                // console.log(res)
+                setVoteCount((old)=>{
+                    old-1
+                })
+    
+            }
         }
         else{
-            console.log("downvote")
-            setVoteCast('downvote')
-            // console.log(voteCast)
-            let data = {
-                post_id: postID,
-                user_id: param.get('uid').split('@')[1],
-                vote_type_id: 3,
-                token: token
-            }
-            let res = await axios.post(`${url.axios_url}/vote`,data)
-            console.log(res)
-            setVoteCount((old)=>{
-                old-1
-            })
-
+            navigate('/login')
         }
+        
     }
 
 
@@ -223,7 +252,6 @@ function DetailedPost({type,postID}) {
         }
 
         let res = await axios.post(`${url.axios_url}/comment`,data)
-        console.log(res)
     }
   return (
     <div className={styles.postcontainer}>

@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize('cqadb', 'postgres', 'hvam', {
-    host: "localhost",
-    dialect: "postgres",
-    logging: console.log,
+const db = new Sequelize("cqadb", "postgres", "123", {
+  host: "localhost",
+  dialect: "postgres",
+  logging: console.log,
 });
 
 // Syncing all models

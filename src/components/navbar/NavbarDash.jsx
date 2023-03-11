@@ -95,8 +95,6 @@ function NavbarDash({sec,setTaglist,taglist,setUser}) {
               <li className={styles.dropitem}><Link className={styles.link} to={`/${userID}/settings`}><button className={"btn-primary btn "+styles.item}>Settings</button>  </Link></li>
               <li className={styles.dropitem}><button className={"btn-primary btn "+styles.item} onClick={
                 ()=>{
-                  // document.cookie = 'expires=Thu, 01 Jan 1970 00:00:00 UTC'
-                  // browser.cookies.remove();
                   navigate('/?login=false')
                 }
               }>Logout</button></li>
