@@ -51,10 +51,10 @@ For the Frontend, all pages in the 'pages' folder use components from the 'compo
 Most of the setup files are located in 'config' folder of backend.
 Following are the steps to make the database.
 
-- Follow instructions in 'Stepsdb.txt'
+- Follow instructions in 'Stepsdb.txt.
 - Read 'cdb.sql' in postgresql after creating the database 'cqadb'.
 - Read 'readdata.sql' in postgresql after placing the csv files in 'Data' folder of backend.
-- Uncomment the lines in 'index.js' of backend and let it sync and populate the table(s) by running the backend code
+- Uncomment the lines in 'index.js' of backend and let it sync and populate the table(s) by running the backend code.
 - Comment out the lines again. The Database is now ready.
 
 #### Code Setup
