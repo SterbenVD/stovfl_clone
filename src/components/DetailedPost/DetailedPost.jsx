@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from 'react'
 import styles from './DetailedPost.module.css'
-import {Link, useSearchParams,useParams,useNavigate } from 'react-router-dom'
+import {Link, useSearchParams,useParams,useNavigate,useLocation } from 'react-router-dom'
 import {ArrowUp,ArrowDown,Pencil} from 'phosphor-react'
 import Comment from '../comment/Comment'
 import useGetPostDetails from '../../hooks/useGetPostDetails'
@@ -26,8 +26,25 @@ function DetailedPost({type,postID}) {
     const [voteCast,setVoteCast] = useState('false');
     const [voteCount,setVoteCount] =useState(0)
     const navigate = useNavigate();
+    const location = useLocation();
+    const [userID,setUserID] = useState('');
+    const [target,setTarget] = useState('');
+
+    useEffect(()=>{
+        if(type=='question')
+            setTarget(state.owner_display_name+'@'+state.owner_user_id);
+        else
+            setTarget(state.display_name+'@'+state.display_id)
+    },[state])
 
 
+    useEffect(()=>{
+        console.log(voteCount)
+    },[voteCount])
+
+    useEffect(()=>{
+        console.log(location)
+    },[])
     useEffect(()=>{
         // console.log(state)
         setVoteCount(state.score)
@@ -88,6 +105,7 @@ function DetailedPost({type,postID}) {
                 }                
                 let res2 = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
+                    console.log("here")
                     if(voteCast=='upvote')
                         return old
                     else
@@ -110,7 +128,8 @@ function DetailedPost({type,postID}) {
                 }
                 let res = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
-                    old+1
+                    console.log("here")
+                    return old+1
                 })
     
             }
@@ -141,6 +160,7 @@ function DetailedPost({type,postID}) {
                 }
                 let res2 = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
+                    console.log("here")
                     if(voteCast=='upvote')
                         return old
                     else
@@ -165,7 +185,9 @@ function DetailedPost({type,postID}) {
                 let res = await axios.post(`${url.axios_url}/vote`,data)
                 // console.log(res)
                 setVoteCount((old)=>{
-                    old-1
+                    console.log("here")
+
+                    return old-1
                 })
     
             }
@@ -264,11 +286,15 @@ function DetailedPost({type,postID}) {
                 <div className={styles.questionbody}>
                     <div className={styles.left}>
                     <div className={styles.count}>
-        <ArrowUp size={35} onClick={upvote} color="#2a00fa" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
+        {location.pathname.includes('edit')? <><ArrowUp size={35}  color="#2a00fa" weight='bold' style={{marginLeft: "33.5%"}} />
           <div className={styles.votes}>
               {voteCount}
           </div>
-          <ArrowDown size={35} onClick={downvote} color="#fa0000" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
+          <ArrowDown size={35}  color="#fa0000" weight='bold' style={{marginLeft: "33.5%"}} /></>:<><ArrowUp size={35} onClick={upvote} color="#2a00fa" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} />
+          <div className={styles.votes}>
+              {voteCount}
+          </div>
+          <ArrowDown size={35} onClick={downvote} color="#fa0000" weight='bold' style={{marginLeft: "33.5%",cursor:"pointer"}} /></>}
           {login=="true" &&param.get('uid').split('@')[1]==state.display_id && <Link to={link}>
           <Pencil size={35} color="#b5a4a3" weight='light' style={{marginLeft: "33.5%",cursor:"pointer",marginTop:"10%"}}/>
           </Link>}
@@ -291,7 +317,7 @@ function DetailedPost({type,postID}) {
                             
                         </div>
                         <div style={{marginLeft:"5%",fontSize:"17px", color:"#919090s",minWidth:"25%"}}>
-                            {type=="question"?"Asked by":"Answered by"}: <span style={{color:"black",marginLeft:"5%"}}>{type=="question"?state.owner_display_name:state.display_name}</span>
+                            {type=="question"?"Asked by":"Answered by"}: <span style={{color:"black",marginLeft:"5%"}}>{type=="question"?login=='false'?<Link to='/login'>{state.owner_display_name}</Link>: <Link to={`/${param.get('uid')}/${target}`}>{state.owner_display_name}</Link>: login=='false'? <Link to='/login'>{state.display_name}</Link>:<Link to={`/${param.get('uid')}/${target}`}>{state.display_name}</Link> }</span>
                         </div>
                         <div style={{marginLeft:"5%",fontSize:"17px", color:"#919090s",minWidth:"25%"}}>
                             On: <span style={{color:"black",marginLeft:"5%"}}>{time}</span>

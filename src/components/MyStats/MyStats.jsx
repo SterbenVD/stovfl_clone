@@ -15,14 +15,14 @@ function MyStats() {
             <Student size={24} color="#0235ac" weight="bold" /> <span>My reputation: {details.upvotes-details.downvotes}</span> 
             </li>
             <li className={styles.listitem}>
-            <ArrowUp size={24} color="#0235ac" weight="bold" /> <span>Number of Upvotes {details.upvotes}:</span>
+            <ArrowUp size={24} color="#0235ac" weight="bold" /> <span>Number of Upvotes: {details.upvotes}</span>
             </li>
             <li className={styles.listitem}>
             <ArrowDown size={24} color="#0235ac" weight="bold" /> <span>Number of Downvotes: {details.downvotes}</span>
             </li>
-            <li className={styles.listitem}><Question size={24} color="#0235ac" weight="bold" /> <span>Number of Questions Asked:</span></li>
-            <li className={styles.listitem}><PencilSimpleLine size={24} color="#0235ac" weight="bold" /> <span>Number of Answers Given:</span></li>
-            <li className={styles.listitem}><ChatsCircle size={24} color="#0235ac" weight="bold" /> <span>Number of Comments:</span></li>
+            <li className={styles.listitem}><Question size={24} color="#0235ac" weight="bold" /> <span>Number of Questions Asked: {details.quescount}</span></li>
+            <li className={styles.listitem}><PencilSimpleLine size={24} color="#0235ac" weight="bold" /> <span>Number of Answers Given: {details.anscount}</span></li>
+            <li className={styles.listitem}><ChatsCircle size={24} color="#0235ac" weight="bold" /> <span>Number of Comments: {details.comments}</span></li>
         </ul>
     </div>
   )

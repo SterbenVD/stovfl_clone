@@ -24,6 +24,11 @@ function Postcard({ type, accepted, postID}) {
     });
   };
 
+  const [targetLink,setTarget] =useState('');
+  useEffect(()=>{
+      setTarget(state.owner_display_name+'@'+state.owner_user_id);
+  },[state])
+
   const [time, setTime] = useState("");
   const getTime = () => {
     let date = new Date(state.creation_date);
@@ -163,9 +168,9 @@ function Postcard({ type, accepted, postID}) {
             </div>
             <div className={styles.name}>
               Posted By:{" "}
-              {state.owner_display_name == null
+              {login=='false' && state.owner_display_name == null
                 ? "[DELETED]"
-                : state.owner_display_name}
+                : login=='false' && state.owner_display_name!=null? <Link to='/login'>{state.owner_display_name}</Link>: <Link to={`/${userID}/${targetLink}`}>{state.owner_display_name}</Link> }
             </div>
           </div>
           <div className={styles.time}>{time}</div>

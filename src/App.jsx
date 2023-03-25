@@ -11,6 +11,7 @@ import EditAnswer from './pages/EditAnswer/EditAnswer'
 import Post from './pages/Post/Post'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
+import User from './pages/UserPage/User'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path='/posts/:postID' element={<Post/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
+        <Route path='/:userID/:targetID' element={<User/>}></Route>
       </Routes>
       </BrowserRouter>
     </div>

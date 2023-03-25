@@ -107,6 +107,8 @@ export const authUser = async (req, res) => {
     //     element = element.replaceAll(ele, "\\" + ele);
     //   });
     // }
+    // console.log(user_name);
+    console.log(req.query.user_name);
     const passlist = await Auth.findAll({
       where: {
         user_name: req.query.user_name,
@@ -123,6 +125,7 @@ export const authUser = async (req, res) => {
 
     if (pass.pass === enpass) {
       let token = jwt.sign({ username: pass.user_name }, salt);
+      console.log(token);
       res.json({
         username: pass.username,
         token: token,
@@ -144,13 +147,17 @@ export const createUser = async (req, res) => {
     const date = new Date();
     let max_val = await User.max("id");
     req.body.id = 1 + max_val;
-    req.body.creation_date = date.toISOString();
+    req.body.creation_date = date;
     let password = sha256(req.body.password + req.body.creation_date); //salted hash
+    // console.log(req.body.id);
+
     delete req.body.password;
     let user = await User.create(req.body);
     let username = req.body.display_name + "@" + user.id;
+
+    // console.log(user);
     username = username.replace(/\s+/g, "");
-    await Auth.create({
+    let x = await Auth.create({
       id: req.body.id,
       user_name: username,
       pass: password,
@@ -186,9 +193,10 @@ export const updatePass = async (req, res) => {
       },
     });
     const user = userlist[0].dataValues;
+    console.log(user.creation_date);
     let password = sha256(req.body.password + user.creation_date);
     req.body.pass = password;
-    console.log(req.body)
+    // console.log(req.body);
     await Auth.update(req.body, {
       where: {
         id: req.params.id,

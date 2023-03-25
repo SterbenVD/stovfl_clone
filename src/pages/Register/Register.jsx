@@ -20,7 +20,6 @@ export default function Register() {
       password: passRef.current.value
     }
     let res = await axios.post(`${url.axios_url}/user`,data)
-    console.log(res)
     setUserName(res.data.user_name)
     setStyle(styles.error)
   }

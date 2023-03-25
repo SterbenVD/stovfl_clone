@@ -35,9 +35,6 @@ function EditAnswer() {
     setHTML()
   },[state])
 
-  // useEffect(()=>{
-  //   console.log(parentID)
-  // },[parentID])
 
   const handleClick = async()=>{
     const token = document.cookie

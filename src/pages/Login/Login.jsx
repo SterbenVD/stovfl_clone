@@ -29,7 +29,7 @@ export default function Login() {
     const res = await axios.get(`${url.axios_url}/auth`,{
       params:data
     })
-    if(res.data.outcome=='Fail')
+    if(res.data.outcome=='Fail' || res.data.success==false)
       setStyle(styles.error)
     else{
       document.cookie=res.data.token

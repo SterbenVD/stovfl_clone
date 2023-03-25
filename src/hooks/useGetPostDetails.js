@@ -83,11 +83,6 @@ function useGetPostDetails({ postID, type }) {
     // console.log(state);
   }, [state]);
 
-  useEffect(() => {
-    // console.log(postID);
-    datagen();
-  }, [postID]);
-
   const datagen = async () => {
     if (type != "comment") {
       let res = await axios.get(`${url.axios_url}/post/${postID}`);
@@ -180,6 +175,11 @@ function useGetPostDetails({ postID, type }) {
       });
     }
   };
+
+  useEffect(() => {
+    // console.log(postID);
+    datagen();
+  }, [postID]);
 
   useEffect(() => {
     datagen();
