@@ -18,7 +18,6 @@ function useSearch(e) {
     let tags = await axios.get(
       `${url.axios_url}/usersearch?id=${e.slice(1, e.length)}`
     );
-    console.log(tags);
     tags = tags.data.map((tag) => tag.user_name);
     setSearchResults(tags);
   };

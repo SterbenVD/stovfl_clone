@@ -64,7 +64,6 @@ function Postcard({ type, accepted, postID}) {
   const getProfilePic = () => {
     if(state.owner_user_id){
       axios.get(`${url.axios_url}/user/${state.owner_user_id}`).then((res) => {
-        // console.log(res);
         if (res.data.profile_image_url) setProfilePic(res.data.profile_image_url);
       });
     }
@@ -75,7 +74,6 @@ function Postcard({ type, accepted, postID}) {
   const login = 
 
   useEffect(() => {
-    console.log(state)
     if(type=='question'||type=='home')
       {
         if(searchParams.get('login')=='true'||params.userID)
@@ -170,7 +168,7 @@ function Postcard({ type, accepted, postID}) {
               Posted By:{" "}
               {login=='false' && state.owner_display_name == null
                 ? "[DELETED]"
-                : login=='false' && state.owner_display_name!=null? <Link to='/login'>{state.owner_display_name}</Link>: <Link to={`/${userID}/${targetLink}`}>{state.owner_display_name}</Link> }
+                : login=='false' && state.owner_display_name!=null? <Link to='/login' style={{textDecoration:"none",color:"blue"}}>{state.owner_display_name}</Link>: <Link to={`/${userID}/${targetLink}`} style={{textDecoration:"none",color:"blue"}}>{state.owner_display_name}</Link> }
             </div>
           </div>
           <div className={styles.time}>{time}</div>

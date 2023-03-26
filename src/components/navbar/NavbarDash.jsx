@@ -78,7 +78,6 @@ function NavbarDash({sec,setTaglist,taglist,setUser}) {
           inputRef.current.style.visibility="hidden"
           setSearchRes([])
           const extract = inpRef.current.value.slice(0,1)
-          console.log(extract)
           inpRef.current.value=item
           handleSearch(extract,item)
           handleSearchChange({target:{value:item}})

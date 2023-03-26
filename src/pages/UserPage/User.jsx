@@ -40,7 +40,6 @@ function User() {
     useEffect(()=>{
         const id = params.targetID
         axios.get(`${url.axios_url}/user/${id}`).then((res) => {
-            console.log(res);
             axios
               .get(
                 `${url.axios_url}/post/user/${
@@ -81,9 +80,7 @@ function User() {
                         });
                       });
                   });
-                // console.log(res2);
               });
-            //   console.log(res);
           });
     },[])
 

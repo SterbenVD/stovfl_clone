@@ -58,7 +58,6 @@ function Ask() {
         tag:inputValue
       }
     })
-    console.log(res)
     let tags = res.data.map((tag)=>tag.tag_name)
     setSearchRes(tags)
     inputRef.current.style.visibility="visible"
@@ -76,7 +75,6 @@ function Ask() {
   }
 
   const GetTags = ({tags})=>{
-    console.log(tag)
     return(<>
     {
       tags.map(tag_item=>{
@@ -95,19 +93,15 @@ function Ask() {
 
   const param = useParams()
   useEffect(()=>{
-    console.log(location)
     if(location.pathname.includes('edit'))
       {
         axios.get(`${url.axios_url}/post/${param.postID}`).then((res)=>{
           setTitle(res.data.title)
-          console.log(res)
           desRef.current.value = res.data.body
           let taglist = res.data.tags.split('>')
           let taglength = res.data.tags.split('>').length-1;
           taglist = taglist.slice(0,taglength)
-          // console.log(taglength)
           setTag(taglist.map(tag=>tag.replace('<','')))
-          // console.log(tag)
           setHTML();
         })
       }
@@ -138,18 +132,11 @@ function Ask() {
       token: token
     }
     let res;
-    // console.log(token)
-    console.log(param.postID)
     if(location.pathname.includes('edit'))
       {res = await axios.patch(`${url.axios_url}/post/${param.postID}`,data)}
     else
       {res =await axios.post(`${url.axios_url}/post`,data)}
-    console.log(res)
   }
-
-  useEffect(()=>{
-   console.log(location.pathname) 
-  },[])
 
   return (
     <div className={styles.wrapper}>

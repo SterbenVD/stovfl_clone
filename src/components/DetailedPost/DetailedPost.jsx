@@ -21,13 +21,11 @@ function DetailedPost({type,postID}) {
     const [commentLength,setCommentLength] = useState(0)
     const [more,setMore] = useState("more")
     const [allComments,setAllComments] = useState([])
-    const urlparams = useParams()
     const [link,setLink] = useState('')
     const [voteCast,setVoteCast] = useState('false');
     const [voteCount,setVoteCount] =useState(0)
     const navigate = useNavigate();
     const location = useLocation();
-    const [userID,setUserID] = useState('');
     const [target,setTarget] = useState('');
 
     useEffect(()=>{
@@ -37,22 +35,9 @@ function DetailedPost({type,postID}) {
             setTarget(state.display_name+'@'+state.display_id)
     },[state])
 
-
     useEffect(()=>{
-        console.log(voteCount)
-    },[voteCount])
-
-    useEffect(()=>{
-        console.log(location)
-    },[])
-    useEffect(()=>{
-        // console.log(state)
         setVoteCount(state.score)
     },[state])
-
-    useEffect(()=>{
-        console.log(postID)
-    },[postID])
 
     useEffect(()=>{
         if(param.get('login')=='true'){
@@ -68,10 +53,6 @@ function DetailedPost({type,postID}) {
         }
         
     },[])
-
-    useEffect(()=>{
-        // console.log(voteCast)
-    },[voteCast])
 
     useEffect(()=>{
        if(login=='true'){
@@ -105,7 +86,6 @@ function DetailedPost({type,postID}) {
                 }                
                 let res2 = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
-                    console.log("here")
                     if(voteCast=='upvote')
                         return old
                     else
@@ -128,7 +108,6 @@ function DetailedPost({type,postID}) {
                 }
                 let res = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
-                    console.log("here")
                     return old+1
                 })
     
@@ -145,7 +124,6 @@ function DetailedPost({type,postID}) {
         if(param.get('login')=='true'){
             const token = document.cookie
             if(voteCast!='false'){
-                // console.log(voteCast)
                 let data = {
                     post_id: postID,
                     user_id: param.get('uid').split('@')[1],
@@ -160,7 +138,6 @@ function DetailedPost({type,postID}) {
                 }
                 let res2 = await axios.post(`${url.axios_url}/vote`,data)
                 setVoteCount((old)=>{
-                    console.log("here")
                     if(voteCast=='upvote')
                         return old
                     else
@@ -175,7 +152,6 @@ function DetailedPost({type,postID}) {
             }
             else{
                 setVoteCast('downvote')
-                // console.log(voteCast)
                 let data = {
                     post_id: postID,
                     user_id: param.get('uid').split('@')[1],
@@ -183,9 +159,7 @@ function DetailedPost({type,postID}) {
                     token: token
                 }
                 let res = await axios.post(`${url.axios_url}/vote`,data)
-                // console.log(res)
                 setVoteCount((old)=>{
-                    console.log("here")
 
                     return old-1
                 })
@@ -330,7 +304,6 @@ function DetailedPost({type,postID}) {
                             <div>
                         {
                             commentList.map((comment)=>{
-                                // console.log(comment)
                                 return <Comment key={comment.id} id={comment.id}/>
                             })
                         }

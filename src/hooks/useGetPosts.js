@@ -25,6 +25,7 @@ export default function useGetPosts(
     "73",
     "94",
   ]);
+
   const [posts, setPosts] = useState([]);
   const params = useParams();
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function useGetPosts(
         .then((res) => {
           setAllPosts(res.data.map((a) => a.id));
         });
-    } else if (section == "comments") {
+    } else if (section == "comment") {
       axios
         .get(
           `${url.axios_url}/comment/user/${
@@ -80,9 +81,7 @@ export default function useGetPosts(
       axios
         .get(`${url.axios_url}/post/parent/${params.postID}/${sort}/${order}`)
         .then(async (res) => {
-          // console.log(res)
           let commentIDs = res.data.map((r) => r.id);
-          // console.log(commentIDs)
           setAllPosts(commentIDs);
         })
         .catch((e) => {
@@ -94,7 +93,6 @@ export default function useGetPosts(
           `${url.axios_url}/post/user/${user.split("@")[1]}/1/${sort}/${order}`
         )
         .then(async (res) => {
-          // console.log(res);
           let commentIDs = res.data.map((r) => r.id);
           setAllPosts(commentIDs);
         });

@@ -79,19 +79,13 @@ function useGetPostDetails({ postID, type }) {
     anscount: "",
   });
 
-  useEffect(() => {
-    // console.log(state);
-  }, [state]);
-
   const datagen = async () => {
     if (type != "comment") {
       let res = await axios.get(`${url.axios_url}/post/${postID}`);
-      // console.log(res);
       if (type == "question" || type == "home") {
         axios
           .get(`${url.axios_url}/user/${res.data.owner_user_id}`)
           .then((res2) => {
-            // console.log(res2);
             axios
               .get(`${url.axios_url}/post/parent/${postID}/creation_date/desc`)
               .then((res3) => {
@@ -117,12 +111,9 @@ function useGetPostDetails({ postID, type }) {
         let user = await axios.get(
           `${url.axios_url}/user/${res.data.owner_user_id}`
         );
-        // console.log(user);
-        // console.log(`${url.axios_url}/post/${res.data.parent_id}`);
         let res2 = await axios.get(
           `${url.axios_url}/post/${res.data.parent_id}`
         );
-        // console.log(res2);
         let res3 = await axios.get(
           `${url.axios_url}/user/${res2.data.owner_user_id}`
         );
@@ -131,7 +122,6 @@ function useGetPostDetails({ postID, type }) {
           `${url.axios_url}/comment/parent/${postID}/creation_date/desc`
         );
 
-        // console.log(res3);
         dispatch({
           type: type,
           payload: {
@@ -153,14 +143,11 @@ function useGetPostDetails({ postID, type }) {
       }
     } else {
       let res = await axios.get(`${url.axios_url}/comment/${postID}`);
-      // console.log(res);
       let post = await axios.get(`${url.axios_url}/post/${res.data.post_id}`);
       if (post.data.parent_id) {
         post = await axios.get(`${url.axios_url}/post/${post.data.parent_id}`);
       }
-      // console.log(post);
       let user = await axios.get(`${url.axios_url}/user/${res.data.user_id}`);
-      // console.log(user);
       dispatch({
         type: type,
         payload: {
@@ -177,7 +164,6 @@ function useGetPostDetails({ postID, type }) {
   };
 
   useEffect(() => {
-    // console.log(postID);
     datagen();
   }, [postID]);
 

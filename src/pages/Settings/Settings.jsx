@@ -26,7 +26,6 @@ function Settings() {
       const url = URL.createObjectURL(picture)
       setImage(url)
   }
-  const fileRef=useRef(null)
   const nameRef=useRef(null)
   const locRef=useRef(null)
   const webRef=useRef(null)
@@ -41,12 +40,10 @@ function Settings() {
  },[details.aboutMe])
 
  useEffect(()=>{
-  console.log(iRef.current.files)
  },[])
 
  const setHTML = ()=>{
   setAboutMe(aboutRef.current.value)
-  // console.log(des)
 }
 
 const params = useParams()
@@ -61,7 +58,6 @@ const handleUpdate = async()=>{
     display_name: nameRef.current.value
   }
   let res = await axios.patch(`${url.axios_url}/user/${params.userID.split('@')[1]}`,data)
-  // console.log(res)
 }
 
 const handlePassword = async()=>{
@@ -72,8 +68,6 @@ const handlePassword = async()=>{
         password: passRef.current.value,
         token: token
       })
-      console.log(res)
-
     }
 }
   return (
@@ -105,12 +99,12 @@ const handlePassword = async()=>{
                     <button className={'btn btn-primary '+ styles.changebtn} onClick={handleUpdate}>Change</button>
                   </div>
                   <div className={styles.listitem}>
-                  <input type="text" ref={locRef} className={styles.inputfield} defaultValue={details.location}/>
+                  <input type="text" ref={locRef} className={styles.inputfield} defaultValue={details.location} placeholder='Location' spellCheck={false}/>
                   <button className={'btn btn-primary '+ styles.changebtn} onClick={handleUpdate}>Change</button>
 
                   </div>
                   <div className={styles.listitem}>
-                  <input type="text" className={styles.inputfield} ref={webRef} defaultValue={details.website} spellCheck={false}/>
+                  <input type="text" className={styles.inputfield} ref={webRef} defaultValue={details.website} spellCheck={false} placeholder='Website'/>
                   <button className={'btn btn-primary '+ styles.changebtn} onClick={handleUpdate}>Change</button>
 
                   </div>

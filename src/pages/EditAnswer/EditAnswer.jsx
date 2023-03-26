@@ -17,7 +17,6 @@ function EditAnswer() {
   const [des,setDes] = useState("")
   const setHTML = ()=>{
       setDes(desRef.current.value)
-      // console.log(des)
   }
 
   const urlParam = useParams()
@@ -28,7 +27,6 @@ function EditAnswer() {
   const state = useGetPostDetails({postID:postID,type:"answer"})
   const [parentID,setParentID] =useState('')
   useEffect(()=>{
-    // console.log(state)
     if(state.parent_id)
       setParentID(state.parent_id)
     desRef.current.value = state.body
@@ -38,13 +36,11 @@ function EditAnswer() {
 
   const handleClick = async()=>{
     const token = document.cookie
-    console.log(token)
     const data = {
       body: des,
       token: token
     }
     let res = await axios.patch(`${url.axios_url}/post/${urlParam.postID}`,data)
-    console.log(res)
   }
 
   

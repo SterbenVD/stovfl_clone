@@ -43,7 +43,6 @@ function Home() {
   },[login])
 
   useEffect(()=>{
-    console.log(query.get('login'))
     if(query.get('login')===null)
       navigate('/?login=false')
   },[])
@@ -52,21 +51,18 @@ function Home() {
     if(taglist)
       {
         setSection(taglist.toString())
+
       }
-      // console.log(taglist)
   },[taglist])
 
   useEffect(()=>{
     if(section=='')
       setSection('Trending Posts')
-  
-    // console.log(section)
   },[section])
 
   useEffect(()=>{
     if(user)
       {
-        // console.log(user)
         setSection('user')
       }
   },[user])

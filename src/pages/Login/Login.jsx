@@ -21,7 +21,6 @@ export default function Login() {
   }
 
   const handleLogin = async()=>{
-    console.log(nameRef.current.value)
     const data = {
       user_name: username,
       password: passRef.current.value

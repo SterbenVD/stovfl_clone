@@ -23,12 +23,8 @@ function useGetUser() {
   });
 
   useEffect(() => {
-    console.log(user.userProfilePic);
-  }, [user]);
-  useEffect(() => {
     let id = searchParams.get("uid") ? searchParams.get("uid") : params.userID;
     axios.get(`${url.axios_url}/user/${id}`).then((res) => {
-      console.log(res);
       axios
         .get(
           `${url.axios_url}/post/user/${id.split("@")[1]}/1/creation_date/desc`
@@ -48,8 +44,6 @@ function useGetUser() {
                   }/creation_date/desc`
                 )
                 .then((res4) => {
-                  // console.log(res.data.profile_image_url);
-                  console.log("here");
                   setUser({
                     userName: res.data.display_name,
                     userProfilePic:
@@ -71,9 +65,7 @@ function useGetUser() {
                   });
                 });
             });
-          // console.log(res2);
         });
-      //   console.log(res);
     });
   }, []);
   return user;

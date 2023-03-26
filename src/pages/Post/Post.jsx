@@ -23,7 +23,6 @@ function Post() {
 
   const setHTML = ()=>{
       setDes(desRef.current.value)
-      // console.log(des)
   }
     const login=params.get("login")
     const urlparams = useParams()
@@ -58,10 +57,7 @@ function Post() {
       if(!res.data.success)
         navigate('/login')
     }
-   
-    // useEffect(()=>{
-    //   console.log(urlparams.postID)
-    // },[])
+    
   return (
     <div className={styles.wrappermain}>
         <div className={styles.navbar}>

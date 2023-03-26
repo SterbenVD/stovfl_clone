@@ -13,7 +13,6 @@ function Feed({ postcardtype,section,user }) {
   const { loading, error, posts, hasMore } = useGetPosts(pageNumber,section,setPageNumber,sortBy,order,user);
   
 useEffect(()=>{
-  // console.log(section)
   setPageNumber(1)
 },[section])
 
@@ -61,7 +60,7 @@ useEffect(()=>{
   }
   return (
     <div>
-      <div style={{display:"flex",justifyContent:"right",paddingRight:"7%"}}>
+      {posts.length>0&& <div style={{display:"flex",justifyContent:"right",paddingRight:"7%"}}>
         <div className={styles.sort}>
           Date
           <button className={"btn-primary btn " + styles.order} onClick={()=>{handleSort('date')}}>
@@ -74,10 +73,10 @@ useEffect(()=>{
             {orderScore}
           </button>
           </div>
-      </div>
+      </div>}
       <ul className={styles.list}>
         
-        { 
+        { posts.length>0?
           posts.map((post, index) => {
             if (index + 1 == posts.length) {
               return (
@@ -102,7 +101,8 @@ useEffect(()=>{
                 </li>
               );
             }
-          })
+          }):<><div style={{marginTop:"20%",textAlign:"center"}}> <h1>; {postcardtype=='comment'||postcardtype=='answer'||postcardtype=='question'?`You have no ${postcardtype}s ;`:'No results ;'}</h1> </div></>
+
         }
       </ul>
     </div>
