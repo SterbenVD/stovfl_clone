@@ -168,8 +168,9 @@ export const deletePost = async (req, res) => {
     if (iden != req.body.owner_user_id) {
       throw { message: "Different User" };
     }
-    await Post.update(
-      { onwer_user_id: -1 },
+    console.log(req.params.id);
+    let post = await Post.update(
+      { owner_user_id: -1 },
       {
         where: {
           id: req.params.id,
@@ -190,8 +191,6 @@ export const editPost = async (req, res) => {
     if (iden != req.body.owner_user_id) {
       throw { message: "Different User" };
     }
-    console.log(req.params);
-    console.log(req.body);
     let post = await Post.update(req.body, {
       where: {
         id: req.params.id,

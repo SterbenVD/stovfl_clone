@@ -71,7 +71,7 @@ function Postcard({ type, accepted, postID}) {
   const params = useParams();
   const [searchParams,setSearchParams] = useSearchParams()
   const userID = searchParams.get('uid')?searchParams.get('uid'):params.userID
-  const login = 
+  const login =
 
   useEffect(() => {
     if(type=='question'||type=='home')
@@ -91,7 +91,14 @@ function Postcard({ type, accepted, postID}) {
     getProfilePic();
   }, [state]);
 
-
+const handleDelete = async ()=>{
+  const data = {
+    token: document.cookie,
+    user_name: userID,
+    owner_user_id: type=='answer'?state.display_id:state.owner_user_id
+  }
+  let res = await axios.delete(`${url.axios_url}/post/${postID}`,{data})
+}
 
   return (
     
@@ -188,6 +195,7 @@ function Postcard({ type, accepted, postID}) {
               color="#b80000"
               weight="bold"
               style={{ cursor: "pointer" }}
+              onClick={handleDelete}
             />
           </div>
           <div className={styles.optionicon}>

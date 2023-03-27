@@ -54,7 +54,7 @@ function Post() {
         parent_id: urlparams.postID
       }
       const res = await axios.post(`${url.axios_url}/post`,data)
-      if(!res.data.success)
+      if(res.data.success && !res.data.success)
         navigate('/login')
     }
     

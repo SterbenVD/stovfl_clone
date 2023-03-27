@@ -24,6 +24,7 @@ function DetailedPost({type,postID}) {
     const [link,setLink] = useState('')
     const [voteCast,setVoteCast] = useState('false');
     const [voteCount,setVoteCount] =useState(0)
+    const [seed,setSeed] = useState(0)
     const navigate = useNavigate();
     const location = useLocation();
     const [target,setTarget] = useState('');
@@ -112,6 +113,7 @@ function DetailedPost({type,postID}) {
                 })
     
             }
+            setSeed(old=> old+1)
         }
         else{
             navigate('/login');
@@ -165,6 +167,7 @@ function DetailedPost({type,postID}) {
                 })
     
             }
+            setSeed(old=>old+1)
         }
         else{
             navigate('/login')
@@ -184,7 +187,6 @@ function DetailedPost({type,postID}) {
         setAllComments(res.data)
 
     }
-
 
     useEffect(()=>{
         getParsedTime(state,setTime)
@@ -213,6 +215,7 @@ function DetailedPost({type,postID}) {
         else
             setLink(`/${param.get('uid')}/answers/${postID}/edit`)   
     },[state])
+
     const handleMore = ()=>{
         if(more=='more')
         {
